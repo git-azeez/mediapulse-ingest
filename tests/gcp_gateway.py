@@ -706,6 +706,9 @@ class GatewayHandler(BaseHTTPRequestHandler):
             deleted_set.add(canonical)
             if short_id not in collection_plurals:
                 deleted_set.add(short_id)
+                m_pfx = re.match(r"^([a-z0-9]+-[a-z0-9]{4,12})-", short_id)
+                if m_pfx:
+                    deleted_set.add(f"prefix:{m_pfx.group(1)}")
             state["deleted_resources"] = sorted(deleted_set)
             _save_state(state)
             m_del_sql = re.match(r"^(?:/sql/v1beta4)?/projects/([^/]+)/instances/([^/]+)$", path)
@@ -743,7 +746,12 @@ class GatewayHandler(BaseHTTPRequestHandler):
                     deleted_set.discard(short_id)
                     changed_del = True
                 for item_key in list(deleted_set):
-                    if item_key in self.path or (body and item_key.encode("utf-8") in body):
+                    if item_key.startswith("prefix:"):
+                        pfx_val = item_key.split(":", 1)[1]
+                        if pfx_val in self.path or (body and pfx_val.encode("utf-8") in body):
+                            deleted_set.discard(item_key)
+                            changed_del = True
+                    elif item_key in self.path or (body and item_key.encode("utf-8") in body):
                         deleted_set.discard(item_key)
                         changed_del = True
                 if changed_del:
@@ -757,7 +765,12 @@ class GatewayHandler(BaseHTTPRequestHandler):
                     status = 200
                     resp_body = json.dumps({"name": canonical}).encode("utf-8")
         elif method == "GET" and deleted_set:
-            if short_id not in collection_plurals and (canonical in deleted_set or short_id in deleted_set):
+            deleted_prefixes = tuple(k.split(":", 1)[1] + "-" for k in deleted_set if k.startswith("prefix:"))
+            if short_id not in collection_plurals and (
+                canonical in deleted_set
+                or short_id in deleted_set
+                or (deleted_prefixes and short_id.startswith(deleted_prefixes))
+            ):
                 status = 404
                 resp_body = json.dumps({"error": {"code": 404, "message": "Resource not found", "status": "NOT_FOUND"}}).encode("utf-8")
             elif status == 200 and resp_body:
@@ -776,6 +789,13 @@ class GatewayHandler(BaseHTTPRequestHandler):
                                             str(item.get("name") or "") in deleted_set
                                             or str(item.get("name") or "").split("/")[-1] in deleted_set
                                             or str(item.get("id") or "") in deleted_set
+                                            or (
+                                                deleted_prefixes
+                                                and (
+                                                    str(item.get("name") or "").split("/")[-1].startswith(deleted_prefixes)
+                                                    or str(item.get("id") or "").startswith(deleted_prefixes)
+                                                )
+                                            )
                                         )
                                     )
                                 ]

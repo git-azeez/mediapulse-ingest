@@ -62,7 +62,6 @@ def _gcp_post(ctx: TrialContext, path: str, payload: dict[str, Any]) -> dict[str
 
 @obligation("observed.workflow_relations")
 def test_workflow_relations(ctx: TrialContext) -> CheckResult:
-    inspector = ctx.state or prepare(ctx)
     manifest = ctx.refresh_manifest()
     project = str(manifest.get("project_id") or ctx.gcp.project_id)
     topic_name = str(manifest.get("messaging", {}).get("topic_name") or "")
@@ -140,7 +139,7 @@ def test_workflow_relations(ctx: TrialContext) -> CheckResult:
         ctx.shipments.append(record)
         shipment_evidence.append(record)
 
-    ctx.evidence.json("observed/workflow.json", {"shipments": shipment_evidence, "resources": len(inspector.resources)})
+    ctx.evidence.json("observed/workflow.json", {"shipments": shipment_evidence})
     return CheckResult(
         "observed.workflow_relations",
         Outcome.PASS,

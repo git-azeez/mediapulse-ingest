@@ -93,7 +93,7 @@ RUN python3 -m venv /opt/venv \
       'exec /usr/bin/curl "$@"' > /opt/venv/bin/curl \
  && printf '%s\n' \
       '#!/usr/bin/env bash' \
-      'if [[ "$*" == *"opencode-ai"* ]] && [[ -x /usr/local/bin/opencode ]]; then' \
+      'if [[ "$*" == *" -g "* ]] && [[ -x /usr/local/bin/opencode ]]; then' \
       '  exit 0' \
       'fi' \
       'if ! nc -z -w 1 172.20.0.1 18080 >/dev/null 2>&1; then' \

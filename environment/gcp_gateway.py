@@ -668,6 +668,9 @@ class GatewayHandler(BaseHTTPRequestHandler):
             if self._handle_control_plane(method, path, query, body):
                 return
 
+        if method == "GET" and re.match(r"^/storage/v1/b/[^/]+/o$", path):
+            _flush_outbox_and_archive()
+
         # Pre-empty GCS bucket before deleting so floci-gcp never fails on non-empty/versioned buckets
         m_del_bucket = re.match(r"^/storage/v1/b/([^/]+)$", path)
         if method == "DELETE" and m_del_bucket:

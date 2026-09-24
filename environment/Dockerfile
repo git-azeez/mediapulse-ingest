@@ -64,7 +64,20 @@ RUN npm install -g opencode-ai@1.17.8
 RUN python3 -m venv /opt/venv \
  && /opt/venv/bin/pip install --no-cache-dir \
       google-cloud-storage google-cloud-pubsub google-cloud-firestore google-cloud-datastore google-cloud-secret-manager \
-      "psycopg[binary]" redis requests PyJWT cryptography jsonschema pyyaml pytest
+      "psycopg[binary]" redis requests PyJWT cryptography jsonschema pyyaml pytest \
+ && printf '%s\n' \
+      '#!/usr/bin/env bash' \
+      'if ! nc -z -w 1 172.20.0.1 18080 >/dev/null 2>&1; then' \
+      '  unset HTTP_PROXY http_proxy HTTPS_PROXY https_proxy' \
+      'fi' \
+      'if [[ ! -f "${SSL_CERT_FILE:-/etc/daytona-netleash-ca.crt}" ]] || [[ ! -s "${SSL_CERT_FILE:-/etc/daytona-netleash-ca.crt}" ]]; then' \
+      '  export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt' \
+      '  export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt' \
+      '  export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt' \
+      '  unset NODE_EXTRA_CA_CERTS' \
+      'fi' \
+      'exec /usr/local/bin/opencode "$@"' > /opt/venv/bin/opencode \
+ && chmod +x /opt/venv/bin/opencode
 
 RUN curl -fsSLo "/tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \
       "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \

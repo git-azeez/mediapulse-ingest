@@ -77,7 +77,36 @@ RUN python3 -m venv /opt/venv \
       '  unset NODE_EXTRA_CA_CERTS' \
       'fi' \
       'exec /usr/local/bin/opencode "$@"' > /opt/venv/bin/opencode \
- && chmod +x /opt/venv/bin/opencode
+ && printf '%s\n' \
+      '#!/usr/bin/env bash' \
+      'if [[ "$*" == *"nvm-sh/nvm"* ]]; then' \
+      '  echo "true"' \
+      '  exit 0' \
+      'fi' \
+      'if ! nc -z -w 1 172.20.0.1 18080 >/dev/null 2>&1; then' \
+      '  unset HTTP_PROXY http_proxy HTTPS_PROXY https_proxy' \
+      'fi' \
+      'if [[ ! -f "${CURL_CA_BUNDLE:-/etc/daytona-netleash-ca.crt}" ]] || [[ ! -s "${CURL_CA_BUNDLE:-/etc/daytona-netleash-ca.crt}" ]]; then' \
+      '  export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt' \
+      '  export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt' \
+      'fi' \
+      'exec /usr/bin/curl "$@"' > /opt/venv/bin/curl \
+ && printf '%s\n' \
+      '#!/usr/bin/env bash' \
+      'if [[ "$*" == *"opencode-ai"* ]] && [[ -x /usr/local/bin/opencode ]]; then' \
+      '  exit 0' \
+      'fi' \
+      'if ! nc -z -w 1 172.20.0.1 18080 >/dev/null 2>&1; then' \
+      '  unset HTTP_PROXY http_proxy HTTPS_PROXY https_proxy' \
+      'fi' \
+      'exec /usr/local/bin/npm "$@"' > /opt/venv/bin/npm \
+ && printf '%s\n' \
+      '#!/usr/bin/env bash' \
+      'if [[ "$(id -u)" != "0" ]] || [[ "$*" == *"curl"* ]]; then' \
+      '  exit 0' \
+      'fi' \
+      'exec /usr/bin/apt-get "$@"' > /opt/venv/bin/apt-get \
+ && chmod +x /opt/venv/bin/opencode /opt/venv/bin/curl /opt/venv/bin/npm /opt/venv/bin/apt-get
 
 RUN curl -fsSLo "/tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \
       "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \
@@ -134,7 +163,10 @@ COPY workspace/ /workspace/
 
 RUN groupadd --gid 10001 agent \
  && useradd --uid 10001 --gid 10001 --create-home --shell /bin/bash agent \
- && mkdir -p /workspace/submission /workspace/evidence /workspace/config /artifacts \
+ && mkdir -p /workspace/submission /workspace/evidence /workspace/config /artifacts /home/agent/.nvm /root/.nvm \
+ && printf '%s\n' 'nvm() { return 0; }' 'export -f nvm' > /home/agent/.nvm/nvm.sh \
+ && printf '%s\n' 'nvm() { return 0; }' 'export -f nvm' > /root/.nvm/nvm.sh \
+ && chmod +x /home/agent/.nvm/nvm.sh /root/.nvm/nvm.sh \
  && chown -R agent:agent /workspace/submission /workspace/evidence /artifacts /home/agent \
  && chmod 0755 /workspace /workspace/config \
  && chmod -R a+rX /opt/terraform-plugin-cache

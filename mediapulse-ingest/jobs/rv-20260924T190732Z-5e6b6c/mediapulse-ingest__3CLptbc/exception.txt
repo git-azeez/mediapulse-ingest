@@ -1,35 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/azeez/.local/share/uv/tools/realm-verifier/lib/python3.14/site-packages/harbor/trial/trial.py", line 351, in run
-    await self._prepare()
-  File "/Users/azeez/.local/share/uv/tools/realm-verifier/lib/python3.14/site-packages/harbor/trial/trial.py", line 389, in _prepare
-    await self._setup_agent()
-  File "/Users/azeez/.local/share/uv/tools/realm-verifier/lib/python3.14/site-packages/harbor/trial/trial.py", line 1180, in _setup_agent
-    await asyncio.wait_for(
-    ...<2 lines>...
-    )
-  File "/opt/homebrew/Cellar/python@3.14/3.14.2_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
-    return await fut
-           ^^^^^^^^^
-  File "/Users/azeez/.local/share/uv/tools/realm-verifier/lib/python3.14/site-packages/harbor/agents/installed/base.py", line 622, in setup
-    await self.install(environment)
-  File "/Users/azeez/.local/share/uv/tools/realm-verifier/lib/python3.14/site-packages/harbor/agents/installed/opencode.py", line 97, in install
-    await self.exec_as_agent(
-    ...<7 lines>...
-    )
-  File "/Users/azeez/.local/share/uv/tools/realm-verifier/lib/python3.14/site-packages/harbor/agents/installed/base.py", line 592, in exec_as_agent
-    return await self._exec(
-           ^^^^^^^^^^^^^^^^^
-        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/Users/azeez/.local/share/uv/tools/realm-verifier/lib/python3.14/site-packages/harbor/agents/installed/base.py", line 559, in _exec
-    raise self._classify_exec_error(command, result)
-harbor.agents.installed.base.NetworkConnectionError: Command failed (exit 1): set -euo pipefail; curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash && export NVM_DIR="$HOME/.nvm" && \. "$NVM_DIR/nvm.sh" || true && command -v nvm &>/dev/null || { echo 'Error: NVM failed to load' >&2; exit 1; } && nvm install 22 && npm -v && npm i -g opencode-ai@latest && opencode --version
-stdout:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    ... [5285 chars truncated] ...     0    0     0    0     0      0      0 --:--:--  0:01:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:10 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:11 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:12 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:13 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:14 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:01:15 --:--:--     0
-curl: (7) Failed to connect to 172.20.0.1 port 18080 after 75004 ms: Couldn't connect to server
-Error: NVM failed to load
-
-stderr: None

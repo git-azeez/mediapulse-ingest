@@ -75,17 +75,15 @@ class MediaPulseApi:
 
     @classmethod
     def from_manifest(cls, manifest: dict[str, Any], default_endpoint: str) -> "MediaPulseApi":
+        lb = manifest.get("load_balancer") if isinstance(manifest.get("load_balancer"), dict) else {}
         base_url = str(
-            manifest.get("connect_url")
-            or manifest.get("load_balancer", {}).get("base_url")
+            lb.get("connect_url")
+            or manifest.get("connect_url")
+            or lb.get("base_url")
             or default_endpoint
         ).rstrip("/")
-        if any(h in base_url for h in ("localhost", "127.0.0.1", ".run.app", "googleapis.com")):
-            base_url = default_endpoint.rstrip("/")
         auth = manifest.get("auth") if isinstance(manifest.get("auth"), dict) else {}
         token_url = str(auth.get("token_endpoint") or f"{default_endpoint.rstrip('/')}/oauth2/v4/token")
-        if any(h in token_url for h in ("localhost", "127.0.0.1", "googleapis.com")):
-            token_url = f"{default_endpoint.rstrip('/')}/oauth2/v4/token"
         return cls(base_url=base_url, token_url=token_url, auth=auth)
 
     def token(self, scope: str) -> str:

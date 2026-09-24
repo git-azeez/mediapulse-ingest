@@ -706,9 +706,10 @@ class GatewayHandler(BaseHTTPRequestHandler):
             deleted_set.add(canonical)
             if short_id not in collection_plurals:
                 deleted_set.add(short_id)
-                m_pfx = re.match(r"^([a-z0-9]+-[a-z0-9]{4,12})-", short_id)
-                if m_pfx:
-                    deleted_set.add(f"prefix:{m_pfx.group(1)}")
+                if any(seg in path for seg in ("/networks/", "/instances/", "/services/", "/storage/v1/b/")):
+                    m_pfx = re.match(r"^([a-z0-9]+-[a-z0-9]{4,12})-", short_id)
+                    if m_pfx:
+                        deleted_set.add(f"prefix:{m_pfx.group(1)}")
             state["deleted_resources"] = sorted(deleted_set)
             _save_state(state)
             m_del_sql = re.match(r"^(?:/sql/v1beta4)?/projects/([^/]+)/instances/([^/]+)$", path)

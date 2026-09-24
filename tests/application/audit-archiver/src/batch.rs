@@ -1,4 +1,3 @@
-use lambda_runtime::Error as LambdaError;
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 use uuid::Uuid;
@@ -22,7 +21,7 @@ impl AuditBatch {
     pub(crate) fn from_events(
         events: Vec<PendingEvent>,
         prefix: &str,
-    ) -> Result<Self, LambdaError> {
+    ) -> anyhow::Result<Self> {
         let first_sequence = events
             .first()
             .ok_or_else(|| std::io::Error::other("cannot archive an empty batch"))?

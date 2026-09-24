@@ -175,7 +175,17 @@ def _backend_request(
     req_headers = dict(headers or {})
     req_headers.pop("Host", None)
     req_headers.pop("host", None)
-    req = urllib.request.Request(url, data=body, headers=req_headers, method=method)
+    if method in ("POST", "PUT", "PATCH"):
+        send_body: bytes | None = body if body else b"{}"
+        ct = req_headers.get("Content-Type") or req_headers.get("content-type") or ""
+        if not ct or "x-www-form-urlencoded" in ct:
+            req_headers.pop("content-type", None)
+            req_headers["Content-Type"] = "application/json"
+    else:
+        send_body = None
+        req_headers.pop("Content-Type", None)
+        req_headers.pop("content-type", None)
+    req = urllib.request.Request(url, data=send_body, headers=req_headers, method=method)
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             resp_body = resp.read()
@@ -872,27 +882,169 @@ class GatewayHandler(BaseHTTPRequestHandler):
             except Exception:
                 pass
 
+        norm_path = re.sub(r"^/(v1|v2|v3)/(?:\1/)+", r"/\1/", path)
+        norm_path = re.sub(r"/projects/projects/", "/projects/", norm_path)
+
         state = _load_state()
 
-        m_fn_iam = re.match(r"^/v2/(projects/[^/]+/locations/[^/]+/functions/[^/:]+):(getIamPolicy|setIamPolicy|testIamPermissions)$", path)
-        if m_fn_iam:
-            res_name, action = m_fn_iam.group(1), m_fn_iam.group(2)
+        # --- A. Universal IAM (:getIamPolicy, :setIamPolicy, :testIamPermissions) ---
+        m_iam = re.match(r"^(?:/v[123][a-z0-9]*)?/(.+):(getIamPolicy|setIamPolicy|testIamPermissions)$", norm_path)
+        if m_iam:
+            res_name, action = m_iam.group(1), m_iam.group(2)
             if action == "getIamPolicy":
                 pol = state["iam_policies"].get(res_name, {"version": 1, "etag": "BwW2", "bindings": []})
                 self._send_json(200, pol)
             elif action == "setIamPolicy":
                 pol = payload.get("policy") or {"version": 1, "etag": "BwW2", "bindings": []}
+                pol.setdefault("version", 1)
                 pol.setdefault("etag", "BwW2")
+                pol.setdefault("bindings", [])
                 state["iam_policies"][res_name] = pol
                 _save_state(state)
+                # Best-effort sync to floci-gcp backend
+                _backend_request("POST", norm_path, body=json.dumps({"policy": pol}).encode("utf-8"))
                 self._send_json(200, pol)
             else:
                 self._send_json(200, {"permissions": payload.get("permissions") or []})
             return True
 
+        # --- A2. IAM Service Account Keys (`/v1/projects/{proj}/serviceAccounts/{sa}/keys`) ---
+        m_sa_keys = re.match(r"^(?:/v1)?/projects/([^/]+)/serviceAccounts/([^/]+)/keys(?:/([^/:]+))?$", norm_path)
+        if m_sa_keys:
+            proj, sa_email, key_id = m_sa_keys.groups()
+            sa_key_map = state.setdefault("sa_keys", {}).setdefault(f"{proj}/{sa_email}", {})
+            if method == "POST" and not key_id:
+                new_kid = uuid.uuid4().hex[:16]
+                full_name = f"projects/{proj}/serviceAccounts/{sa_email}/keys/{new_kid}"
+                priv_json = json.dumps({
+                    "type": "service_account",
+                    "project_id": proj,
+                    "private_key_id": new_kid,
+                    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC7\n-----END PRIVATE KEY-----\n",
+                    "client_email": sa_email,
+                    "client_id": "1234567890",
+                    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                    "token_uri": f"{BACKEND_URL}/oauth2/v4/token",
+                })
+                rec = {
+                    "name": full_name,
+                    "privateKeyType": payload.get("privateKeyType", "TYPE_GOOGLE_CREDENTIALS_FILE"),
+                    "keyAlgorithm": payload.get("keyAlgorithm", "KEY_ALG_RSA_2048"),
+                    "privateKeyData": base64.b64encode(priv_json.encode("utf-8")).decode("ascii"),
+                    "publicKeyData": base64.b64encode(b"mediapulse-public-key").decode("ascii"),
+                    "validAfterTime": "2026-01-01T00:00:00Z",
+                    "validBeforeTime": "2036-01-01T00:00:00Z",
+                    "keyOrigin": "GOOGLE_PROVIDED",
+                    "keyType": "USER_MANAGED",
+                }
+                sa_key_map[new_kid] = rec
+                _save_state(state)
+                self._send_json(200, rec)
+                return True
+            if method == "GET" and key_id:
+                rec = sa_key_map.get(key_id)
+                if not rec:
+                    self._send_json(404, {"error": {"code": 404, "message": "Key not found"}})
+                else:
+                    self._send_json(200, rec)
+                return True
+            if method == "GET" and not key_id:
+                self._send_json(200, {"keys": list(sa_key_map.values())})
+                return True
+            if method == "DELETE" and key_id:
+                sa_key_map.pop(key_id, None)
+                _save_state(state)
+                self._send_json(200, {})
+                return True
+
+        # --- A3. Cloud SQL Users, Databases, and Operations (`/sql/v1beta4/projects/{proj}/instances/{inst}/(users|databases)`) ---
+        m_sql_op = re.match(r"^(?:/sql/v1beta4)?/projects/([^/]+)/operations/(op-sql-[^/]+)$", norm_path)
+        if m_sql_op:
+            proj, op_id = m_sql_op.groups()
+            self._send_json(
+                200,
+                {
+                    "kind": "sql#operation",
+                    "status": "DONE",
+                    "name": op_id,
+                    "targetProject": proj,
+                    "selfLink": f"{BACKEND_URL}/sql/v1beta4/projects/{proj}/operations/{op_id}",
+                },
+            )
+            return True
+
+        m_sql_sub = re.match(r"^(?:/sql/v1beta4)?/projects/([^/]+)/instances/([^/]+)/(users|databases)(?:/([^/:]+))?$", norm_path)
+        if m_sql_sub:
+            proj, inst, kind, item_name = m_sql_sub.groups()
+            sub_map = state.setdefault("sql_subresources", {}).setdefault(f"{proj}/{inst}/{kind}", {})
+            if method == "GET" and not item_name:
+                q_name = (query.get("name") or [""])[0]
+                if q_name and q_name in sub_map:
+                    self._send_json(200, sub_map[q_name])
+                    return True
+                self._send_json(200, {"kind": f"sql#{kind}List", "items": list(sub_map.values())})
+                return True
+            if method == "GET" and item_name:
+                rec = sub_map.get(item_name)
+                if not rec:
+                    self._send_json(404, {"error": {"code": 404, "message": f"{kind} {item_name} not found"}})
+                else:
+                    self._send_json(200, rec)
+                return True
+            if method in ("POST", "PUT", "PATCH"):
+                target = item_name or str(payload.get("name") or f"{kind}-default")
+                rec = {
+                    **payload,
+                    "kind": "sql#user" if kind == "users" else "sql#database",
+                    "name": target,
+                    "project": proj,
+                    "instance": inst,
+                    "etag": "etag-sql-1",
+                }
+                if kind == "users":
+                    rec.setdefault("host", payload.get("host", "%"))
+                else:
+                    rec.setdefault("charset", payload.get("charset", "UTF8"))
+                    rec.setdefault("collation", payload.get("collation", "en_US.UTF8"))
+                sub_map[target] = rec
+                _save_state(state)
+                op_id = f"op-sql-{kind}-{target}"
+                self._send_json(
+                    200,
+                    {
+                        "kind": "sql#operation",
+                        "status": "DONE",
+                        "operationType": "CREATE" if method == "POST" else "UPDATE",
+                        "name": op_id,
+                        "targetProject": proj,
+                        "targetId": inst,
+                        "selfLink": f"{BACKEND_URL}/sql/v1beta4/projects/{proj}/operations/{op_id}",
+                    },
+                )
+                return True
+            if method == "DELETE":
+                target = item_name or (query.get("name") or [""])[0]
+                sub_map.pop(target, None)
+                _save_state(state)
+                op_id = f"op-sql-del-{target}"
+                self._send_json(
+                    200,
+                    {
+                        "kind": "sql#operation",
+                        "status": "DONE",
+                        "operationType": "DELETE",
+                        "name": op_id,
+                        "targetProject": proj,
+                        "targetId": inst,
+                        "selfLink": f"{BACKEND_URL}/sql/v1beta4/projects/{proj}/operations/{op_id}",
+                    },
+                )
+                return True
+
+        # --- B. Compute Engine v1 (`/compute/v1/projects/...` or `/projects/.../global/...` or `/projects/.../regions/...`) ---
         comp_match = re.match(
-            r"^(?:/compute/v1)?/projects/([^/]+)/(global|regions/[^/]+)/(networks|subnetworks|firewalls|addresses|networkEndpointGroups|backendServices|urlMaps|targetHttpProxies|forwardingRules|operations)(?:/([^/:]+))?(?::([a-zA-Z0-9_]+))?$",
-            path,
+            r"^(?:/compute/v1)?/projects/([^/]+)/(global|regions/[^/]+)/(networks|subnetworks|firewalls|addresses|networkEndpointGroups|backendServices|urlMaps|targetHttpProxies|forwardingRules|operations)(?:/([^/:]+))?(?:[:/]([a-zA-Z0-9_]+))?$",
+            norm_path,
         )
         if comp_match:
             proj, scope, kind, item_name, custom_action = comp_match.groups()
@@ -927,6 +1079,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
                     "selfLink": self_link,
                     "creationTimestamp": _now_iso(),
                     "fingerprint": "42WmSpB8rSM=",
+                    "labelFingerprint": "42WmSpB8rSM=",
                 }
                 if kind == "addresses":
                     record.setdefault("address", "gcp")
@@ -967,7 +1120,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
                 )
                 return True
 
-            if method == "GET" and item_name:
+            if method == "GET" and item_name and not custom_action:
                 rec = items_map.get(item_name)
                 if not rec:
                     self._send_json(404, {"error": {"code": 404, "message": f"{item_name} not found"}})
@@ -977,7 +1130,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
 
             if method in ("PATCH", "PUT") or custom_action:
                 target = item_name or str(payload.get("name") or "")
-                rec = items_map.get(target, {"name": target})
+                rec = items_map.get(target, {"name": target, "labelFingerprint": "42WmSpB8rSM=", "fingerprint": "42WmSpB8rSM="})
                 rec.update(payload)
                 items_map[target] = rec
                 _save_state(state)
@@ -1013,9 +1166,10 @@ class GatewayHandler(BaseHTTPRequestHandler):
                 )
                 return True
 
+        # --- C. Firestore Admin v1 (`databases` & `collectionGroups/*/indexes`) ---
         m_fs_idx = re.match(
-            r"^/v1/projects/([^/]+)/databases/([^/]+)/collectionGroups/([^/]+)/indexes(?:/([^/]+))?$",
-            path,
+            r"^(?:/v1)?/projects/([^/]+)/databases/([^/]+)/collectionGroups/([^/]+)/indexes(?:/([^/]+))?$",
+            norm_path,
         )
         if m_fs_idx:
             proj, db_name, cg, idx_id = m_fs_idx.groups()
@@ -1050,11 +1204,11 @@ class GatewayHandler(BaseHTTPRequestHandler):
                 self._send_json(200, {})
                 return True
 
-        m_fs_db = re.match(r"^/v1/projects/([^/]+)/databases(?:/([^/:]+))?$", path)
+        m_fs_db = re.match(r"^(?:/v1)?/projects/([^/]+)/databases(?:/([^/:]+))?$", norm_path)
         if m_fs_db:
             proj, db_id = m_fs_db.groups()
             if db_id == "operations":
-                self._send_json(200, {"name": path.lstrip("/"), "done": True})
+                self._send_json(200, {"name": norm_path.lstrip("/"), "done": True})
                 return True
             db_map = state["firestore_dbs"].setdefault(proj, {})
             if method == "POST" and not db_id:
@@ -1100,14 +1254,15 @@ class GatewayHandler(BaseHTTPRequestHandler):
                 self._send_json(200, {"name": f"projects/{proj}/databases/{db_id}/operations/op-del", "done": True})
                 return True
 
-        m_fs_op = re.match(r"^/v1/projects/([^/]+)/databases/([^/]+)/operations/([^/]+)$", path)
+        m_fs_op = re.match(r"^(?:/v1)?/projects/([^/]+)/databases/([^/]+)/operations/([^/]+)$", norm_path)
         if m_fs_op:
             proj, db_id, op_id = m_fs_op.groups()
             rec = state["firestore_dbs"].get(proj, {}).get(db_id, {"name": f"projects/{proj}/databases/{db_id}"})
             self._send_json(200, {"name": f"projects/{proj}/databases/{db_id}/operations/{op_id}", "done": True, "response": rec})
             return True
 
-        m_tasks = re.match(r"^/v2/projects/([^/]+)/locations/([^/]+)/queues(?:/([^/:]+))?(?::([a-zA-Z]+))?$", path)
+        # --- D. Cloud Tasks v2 (`/v2/projects/{proj}/locations/{loc}/queues`) ---
+        m_tasks = re.match(r"^(?:/v2)?/projects/([^/]+)/locations/([^/]+)/queues(?:/([^/:]+))?(?::([a-zA-Z]+))?$", norm_path)
         if m_tasks:
             proj, loc, q_name, action = m_tasks.groups()
             parent = f"projects/{proj}/locations/{loc}"
@@ -1157,28 +1312,41 @@ class GatewayHandler(BaseHTTPRequestHandler):
                 self._send_json(200, {})
                 return True
 
-        m_log_bucket = re.match(r"^/v2/projects/([^/]+)/locations/([^/]+)/buckets(?:/([^/:]+))?$", path)
+        # --- E. Cloud Logging Config v2 (`buckets` & `sinks`) ---
+        m_log_bucket = re.match(r"^(?:/v2)?/projects/([^/]+)/locations/([^/]+)/buckets(?:/([^/:]+))?(?::([a-zA-Z0-9_]+))?$", norm_path)
         if m_log_bucket:
-            proj, loc, b_id = m_log_bucket.groups()
+            proj, loc, b_id, custom_action = m_log_bucket.groups()
             parent = f"projects/{proj}/locations/{loc}"
             b_map = state["logging_buckets"].setdefault(parent, {})
-            if method in ("POST", "PATCH") and (b_id or query.get("bucketId")):
-                actual_id = b_id or query["bucketId"][0]
+            if method in ("POST", "PATCH", "PUT"):
+                actual_id = b_id or (query.get("bucketId") or [str(payload.get("name") or "default").split("/")[-1]])[0]
                 full_name = f"{parent}/buckets/{actual_id}"
-                rec = {
+                rec = b_map.get(actual_id, {})
+                rec.update({
                     **payload,
                     "name": full_name,
-                    "retentionDays": int(payload.get("retentionDays") or 14),
+                    "retentionDays": int(payload.get("retentionDays") or rec.get("retentionDays") or 30),
                     "lifecycleState": "ACTIVE",
-                    "createTime": _now_iso(),
+                    "createTime": rec.get("createTime") or _now_iso(),
                     "updateTime": _now_iso(),
-                }
+                })
                 b_map[actual_id] = rec
                 _save_state(state)
-                self._send_json(200, rec)
+                if custom_action == "createAsync":
+                    self._send_json(200, {"name": f"{parent}/operations/op-log-{actual_id}", "done": True, "response": rec})
+                else:
+                    self._send_json(200, rec)
                 return True
             if method == "GET" and b_id:
                 rec = b_map.get(b_id)
+                if not rec and b_id in ("_Default", "_Required"):
+                    rec = {
+                        "name": f"{parent}/buckets/{b_id}",
+                        "retentionDays": 30,
+                        "lifecycleState": "ACTIVE",
+                        "createTime": _now_iso(),
+                        "updateTime": _now_iso(),
+                    }
                 if not rec:
                     self._send_json(404, {"error": {"code": 404, "message": "Log bucket not found"}})
                 else:
@@ -1193,7 +1361,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
                 self._send_json(200, {})
                 return True
 
-        m_log_sink = re.match(r"^/v2/projects/([^/]+)/sinks(?:/([^/:]+))?$", path)
+        m_log_sink = re.match(r"^(?:/v2)?/projects/([^/]+)/sinks(?:/([^/:]+))?$", norm_path)
         if m_log_sink:
             proj, sink_name = m_log_sink.groups()
             s_map = state["logging_sinks"].setdefault(proj, {})
@@ -1234,7 +1402,8 @@ class GatewayHandler(BaseHTTPRequestHandler):
                 self._send_json(200, {})
                 return True
 
-        m_mon = re.match(r"^/v3/projects/([^/]+)/(notificationChannels|alertPolicies)(?:/([^/:]+))?$", path)
+        # --- F. Cloud Monitoring v3 (`notificationChannels` & `alertPolicies`) ---
+        m_mon = re.match(r"^(?:/v3)?/projects/([^/]+)/(notificationChannels|alertPolicies)(?:/([^/:]+))?$", norm_path)
         if m_mon:
             proj, kind, item_id = m_mon.groups()
             store_key = "monitoring_channels" if kind == "notificationChannels" else "monitoring_policies"
@@ -1261,7 +1430,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
             if method == "GET" and not item_id:
                 self._send_json(200, {kind: list(m_map.values())})
                 return True
-            if method == "PATCH" and item_id:
+            if method in ("PATCH", "PUT") and item_id:
                 rec = m_map.get(item_id, {"name": f"projects/{proj}/{kind}/{item_id}"})
                 rec.update(payload)
                 m_map[item_id] = rec
@@ -1274,7 +1443,8 @@ class GatewayHandler(BaseHTTPRequestHandler):
                 self._send_json(200, {})
                 return True
 
-        m_tenant = re.match(r"^/v2/projects/([^/]+)/tenants(?:/([^/:]+))?$", path)
+        # --- G. Identity Platform v2 (`tenants`) ---
+        m_tenant = re.match(r"^(?:/v2)?/projects/([^/]+)/tenants(?:/([^/:]+))?$", norm_path)
         if m_tenant:
             proj, tenant_id = m_tenant.groups()
             t_map = state["identity_tenants"].setdefault(proj, {})

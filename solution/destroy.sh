@@ -24,6 +24,12 @@ fi
 export TF_IN_AUTOMATION=1
 export TF_INPUT=0
 unset TF_PLUGIN_CACHE_DIR
+GCP_EP="$(jq -r '.gcp_endpoint_url // "http://gcp:4588"' "$TFVARS_PATH" 2>/dev/null || echo "http://gcp:4588")"
+export GOOGLE_RESOURCE_MANAGER_CUSTOM_ENDPOINT="${GCP_EP%/}/v1/"
+export GOOGLE_CLOUD_RESOURCE_MANAGER_CUSTOM_ENDPOINT="${GCP_EP%/}/v1/"
+export GOOGLE_IAM_CUSTOM_ENDPOINT="${GCP_EP%/}/v1/"
+export GOOGLE_LOGGING_CUSTOM_ENDPOINT="${GCP_EP%/}/v2/"
+export GOOGLE_MONITORING_CUSTOM_ENDPOINT="${GCP_EP%/}/v3/"
 
 rm -rf "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl"
 terraform -chdir="$INFRA_DIR" init -input=false -no-color

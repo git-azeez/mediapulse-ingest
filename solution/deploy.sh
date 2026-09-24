@@ -31,6 +31,12 @@ fi
 export TF_IN_AUTOMATION=1
 export TF_INPUT=0
 unset TF_PLUGIN_CACHE_DIR
+GCP_EP="$(jq -r '.gcp_endpoint_url // "http://gcp:4588"' "$CONFIG_FILE")"
+export GOOGLE_RESOURCE_MANAGER_CUSTOM_ENDPOINT="${GCP_EP%/}/v1/"
+export GOOGLE_CLOUD_RESOURCE_MANAGER_CUSTOM_ENDPOINT="${GCP_EP%/}/v1/"
+export GOOGLE_IAM_CUSTOM_ENDPOINT="${GCP_EP%/}/v1/"
+export GOOGLE_LOGGING_CUSTOM_ENDPOINT="${GCP_EP%/}/v2/"
+export GOOGLE_MONITORING_CUSTOM_ENDPOINT="${GCP_EP%/}/v3/"
 
 umask 077
 tfvars_path="$INFRA_DIR/config.auto.tfvars.json"

@@ -28,6 +28,7 @@ def test_reapply_stable(ctx: TrialContext) -> CheckResult:
         after_manifest,
         runner=ctx.runner,
     )
+    inspector.init_validate()
     inspector.load()
     ctx.state = inspector
 

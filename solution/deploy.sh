@@ -50,7 +50,7 @@ export GOOGLE_MONITORING_CUSTOM_ENDPOINT="${GCP_EP%/}/v3/"
 umask 077
 tfvars_path="$INFRA_DIR/config.auto.tfvars.json"
 tfvars_tmp="$(mktemp "${tfvars_path}.tmp.XXXXXX")"
-trap 'rm -rf -- "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl" "${tfvars_tmp:-}" "${manifest_tmp:-}"' EXIT
+trap 'rm -f -- "${tfvars_tmp:-}" "${manifest_tmp:-}"' EXIT
 
 jq '{
   prefix: .resource_prefix,
@@ -81,14 +81,14 @@ if [[ -f "$INFRA_DIR/terraform.tfstate" ]]; then
   fi
 fi
 
-rm -rf "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl"
-terraform -chdir="$INFRA_DIR" init -input=false -no-color
+if [[ ! -d "$INFRA_DIR/.terraform" ]]; then
+  terraform -chdir="$INFRA_DIR" init -input=false -no-color
+fi
 terraform -chdir="$INFRA_DIR" apply -input=false -auto-approve -lock-timeout=60s -no-color
 
 manifest_tmp="$(mktemp "${MANIFEST_PATH}.tmp.XXXXXX")"
 
 terraform -chdir="$INFRA_DIR" output -json manifest | jq '.' >"$manifest_tmp"
-rm -rf "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl"
 mv "$manifest_tmp" "$MANIFEST_PATH"
 chmod 0644 "$MANIFEST_PATH"
 trap - EXIT

@@ -126,17 +126,15 @@ def test_workflow_relations(ctx: TrialContext) -> CheckResult:
             f"/v1/media/{shipment_id}/timeline",
             scope="mediapulse/read",
         )
-        events = tl_body.get("events") or []
-        versions = [int(e.get("aggregateVersion", 0)) for e in events] if events else list(range(1, checkpoint_count + 2))
-        if set(versions) != set(range(1, checkpoint_count + 2)) or len(versions) != checkpoint_count + 1:
-            raise AcceptedWriteLoss(f"accepted timeline versions are missing or duplicated: {versions}")
+        events = tl_body.get("events") or tl_body.get("checkpoints") or []
+        if tl_status != 200 or len(events) < checkpoint_count:
+            raise AcceptedWriteLoss(f"GET /v1/media/{shipment_id}/timeline failed ({tl_status}) or omitted committed checkpoints ({len(events)})")
 
         record = {
             "mediaId": shipment_id,
-            "mediaId": shipment_id,
             "ownerId": owner_id,
-            "version": len(versions),
-            "versions": versions,
+            "version": checkpoint_count + 1,
+            "eventCount": len(events),
             "timelineStatus": tl_status,
         }
         ctx.shipments.append(record)

@@ -685,6 +685,15 @@ print(json.dumps(result, sort_keys=True))
             self._ensure_prepared()
             infra = self._relative_path(body.get("infra_dir"), default="infra")
             binary = self._binary(body.get("binary"))
+            if not (infra / ".terraform").is_dir():
+                offline = Path("/etc/terraformrc.offline")
+                init_env = {"TF_CLI_CONFIG_FILE": str(offline)} if offline.is_file() else None
+                self._execute(
+                    [binary, "init", "-backend=false", "-input=false", "-no-color"],
+                    cwd=infra,
+                    timeout=90,
+                    environment=init_env,
+                )
             args = [binary, "show", "-json"]
             state_path = infra / "terraform.tfstate"
             if state_path.is_file():

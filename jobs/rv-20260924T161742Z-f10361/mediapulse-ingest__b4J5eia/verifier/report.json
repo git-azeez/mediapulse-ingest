@@ -1,0 +1,527 @@
+{
+  "caps_applied": [],
+  "category_scores": {
+    "architecture": {
+      "earned": 0,
+      "label": "Architecture and deployment",
+      "possible": 17
+    },
+    "async_processing": {
+      "earned": 0,
+      "label": "Asynchronous processing",
+      "possible": 13
+    },
+    "core_behavior": {
+      "earned": 0,
+      "label": "Core product behavior",
+      "possible": 24
+    },
+    "lifecycle": {
+      "earned": 8,
+      "label": "Lifecycle",
+      "possible": 15
+    },
+    "recovery": {
+      "earned": 0,
+      "label": "Recovery",
+      "possible": 20
+    },
+    "security_operations": {
+      "earned": 0,
+      "label": "Security and observability",
+      "possible": 11
+    }
+  },
+  "hard_gates": {
+    "declared.compute_ingress": false,
+    "declared.data_async": false,
+    "declared.managed_iac": false,
+    "declared.security_ops": false,
+    "lifecycle.baseline_preserved": true,
+    "observed.no_accepted_write_loss": true,
+    "observed.no_auth_escalation": true,
+    "realized.approved_ingress": false,
+    "realized.complete_data": false,
+    "realized.complete_security": false,
+    "trial.integrity": true
+  },
+  "obligation_scores": {
+    "declared.compute_ingress": {
+      "category": "architecture",
+      "earned": 0,
+      "experiments": [
+        "Cloud Run min_instance_count is at least two",
+        "Global External Application Load Balancer and Serverless NEG route to Cloud Run",
+        "the approved image is selected"
+      ],
+      "outcome": "fail",
+      "plane": "declared",
+      "possible": 2
+    },
+    "declared.data_async": {
+      "category": "architecture",
+      "earned": 0,
+      "experiments": [
+        "Cloud SQL PostgreSQL, Pub/Sub and DLQ, Cloud Functions, Firestore, Datastore and private GCS are declared",
+        "dead-letter delivery attempts are bounded"
+      ],
+      "outcome": "fail",
+      "plane": "declared",
+      "possible": 2
+    },
+    "declared.managed_iac": {
+      "category": "architecture",
+      "earned": 0,
+      "experiments": [
+        "configuration validates",
+        "all scored GCP resource families are managed in state"
+      ],
+      "outcome": "fail",
+      "plane": "declared",
+      "possible": 3
+    },
+    "declared.security_ops": {
+      "category": "security_operations",
+      "earned": 0,
+      "experiments": [
+        "service accounts are separated",
+        "ingress/private VPC subnets are declared",
+        "data services are private",
+        "log retention and 4 KMS crypto keys exist"
+      ],
+      "outcome": "fail",
+      "plane": "declared",
+      "possible": 3
+    },
+    "lifecycle.destroy_clean": {
+      "category": "lifecycle",
+      "earned": 8,
+      "experiments": [
+        "no trial-prefixed GCP resource remains",
+        "no baseline resource was deleted"
+      ],
+      "outcome": "pass",
+      "plane": "lifecycle",
+      "possible": 8
+    },
+    "lifecycle.reapply_stable": {
+      "category": "lifecycle",
+      "earned": 0,
+      "experiments": [
+        "the deployment converges cleanly",
+        "Cloud SQL instance identity is unchanged",
+        "committed data remains readable"
+      ],
+      "outcome": "fail",
+      "plane": "lifecycle",
+      "possible": 7
+    },
+    "observed.auth_archive_logs": {
+      "category": "security_operations",
+      "earned": 0,
+      "experiments": [
+        "no identity exceeds its public scopes",
+        "the archiver writes valid NDJSON to GCS",
+        "logs contain correlation/event IDs without known secrets"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 3
+    },
+    "observed.backlog_recovery": {
+      "category": "async_processing",
+      "earned": 0,
+      "experiments": [
+        "visible backlog grows",
+        "after resume the subscription drains",
+        "all projections converge without loss"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 7
+    },
+    "observed.duplicate_dlq": {
+      "category": "async_processing",
+      "earned": 0,
+      "experiments": [
+        "the duplicate advances the projection once",
+        "the invalid body reaches the dead-letter topic within max_delivery_attempts",
+        "healthy traffic continues"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 6
+    },
+    "observed.ecs_recovery": {
+      "category": "recovery",
+      "earned": 0,
+      "experiments": [
+        "Cloud Run maintains two healthy warm instances",
+        "prior data remains readable"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 5
+    },
+    "observed.idempotency_concurrency": {
+      "category": "core_behavior",
+      "earned": 0,
+      "experiments": [
+        "the replay creates one logical transition",
+        "exactly one distinct racing write succeeds and the other returns 409 conflict"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 8
+    },
+    "observed.outbox_recovery": {
+      "category": "recovery",
+      "earned": 0,
+      "experiments": [
+        "the accepted write reaches the projection exactly once",
+        "previous committed data remains readable"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 6
+    },
+    "observed.projection_cache": {
+      "category": "core_behavior",
+      "earned": 0,
+      "experiments": [
+        "the first read comes from Firestore projection",
+        "the second read comes from repopulated Cloud Datastore cache"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 7
+    },
+    "observed.projection_rebuild": {
+      "category": "recovery",
+      "earned": 0,
+      "experiments": [
+        "the projection is reconstructed from Cloud SQL PostgreSQL",
+        "version and timeline match the pre-fault state"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 5
+    },
+    "observed.rds_reboot": {
+      "category": "recovery",
+      "earned": 0,
+      "experiments": [
+        "the instance returns runnable",
+        "API readiness recovers",
+        "pre-restart data remains readable"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 4
+    },
+    "observed.workflow_relations": {
+      "category": "core_behavior",
+      "earned": 0,
+      "experiments": [
+        "every accepted version appears without loss or duplication",
+        "read and timeline relationships match generated values"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 9
+    },
+    "realized.data_event_graph": {
+      "category": "architecture",
+      "earned": 0,
+      "experiments": [
+        "Cloud SQL, Pub/Sub + DLQ, Cloud Functions, Firestore and Datastore are live",
+        "relay and archiver Cloud Scheduler jobs target the correct functions",
+        "GCS bucket is private"
+      ],
+      "outcome": "fail",
+      "plane": "realized",
+      "possible": 5
+    },
+    "realized.ingress_compute_graph": {
+      "category": "architecture",
+      "earned": 0,
+      "experiments": [
+        "the manifest resolves to the live Load Balancer and Cloud Run service",
+        "at least two warm API instances are configured"
+      ],
+      "outcome": "fail",
+      "plane": "realized",
+      "possible": 5
+    },
+    "realized.security_ops_graph": {
+      "category": "security_operations",
+      "earned": 0,
+      "experiments": [
+        "VPC firewall rules match the contract",
+        "Identity Platform clients expose only their scopes",
+        "distinct service accounts and explicit log buckets exist"
+      ],
+      "outcome": "fail",
+      "plane": "realized",
+      "possible": 5
+    }
+  },
+  "plane_scores": {
+    "declared": {
+      "earned": 0,
+      "possible": 10
+    },
+    "lifecycle": {
+      "earned": 8,
+      "possible": 15
+    },
+    "observed": {
+      "earned": 0,
+      "possible": 60
+    },
+    "realized": {
+      "earned": 0,
+      "possible": 15
+    }
+  },
+  "raw_score": 8,
+  "results": [
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/declared.managed_iac.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "declared.managed_iac",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/declared.compute_ingress.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "declared.compute_ingress",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/declared.data_async.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "declared.data_async",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/declared.security_ops.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "declared.security_ops",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/realized.ingress_compute_graph.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "realized.ingress_compute_graph",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/realized.data_event_graph.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "realized.data_event_graph",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/realized.security_ops_graph.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "realized.security_ops_graph",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.workflow_relations.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.workflow_relations",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.projection_cache.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.projection_cache",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.idempotency_concurrency.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.idempotency_concurrency",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.backlog_recovery.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.backlog_recovery",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.duplicate_dlq.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.duplicate_dlq",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.outbox_recovery.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.outbox_recovery",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.projection_rebuild.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.projection_rebuild",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.ecs_recovery.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.ecs_recovery",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.rds_reboot.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.rds_reboot",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.auth_archive_logs.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.auth_archive_logs",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/lifecycle.reapply_stable.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "lifecycle.reapply_stable",
+      "outcome": "fail",
+      "summary": "deployment did not complete"
+    },
+    {
+      "cap_reason": null,
+      "details": {
+        "leaked_count": 0
+      },
+      "duration_seconds": 93.35302966800009,
+      "evidence": [
+        "evidence/lifecycle/destroy.json",
+        "evidence/lifecycle/destroy.log",
+        "evidence/obligations/lifecycle.destroy_clean.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "lifecycle.destroy_clean",
+      "outcome": "pass",
+      "summary": "destroy.sh removed all trial-prefixed GCP resources while preserving baseline resources"
+    }
+  ],
+  "reward": 0.08,
+  "score": 8,
+  "threshold": 100,
+  "total": 100,
+  "trial_valid": true
+}

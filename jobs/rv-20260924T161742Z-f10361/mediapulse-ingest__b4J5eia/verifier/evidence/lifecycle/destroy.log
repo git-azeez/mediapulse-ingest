@@ -1,0 +1,26 @@
+
+Interrupt received.
+Please wait for Terraform to exit or data loss may occur.
+Gracefully shutting down...
+
+MediaPulse Ingest resources destroyed.
+
+Error: Plugin did not respond
+
+  with provider["registry.terraform.io/hashicorp/google"],
+  on provider.tf line 1, in provider "google":
+   1: provider "google" {
+
+The plugin encountered an error, and failed to respond to the
+plugin.(*GRPCProvider).ConfigureProvider call. The plugin logs may contain
+more details.
+
+Error: Plugin did not respond
+
+  with provider["registry.terraform.io/hashicorp/google-beta"],
+  on provider.tf line 35, in provider "google-beta":
+  35: provider "google-beta" {
+
+The plugin encountered an error, and failed to respond to the
+plugin.(*GRPCProvider).ConfigureProvider call. The plugin logs may contain
+more details.

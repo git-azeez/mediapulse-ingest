@@ -1,0 +1,11 @@
+{
+  "drained_to_zero": true,
+  "queued_commands": 31,
+  "relay_flushed": {
+    "archived": 0,
+    "published": 0,
+    "status": "ok"
+  },
+  "subscription": "projects/mp-ver-09c95494/subscriptions/mp-53bdf5c5aab5-events-processor-sub",
+  "subscriptions_active": 2
+}

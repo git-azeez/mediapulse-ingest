@@ -1,0 +1,15 @@
+{
+  "cloud_run_service": "mp-b0ddb0e3a749-api",
+  "health_ready": {
+    "checks": {
+      "datastore": "UP",
+      "firestore": "UP",
+      "postgres": "UP",
+      "pubsub": "UP"
+    },
+    "service": "mediapulse-ingest",
+    "status": "UP"
+  },
+  "healthy_instances_restored": 2,
+  "min_instance_count": 2
+}

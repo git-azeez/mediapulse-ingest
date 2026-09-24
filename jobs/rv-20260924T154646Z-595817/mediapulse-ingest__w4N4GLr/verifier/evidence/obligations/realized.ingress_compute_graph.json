@@ -1,7 +1,0 @@
-{
-  "associated_artifacts": [],
-  "details": {},
-  "obligation_id": "realized.ingress_compute_graph",
-  "outcome": "invalid",
-  "summary": "benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission"
-}

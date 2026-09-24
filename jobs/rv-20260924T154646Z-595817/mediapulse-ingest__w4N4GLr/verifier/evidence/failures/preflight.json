@@ -1,5 +1,0 @@
-{
-  "exception": "HarnessError",
-  "message": "isolated runner clone does not match the collected submission",
-  "traceback": "Traceback (most recent call last):\n  File \"/tests/suite/tools/trial.py\", line 232, in _setup\n    check_submission(self.ctx)\n  File \"/tests/suite/tools/execution/submission.py\", line 73, in run\n    raise HarnessError(\"isolated runner clone does not match the collected submission\")\nsuite.tools.reporting.errors.HarnessError: isolated runner clone does not match the collected submission\n"
-}

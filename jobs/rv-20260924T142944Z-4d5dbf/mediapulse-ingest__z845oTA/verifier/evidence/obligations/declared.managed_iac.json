@@ -1,7 +1,0 @@
-{
-  "associated_artifacts": [],
-  "details": {},
-  "obligation_id": "declared.managed_iac",
-  "outcome": "fail",
-  "summary": "deployment did not complete"
-}

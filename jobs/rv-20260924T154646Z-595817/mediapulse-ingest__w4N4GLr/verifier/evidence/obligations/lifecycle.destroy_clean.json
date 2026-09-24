@@ -1,7 +1,0 @@
-{
-  "associated_artifacts": [],
-  "details": {},
-  "obligation_id": "lifecycle.destroy_clean",
-  "outcome": "fail",
-  "summary": "clean destroy could not be attempted"
-}

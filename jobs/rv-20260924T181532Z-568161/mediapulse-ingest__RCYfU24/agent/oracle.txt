@@ -1,0 +1,2006 @@
+MediaPulse Ingest deployment copied to /workspace/submission; starting deployment...
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding hashicorp/google-beta versions matching ">= 5.0.0"...
+- Finding hashicorp/google versions matching ">= 5.0.0"...
+- Installing hashicorp/google-beta v8.4.0...
+- Installed hashicorp/google-beta v8.4.0 (unauthenticated)
+- Installing hashicorp/google v8.4.0...
+- Installed hashicorp/google v8.4.0 (unauthenticated)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+
+Warning: Incomplete lock file information for providers
+
+Due to your customized provider installation methods, Terraform was forced to
+calculate lock file checksums locally for the following providers:
+  - hashicorp/google
+  - hashicorp/google-beta
+
+The current .terraform.lock.hcl file only includes checksums for linux_amd64,
+so Terraform running on another platform will fail to install these
+providers.
+
+To calculate additional checksums for another platform, run:
+  terraform providers lock -platform=linux_amd64
+(where linux_amd64 is the platform to generate)
+Terraform has been successfully initialized!
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # google_bigquery_dataset.audit_analytics will be created
+  + resource "google_bigquery_dataset" "audit_analytics" {
+      + creation_time              = (known after apply)
+      + dataset_id                 = "mp_3408afb4b076_audit_analytics"
+      + delete_contents_on_destroy = true
+      + deletion_policy            = "DELETE"
+      + effective_labels           = {
+          + "data_role"                  = "audit-analytics"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + etag                       = (known after apply)
+      + id                         = (known after apply)
+      + is_case_insensitive        = (known after apply)
+      + labels                     = {
+          + "data_role"             = "audit-analytics"
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + last_modified_time         = (known after apply)
+      + location                   = "us-west1"
+      + max_time_travel_hours      = (known after apply)
+      + project                    = "mp-proj-ec111b4e"
+      + self_link                  = (known after apply)
+      + storage_billing_model      = (known after apply)
+      + terraform_labels           = {
+          + "data_role"                  = "audit-analytics"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+
+      + access (known after apply)
+
+      + default_encryption_configuration {
+          + kms_key_name = (known after apply)
+        }
+    }
+
+  # google_bigquery_table.archived_events will be created
+  + resource "google_bigquery_table" "archived_events" {
+      + creation_time                = (known after apply)
+      + dataset_id                   = "mp_3408afb4b076_audit_analytics"
+      + deletion_policy              = "DELETE"
+      + deletion_protection          = false
+      + effective_labels             = {
+          + "data_role"                  = "audit-analytics-table"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + etag                         = (known after apply)
+      + expiration_time              = (known after apply)
+      + generated_schema_columns     = (known after apply)
+      + id                           = (known after apply)
+      + ignore_auto_generated_schema = false
+      + labels                       = {
+          + "data_role"             = "audit-analytics-table"
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + last_modified_time           = (known after apply)
+      + location                     = (known after apply)
+      + max_staleness                = (known after apply)
+      + num_bytes                    = (known after apply)
+      + num_long_term_bytes          = (known after apply)
+      + num_rows                     = (known after apply)
+      + project                      = "mp-proj-ec111b4e"
+      + schema                       = (known after apply)
+      + self_link                    = (known after apply)
+      + table_id                     = "archived_events"
+      + terraform_labels             = {
+          + "data_role"                  = "audit-analytics-table"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + type                         = (known after apply)
+    }
+
+  # google_cloud_run_v2_service.api will be created
+  + resource "google_cloud_run_v2_service" "api" {
+      + conditions              = (known after apply)
+      + create_time             = (known after apply)
+      + creator                 = (known after apply)
+      + delete_time             = (known after apply)
+      + deletion_policy         = "DELETE"
+      + deletion_protection     = false
+      + effective_annotations   = (known after apply)
+      + effective_labels        = {
+          + "component"                  = "api"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + etag                    = (known after apply)
+      + expire_time             = (known after apply)
+      + generation              = (known after apply)
+      + id                      = (known after apply)
+      + ingress                 = "INGRESS_TRAFFIC_ALL"
+      + labels                  = {
+          + "component"             = "api"
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + last_modifier           = (known after apply)
+      + latest_created_revision = (known after apply)
+      + latest_ready_revision   = (known after apply)
+      + launch_stage            = (known after apply)
+      + location                = "us-west1"
+      + name                    = "mp-3408afb4b076-api"
+      + observed_generation     = (known after apply)
+      + project                 = "mp-proj-ec111b4e"
+      + reconciling             = (known after apply)
+      + terminal_condition      = (known after apply)
+      + terraform_labels        = {
+          + "component"                  = "api"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + traffic_statuses        = (known after apply)
+      + uid                     = (known after apply)
+      + update_time             = (known after apply)
+      + uri                     = (known after apply)
+      + urls                    = (known after apply)
+
+      + scaling (known after apply)
+
+      + template {
+          + max_instance_request_concurrency = (known after apply)
+          + service_account                  = "mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+          + timeout                          = (known after apply)
+
+          + containers {
+              + build_info = (known after apply)
+              + image      = "mediapulse/api:1.0.0"
+              + name       = "api"
+
+              + env {
+                  + name  = "AUTH_AUDIENCES"
+                  + value = (known after apply)
+                }
+              + env {
+                  + name  = "AUTH_ISSUER"
+                  + value = "http://gcp:4588/identitytoolkit.googleapis.com/v1/projects/mp-proj-ec111b4e"
+                }
+              + env {
+                  + name  = "AUTH_JWKS_URL"
+                  + value = "http://gcp:4588/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com"
+                }
+              + env {
+                  + name  = "BIND_ADDR"
+                  + value = "0.0.0.0:8080"
+                }
+              + env {
+                  + name  = "DATABASE_URL"
+                  + value = (known after apply)
+                }
+              + env {
+                  + name  = "DATASTORE_EMULATOR_HOST"
+                  + value = "gcp:4588"
+                }
+              + env {
+                  + name  = "DATASTORE_NAMESPACE"
+                  + value = "mp-3408afb4b076-cache"
+                }
+              + env {
+                  + name  = "FIRESTORE_DATABASE"
+                  + value = "mp-3408afb4b076-projections"
+                }
+              + env {
+                  + name  = "FIRESTORE_EMULATOR_HOST"
+                  + value = "gcp:4588"
+                }
+              + env {
+                  + name  = "GCP_ENDPOINT_URL"
+                  + value = "http://gcp:4588"
+                }
+              + env {
+                  + name  = "GCP_PROJECT_ID"
+                  + value = "mp-proj-ec111b4e"
+                }
+              + env {
+                  + name  = "GCP_REGION"
+                  + value = "us-west1"
+                }
+              + env {
+                  + name  = "PUBSUB_EMULATOR_HOST"
+                  + value = "gcp:4588"
+                }
+              + env {
+                  + name  = "PUBSUB_TOPIC"
+                  + value = "mp-3408afb4b076-events"
+                }
+              + env {
+                  + name  = "RUST_LOG"
+                  + value = "info"
+                }
+              + env {
+                  + name  = "STORAGE_EMULATOR_HOST"
+                  + value = "http://gcp:4588"
+                }
+
+              + liveness_probe {
+                  + failure_threshold     = 3
+                  + initial_delay_seconds = 0
+                  + period_seconds        = 10
+                  + timeout_seconds       = 3
+
+                  + http_get {
+                      + path = "/health/ready"
+                      + port = 8080
+                    }
+                }
+
+              + ports {
+                  + container_port = 8080
+                  + name           = "http1"
+                }
+
+              + resources (known after apply)
+
+              + startup_probe {
+                  + failure_threshold     = 6
+                  + initial_delay_seconds = 2
+                  + period_seconds        = 5
+                  + timeout_seconds       = 3
+
+                  + http_get {
+                      + path = "/health/ready"
+                      + port = 8080
+                    }
+                }
+            }
+
+          + scaling {
+              + max_instance_count = 6
+              + min_instance_count = 2
+            }
+        }
+
+      + traffic (known after apply)
+    }
+
+  # google_cloud_scheduler_job.archiver will be created
+  + resource "google_cloud_scheduler_job" "archiver" {
+      + attempt_deadline = "60s"
+      + deletion_policy  = "DELETE"
+      + description      = "Triggers Audit Archiver function every 5 minutes to export published events to GCS"
+      + id               = (known after apply)
+      + name             = "mp-3408afb4b076-archiver-schedule"
+      + paused           = (known after apply)
+      + project          = "mp-proj-ec111b4e"
+      + region           = "us-west1"
+      + schedule         = "*/5 * * * *"
+      + state            = (known after apply)
+      + time_zone        = "Etc/UTC"
+
+      + http_target {
+          + body        = "eyJhY3Rpb24iOiJhcmNoaXZlX2V2ZW50cyIsInNvdXJjZSI6ImNsb3VkLnNjaGVkdWxlciJ9"
+          + headers     = {
+              + "Content-Type" = "application/json"
+            }
+          + http_method = "POST"
+          + uri         = (known after apply)
+
+          + oidc_token {
+              + audience              = (known after apply)
+              + service_account_email = "mp-3408afb4b076-scheduler-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+            }
+        }
+
+      + retry_config {
+          + max_backoff_duration = "30s"
+          + max_doublings        = (known after apply)
+          + max_retry_duration   = (known after apply)
+          + min_backoff_duration = "5s"
+          + retry_count          = 2
+        }
+    }
+
+  # google_cloud_scheduler_job.relay will be created
+  + resource "google_cloud_scheduler_job" "relay" {
+      + attempt_deadline = "30s"
+      + deletion_policy  = "DELETE"
+      + description      = "Triggers Outbox Relay function every minute to flush unpublished PostgreSQL outbox events"
+      + id               = (known after apply)
+      + name             = "mp-3408afb4b076-relay-schedule"
+      + paused           = (known after apply)
+      + project          = "mp-proj-ec111b4e"
+      + region           = "us-west1"
+      + schedule         = "* * * * *"
+      + state            = (known after apply)
+      + time_zone        = "Etc/UTC"
+
+      + http_target {
+          + body        = "eyJhY3Rpb24iOiJmbHVzaF9vdXRib3giLCJzb3VyY2UiOiJjbG91ZC5zY2hlZHVsZXIifQ=="
+          + headers     = {
+              + "Content-Type" = "application/json"
+            }
+          + http_method = "POST"
+          + uri         = (known after apply)
+
+          + oidc_token {
+              + audience              = (known after apply)
+              + service_account_email = "mp-3408afb4b076-scheduler-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+            }
+        }
+
+      + retry_config {
+          + max_backoff_duration = "15s"
+          + max_doublings        = (known after apply)
+          + max_retry_duration   = (known after apply)
+          + min_backoff_duration = "2s"
+          + retry_count          = 2
+        }
+    }
+
+  # google_cloud_tasks_queue.projection_rebuild will be created
+  + resource "google_cloud_tasks_queue" "projection_rebuild" {
+      + deletion_policy = "DELETE"
+      + desired_state   = "RUNNING"
+      + id              = (known after apply)
+      + location        = "us-west1"
+      + name            = "mp-3408afb4b076-projection-rebuild-q"
+      + project         = "mp-proj-ec111b4e"
+      + state           = (known after apply)
+
+      + rate_limits {
+          + max_burst_size            = (known after apply)
+          + max_concurrent_dispatches = 10
+          + max_dispatches_per_second = 25
+        }
+
+      + retry_config {
+          + max_attempts       = 5
+          + max_backoff        = "15s"
+          + max_doublings      = (known after apply)
+          + max_retry_duration = (known after apply)
+          + min_backoff        = "1s"
+        }
+    }
+
+  # google_cloudfunctions2_function.archiver will be created
+  + resource "google_cloudfunctions2_function" "archiver" {
+      + deletion_policy  = "DELETE"
+      + description      = "Exports published PostgreSQL media events into private GCS NDJSON audit batches"
+      + effective_labels = {
+          + "component"                  = "audit-archiver"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + environment      = (known after apply)
+      + id               = (known after apply)
+      + labels           = {
+          + "component"             = "audit-archiver"
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + location         = "us-west1"
+      + name             = "mp-3408afb4b076-audit-archiver"
+      + project          = "mp-proj-ec111b4e"
+      + state            = (known after apply)
+      + terraform_labels = {
+          + "component"                  = "audit-archiver"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + update_time      = (known after apply)
+      + url              = (known after apply)
+
+      + service_config {
+          + all_traffic_on_latest_revision   = true
+          + available_cpu                    = (known after apply)
+          + available_memory                 = "512Mi"
+          + direct_vpc_egress                = (known after apply)
+          + environment_variables            = (known after apply)
+          + gcf_uri                          = (known after apply)
+          + ingress_settings                 = "ALLOW_INTERNAL_ONLY"
+          + max_instance_count               = 2
+          + max_instance_request_concurrency = (known after apply)
+          + min_instance_count               = 0
+          + service                          = (known after apply)
+          + service_account_email            = "mp-3408afb4b076-archiver-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+          + timeout_seconds                  = 60
+          + uri                              = (known after apply)
+        }
+    }
+
+  # google_cloudfunctions2_function.processor will be created
+  + resource "google_cloudfunctions2_function" "processor" {
+      + deletion_policy  = "DELETE"
+      + description      = "Projects Pub/Sub media events into Firestore and invalidates Datastore entity cache"
+      + effective_labels = {
+          + "component"                  = "processor"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + environment      = (known after apply)
+      + id               = (known after apply)
+      + labels           = {
+          + "component"             = "processor"
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + location         = "us-west1"
+      + name             = "mp-3408afb4b076-processor"
+      + project          = "mp-proj-ec111b4e"
+      + state            = (known after apply)
+      + terraform_labels = {
+          + "component"                  = "processor"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + update_time      = (known after apply)
+      + url              = (known after apply)
+
+      + service_config {
+          + all_traffic_on_latest_revision   = true
+          + available_cpu                    = (known after apply)
+          + available_memory                 = "512Mi"
+          + direct_vpc_egress                = (known after apply)
+          + environment_variables            = {
+              + "CONTAINER_IMAGE"         = "mediapulse/projector:1.0.0"
+              + "DATASTORE_EMULATOR_HOST" = "gcp:4588"
+              + "DATASTORE_NAMESPACE"     = "mp-3408afb4b076-cache"
+              + "FIRESTORE_DATABASE"      = "mp-3408afb4b076-projections"
+              + "FIRESTORE_EMULATOR_HOST" = "gcp:4588"
+              + "GCP_ENDPOINT_URL"        = "http://gcp:4588"
+              + "GCP_PROJECT_ID"          = "mp-proj-ec111b4e"
+              + "GCP_REGION"              = "us-west1"
+              + "PUBSUB_EMULATOR_HOST"    = "gcp:4588"
+              + "RUST_LOG"                = "info"
+              + "WORKER_ROLE"             = "processor"
+            }
+          + gcf_uri                          = (known after apply)
+          + ingress_settings                 = "ALLOW_INTERNAL_ONLY"
+          + max_instance_count               = 4
+          + max_instance_request_concurrency = (known after apply)
+          + min_instance_count               = 1
+          + service                          = (known after apply)
+          + service_account_email            = "mp-3408afb4b076-processor-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+          + timeout_seconds                  = 30
+          + uri                              = (known after apply)
+        }
+    }
+
+  # google_cloudfunctions2_function.relay will be created
+  + resource "google_cloudfunctions2_function" "relay" {
+      + deletion_policy  = "DELETE"
+      + description      = "Reconciles unpublished outbox rows from Cloud SQL PostgreSQL to Cloud Pub/Sub"
+      + effective_labels = {
+          + "component"                  = "outbox-relay"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + environment      = (known after apply)
+      + id               = (known after apply)
+      + labels           = {
+          + "component"             = "outbox-relay"
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + location         = "us-west1"
+      + name             = "mp-3408afb4b076-outbox-relay"
+      + project          = "mp-proj-ec111b4e"
+      + state            = (known after apply)
+      + terraform_labels = {
+          + "component"                  = "outbox-relay"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + update_time      = (known after apply)
+      + url              = (known after apply)
+
+      + service_config {
+          + all_traffic_on_latest_revision   = true
+          + available_cpu                    = (known after apply)
+          + available_memory                 = "512Mi"
+          + direct_vpc_egress                = (known after apply)
+          + environment_variables            = (known after apply)
+          + gcf_uri                          = (known after apply)
+          + ingress_settings                 = "ALLOW_INTERNAL_ONLY"
+          + max_instance_count               = 2
+          + max_instance_request_concurrency = (known after apply)
+          + min_instance_count               = 0
+          + service                          = (known after apply)
+          + service_account_email            = "mp-3408afb4b076-relay-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+          + timeout_seconds                  = 30
+          + uri                              = (known after apply)
+        }
+    }
+
+  # google_compute_backend_service.api will be created
+  + resource "google_compute_backend_service" "api" {
+      + connection_draining_timeout_sec = 300
+      + creation_timestamp              = (known after apply)
+      + deletion_policy                 = "DELETE"
+      + fingerprint                     = (known after apply)
+      + generated_id                    = (known after apply)
+      + id                              = (known after apply)
+      + load_balancing_scheme           = "EXTERNAL_MANAGED"
+      + name                            = "mp-3408afb4b076-api-backend"
+      + port_name                       = "http"
+      + project                         = "mp-proj-ec111b4e"
+      + protocol                        = "HTTP"
+      + self_link                       = (known after apply)
+      + session_affinity                = (known after apply)
+      + timeout_sec                     = 30
+
+      + backend {
+          + balancing_mode               = "UTILIZATION"
+          + capacity_scaler              = 1
+          + group                        = (known after apply)
+          + max_connections              = (known after apply)
+          + max_connections_per_endpoint = (known after apply)
+          + max_connections_per_instance = (known after apply)
+          + max_rate                     = (known after apply)
+          + max_rate_per_endpoint        = (known after apply)
+          + max_rate_per_instance        = (known after apply)
+          + max_utilization              = (known after apply)
+            # (2 unchanged attributes hidden)
+        }
+
+      + cdn_policy (known after apply)
+
+      + log_config (known after apply)
+    }
+
+  # google_compute_firewall.allow_lb_to_api will be created
+  + resource "google_compute_firewall" "allow_lb_to_api" {
+      + creation_timestamp = (known after apply)
+      + deletion_policy    = "DELETE"
+      + destination_ranges = (known after apply)
+      + direction          = "INGRESS"
+      + enable_logging     = (known after apply)
+      + id                 = (known after apply)
+      + name               = "mp-3408afb4b076-allow-lb-to-api"
+      + network            = "mp-3408afb4b076-vpc"
+      + priority           = 1000
+      + project            = "mp-proj-ec111b4e"
+      + self_link          = (known after apply)
+      + source_ranges      = [
+          + "10.84.0.0/24",
+          + "130.211.0.0/22",
+          + "35.191.0.0/16",
+        ]
+      + target_tags        = [
+          + "mp-3408afb4b076-api",
+        ]
+
+      + allow {
+          + ports    = [
+              + "8080",
+            ]
+          + protocol = "tcp"
+        }
+    }
+
+  # google_compute_firewall.allow_workloads_to_postgres will be created
+  + resource "google_compute_firewall" "allow_workloads_to_postgres" {
+      + creation_timestamp = (known after apply)
+      + deletion_policy    = "DELETE"
+      + destination_ranges = (known after apply)
+      + direction          = "INGRESS"
+      + enable_logging     = (known after apply)
+      + id                 = (known after apply)
+      + name               = "mp-3408afb4b076-allow-workloads-pg"
+      + network            = "mp-3408afb4b076-vpc"
+      + priority           = 1010
+      + project            = "mp-proj-ec111b4e"
+      + self_link          = (known after apply)
+      + source_ranges      = [
+          + "10.84.10.0/24",
+        ]
+      + target_tags        = [
+          + "mp-3408afb4b076-database",
+        ]
+
+      + allow {
+          + ports    = [
+              + "5432",
+            ]
+          + protocol = "tcp"
+        }
+    }
+
+  # google_compute_firewall.deny_external_ingress will be created
+  + resource "google_compute_firewall" "deny_external_ingress" {
+      + creation_timestamp = (known after apply)
+      + deletion_policy    = "DELETE"
+      + destination_ranges = (known after apply)
+      + direction          = "INGRESS"
+      + enable_logging     = (known after apply)
+      + id                 = (known after apply)
+      + name               = "mp-3408afb4b076-deny-external-ingress"
+      + network            = "mp-3408afb4b076-vpc"
+      + priority           = 65500
+      + project            = "mp-proj-ec111b4e"
+      + self_link          = (known after apply)
+      + source_ranges      = [
+          + "0.0.0.0/0",
+        ]
+
+      + deny {
+          + ports    = []
+          + protocol = "all"
+        }
+    }
+
+  # google_compute_global_address.api_ip will be created
+  + resource "google_compute_global_address" "api_ip" {
+      + address            = (known after apply)
+      + creation_timestamp = (known after apply)
+      + deletion_policy    = "DELETE"
+      + effective_labels   = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + id                 = (known after apply)
+      + label_fingerprint  = (known after apply)
+      + name               = "mp-3408afb4b076-api-lb-ip"
+      + prefix_length      = (known after apply)
+      + project            = "mp-proj-ec111b4e"
+      + self_link          = (known after apply)
+      + terraform_labels   = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+    }
+
+  # google_compute_global_forwarding_rule.http will be created
+  + resource "google_compute_global_forwarding_rule" "http" {
+      + base_forwarding_rule  = (known after apply)
+      + deletion_policy       = "DELETE"
+      + effective_labels      = {
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + forwarding_rule_id    = (known after apply)
+      + id                    = (known after apply)
+      + ip_address            = (known after apply)
+      + ip_protocol           = "TCP"
+      + label_fingerprint     = (known after apply)
+      + load_balancing_scheme = "EXTERNAL_MANAGED"
+      + name                  = "mp-3408afb4b076-api-http-fwd"
+      + network               = (known after apply)
+      + network_tier          = (known after apply)
+      + port_range            = "80"
+      + project               = "mp-proj-ec111b4e"
+      + psc_connection_id     = (known after apply)
+      + psc_connection_status = (known after apply)
+      + self_link             = (known after apply)
+      + subnetwork            = (known after apply)
+      + target                = (known after apply)
+      + terraform_labels      = {
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+
+      + service_directory_registrations (known after apply)
+    }
+
+  # google_compute_network.ingest will be created
+  + resource "google_compute_network" "ingest" {
+      + auto_create_subnetworks                   = false
+      + bgp_always_compare_med                    = (known after apply)
+      + bgp_best_path_selection_mode              = (known after apply)
+      + bgp_inter_region_cost                     = (known after apply)
+      + delete_bgp_always_compare_med             = false
+      + delete_default_routes_on_create           = false
+      + deletion_policy                           = "DELETE"
+      + gateway_ipv4                              = (known after apply)
+      + id                                        = (known after apply)
+      + internal_ipv6_range                       = (known after apply)
+      + mtu                                       = (known after apply)
+      + name                                      = "mp-3408afb4b076-vpc"
+      + network_firewall_policy_enforcement_order = "AFTER_CLASSIC_FIREWALL"
+      + network_id                                = (known after apply)
+      + numeric_id                                = (known after apply)
+      + project                                   = "mp-proj-ec111b4e"
+      + routing_mode                              = "REGIONAL"
+      + self_link                                 = (known after apply)
+    }
+
+  # google_compute_region_network_endpoint_group.api_serverless_neg will be created
+  + resource "google_compute_region_network_endpoint_group" "api_serverless_neg" {
+      + deletion_policy       = "DELETE"
+      + id                    = (known after apply)
+      + name                  = "mp-3408afb4b076-api-neg"
+      + network               = (known after apply)
+      + network_endpoint_type = "SERVERLESS"
+      + project               = "mp-proj-ec111b4e"
+      + region                = "us-west1"
+      + self_link             = (known after apply)
+
+      + cloud_run {
+          + service = "mp-3408afb4b076-api"
+        }
+
+      + psc_data (known after apply)
+    }
+
+  # google_compute_subnetwork.ingress will be created
+  + resource "google_compute_subnetwork" "ingress" {
+      + allow_subnet_cidr_routes_overlap = (known after apply)
+      + creation_timestamp               = (known after apply)
+      + deletion_policy                  = "DELETE"
+      + external_ipv6_prefix             = (known after apply)
+      + fingerprint                      = (known after apply)
+      + gateway_address                  = (known after apply)
+      + id                               = (known after apply)
+      + internal_ipv6_prefix             = (known after apply)
+      + ip_cidr_range                    = "10.84.0.0/24"
+      + ipv6_cidr_range                  = (known after apply)
+      + ipv6_gce_endpoint                = (known after apply)
+      + name                             = "mp-3408afb4b076-subnet-ingress"
+      + network                          = (known after apply)
+      + private_ip_google_access         = (known after apply)
+      + private_ipv6_google_access       = (known after apply)
+      + project                          = "mp-proj-ec111b4e"
+      + purpose                          = (known after apply)
+      + region                           = "us-west1"
+      + self_link                        = (known after apply)
+      + stack_type                       = (known after apply)
+      + state                            = (known after apply)
+      + subnetwork_id                    = (known after apply)
+
+      + secondary_ip_range (known after apply)
+    }
+
+  # google_compute_subnetwork.private will be created
+  + resource "google_compute_subnetwork" "private" {
+      + allow_subnet_cidr_routes_overlap = (known after apply)
+      + creation_timestamp               = (known after apply)
+      + deletion_policy                  = "DELETE"
+      + external_ipv6_prefix             = (known after apply)
+      + fingerprint                      = (known after apply)
+      + gateway_address                  = (known after apply)
+      + id                               = (known after apply)
+      + internal_ipv6_prefix             = (known after apply)
+      + ip_cidr_range                    = "10.84.10.0/24"
+      + ipv6_cidr_range                  = (known after apply)
+      + ipv6_gce_endpoint                = (known after apply)
+      + name                             = "mp-3408afb4b076-subnet-private"
+      + network                          = (known after apply)
+      + private_ip_google_access         = true
+      + private_ipv6_google_access       = (known after apply)
+      + project                          = "mp-proj-ec111b4e"
+      + purpose                          = (known after apply)
+      + region                           = "us-west1"
+      + self_link                        = (known after apply)
+      + stack_type                       = (known after apply)
+      + state                            = (known after apply)
+      + subnetwork_id                    = (known after apply)
+
+      + secondary_ip_range (known after apply)
+    }
+
+  # google_compute_target_http_proxy.api will be created
+  + resource "google_compute_target_http_proxy" "api" {
+      + creation_timestamp = (known after apply)
+      + deletion_policy    = "DELETE"
+      + fingerprint        = (known after apply)
+      + id                 = (known after apply)
+      + name               = "mp-3408afb4b076-api-http-proxy"
+      + project            = "mp-proj-ec111b4e"
+      + proxy_bind         = (known after apply)
+      + proxy_id           = (known after apply)
+      + self_link          = (known after apply)
+      + url_map            = (known after apply)
+    }
+
+  # google_compute_url_map.api will be created
+  + resource "google_compute_url_map" "api" {
+      + creation_timestamp = (known after apply)
+      + default_service    = (known after apply)
+      + deletion_policy    = "DELETE"
+      + fingerprint        = (known after apply)
+      + id                 = (known after apply)
+      + map_id             = (known after apply)
+      + name               = "mp-3408afb4b076-api-urlmap"
+      + project            = "mp-proj-ec111b4e"
+      + self_link          = (known after apply)
+    }
+
+  # google_firestore_database.projections will be created
+  + resource "google_firestore_database" "projections" {
+      + app_engine_integration_mode         = (known after apply)
+      + concurrency_mode                    = "OPTIMISTIC"
+      + create_time                         = (known after apply)
+      + database_edition                    = (known after apply)
+      + delete_protection_state             = "DELETE_PROTECTION_DISABLED"
+      + deletion_policy                     = "DELETE"
+      + earliest_version_time               = (known after apply)
+      + etag                                = (known after apply)
+      + firestore_data_access_mode          = (known after apply)
+      + id                                  = (known after apply)
+      + key_prefix                          = (known after apply)
+      + location_id                         = "us-west1"
+      + mongodb_compatible_data_access_mode = (known after apply)
+      + name                                = "mp-3408afb4b076-projections"
+      + point_in_time_recovery_enablement   = "POINT_IN_TIME_RECOVERY_ENABLED"
+      + project                             = "mp-proj-ec111b4e"
+      + realtime_updates_mode               = (known after apply)
+      + type                                = "FIRESTORE_NATIVE"
+      + uid                                 = (known after apply)
+      + update_time                         = (known after apply)
+      + version_retention_period            = (known after apply)
+
+      + cmek_config {
+          + active_key_version = (known after apply)
+          + kms_key_name       = (known after apply)
+        }
+    }
+
+  # google_firestore_index.media_cache will be created
+  + resource "google_firestore_index" "media_cache" {
+      + api_scope       = "ANY_API"
+      + collection      = "MediaCache"
+      + database        = "mp-3408afb4b076-projections"
+      + deletion_policy = "DELETE"
+      + density         = (known after apply)
+      + id              = (known after apply)
+      + multikey        = false
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + query_scope     = "COLLECTION"
+      + skip_wait       = false
+      + unique          = (known after apply)
+
+      + fields {
+          + field_path = "media_id"
+          + order      = "ASCENDING"
+        }
+      + fields {
+          + field_path = "expires_at"
+          + order      = "ASCENDING"
+        }
+    }
+
+  # google_identity_platform_tenant.mediapulse will be created
+  + resource "google_identity_platform_tenant" "mediapulse" {
+      + allow_password_signup    = true
+      + deletion_policy          = "DELETE"
+      + display_name             = "mp-3408afb4b076-tenant"
+      + enable_email_link_signin = false
+      + id                       = (known after apply)
+      + name                     = (known after apply)
+      + project                  = "mp-proj-ec111b4e"
+    }
+
+  # google_kms_crypto_key.audit will be created
+  + resource "google_kms_crypto_key" "audit" {
+      + crypto_key_backend         = (known after apply)
+      + deletion_policy            = "DELETE"
+      + destroy_scheduled_duration = (known after apply)
+      + effective_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "key_scope"                  = "gcs-audit"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + id                         = (known after apply)
+      + import_only                = (known after apply)
+      + key_ring                   = (known after apply)
+      + labels                     = {
+          + "deployment"            = "mp-3408afb4b076"
+          + "key_scope"             = "gcs-audit"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + name                       = "mp-3408afb4b076-audit-cmek"
+      + primary                    = (known after apply)
+      + purpose                    = "ENCRYPT_DECRYPT"
+      + rotation_period            = "7776000s"
+      + terraform_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "key_scope"                  = "gcs-audit"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+
+      + version_template (known after apply)
+    }
+
+  # google_kms_crypto_key.database will be created
+  + resource "google_kms_crypto_key" "database" {
+      + crypto_key_backend         = (known after apply)
+      + deletion_policy            = "DELETE"
+      + destroy_scheduled_duration = (known after apply)
+      + effective_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "key_scope"                  = "cloud-sql"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + id                         = (known after apply)
+      + import_only                = (known after apply)
+      + key_ring                   = (known after apply)
+      + labels                     = {
+          + "deployment"            = "mp-3408afb4b076"
+          + "key_scope"             = "cloud-sql"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + name                       = "mp-3408afb4b076-database-cmek"
+      + primary                    = (known after apply)
+      + purpose                    = "ENCRYPT_DECRYPT"
+      + rotation_period            = "7776000s"
+      + terraform_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "key_scope"                  = "cloud-sql"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+
+      + version_template (known after apply)
+    }
+
+  # google_kms_crypto_key.messaging will be created
+  + resource "google_kms_crypto_key" "messaging" {
+      + crypto_key_backend         = (known after apply)
+      + deletion_policy            = "DELETE"
+      + destroy_scheduled_duration = (known after apply)
+      + effective_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "key_scope"                  = "pubsub"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + id                         = (known after apply)
+      + import_only                = (known after apply)
+      + key_ring                   = (known after apply)
+      + labels                     = {
+          + "deployment"            = "mp-3408afb4b076"
+          + "key_scope"             = "pubsub"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + name                       = "mp-3408afb4b076-messaging-cmek"
+      + primary                    = (known after apply)
+      + purpose                    = "ENCRYPT_DECRYPT"
+      + rotation_period            = "7776000s"
+      + terraform_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "key_scope"                  = "pubsub"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+
+      + version_template (known after apply)
+    }
+
+  # google_kms_crypto_key.projection will be created
+  + resource "google_kms_crypto_key" "projection" {
+      + crypto_key_backend         = (known after apply)
+      + deletion_policy            = "DELETE"
+      + destroy_scheduled_duration = (known after apply)
+      + effective_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "key_scope"                  = "firestore-datastore"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + id                         = (known after apply)
+      + import_only                = (known after apply)
+      + key_ring                   = (known after apply)
+      + labels                     = {
+          + "deployment"            = "mp-3408afb4b076"
+          + "key_scope"             = "firestore-datastore"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + name                       = "mp-3408afb4b076-projection-cmek"
+      + primary                    = (known after apply)
+      + purpose                    = "ENCRYPT_DECRYPT"
+      + rotation_period            = "7776000s"
+      + terraform_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "key_scope"                  = "firestore-datastore"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+
+      + version_template (known after apply)
+    }
+
+  # google_kms_key_ring.mediapulse will be created
+  + resource "google_kms_key_ring" "mediapulse" {
+      + id       = (known after apply)
+      + location = "us-west1"
+      + name     = "mp-3408afb4b076-keyring"
+      + project  = "mp-proj-ec111b4e"
+    }
+
+  # google_logging_project_bucket_config.api will be created
+  + resource "google_logging_project_bucket_config" "api" {
+      + bucket_id       = "mp-3408afb4b076-api-logs"
+      + deletion_policy = (known after apply)
+      + description     = "Cloud Run API structured request and audit logs"
+      + id              = (known after apply)
+      + lifecycle_state = (known after apply)
+      + location        = "us-west1"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + retention_days  = 14
+    }
+
+  # google_logging_project_bucket_config.archiver will be created
+  + resource "google_logging_project_bucket_config" "archiver" {
+      + bucket_id       = "mp-3408afb4b076-archiver-logs"
+      + deletion_policy = (known after apply)
+      + description     = "Cloud Functions audit archiver logs"
+      + id              = (known after apply)
+      + lifecycle_state = (known after apply)
+      + location        = "us-west1"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + retention_days  = 14
+    }
+
+  # google_logging_project_bucket_config.processor will be created
+  + resource "google_logging_project_bucket_config" "processor" {
+      + bucket_id       = "mp-3408afb4b076-processor-logs"
+      + deletion_policy = (known after apply)
+      + description     = "Cloud Functions event processor execution logs"
+      + id              = (known after apply)
+      + lifecycle_state = (known after apply)
+      + location        = "us-west1"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + retention_days  = 14
+    }
+
+  # google_logging_project_bucket_config.relay will be created
+  + resource "google_logging_project_bucket_config" "relay" {
+      + bucket_id       = "mp-3408afb4b076-relay-logs"
+      + deletion_policy = (known after apply)
+      + description     = "Cloud Functions outbox relay logs"
+      + id              = (known after apply)
+      + lifecycle_state = (known after apply)
+      + location        = "us-west1"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + retention_days  = 14
+    }
+
+  # google_logging_project_sink.api will be created
+  + resource "google_logging_project_sink" "api" {
+      + deletion_policy        = "DELETE"
+      + destination            = "logging.googleapis.com/projects/mp-proj-ec111b4e/locations/us-west1/buckets/mp-3408afb4b076-api-logs"
+      + filter                 = "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"mp-3408afb4b076-api\""
+      + id                     = (known after apply)
+      + name                   = "mp-3408afb4b076-api-sink"
+      + project                = (known after apply)
+      + unique_writer_identity = true
+      + writer_identity        = (known after apply)
+
+      + bigquery_options (known after apply)
+    }
+
+  # google_monitoring_notification_channel.ops_email will be created
+  + resource "google_monitoring_notification_channel" "ops_email" {
+      + deletion_policy     = "DELETE"
+      + display_name        = "mp-3408afb4b076-ops-alerts"
+      + enabled             = true
+      + force_delete        = false
+      + id                  = (known after apply)
+      + labels              = {
+          + "email_address" = "ops@mediapulse.invalid"
+        }
+      + name                = (known after apply)
+      + project             = "mp-proj-ec111b4e"
+      + type                = "email"
+      + verification_status = (known after apply)
+    }
+
+  # google_project_iam_member.api_cloudsql_client will be created
+  + resource "google_project_iam_member" "api_cloudsql_client" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "serviceAccount:mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + project = "mp-proj-ec111b4e"
+      + role    = "roles/cloudsql.client"
+    }
+
+  # google_project_iam_member.api_datastore_viewer will be created
+  + resource "google_project_iam_member" "api_datastore_viewer" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "serviceAccount:mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + project = "mp-proj-ec111b4e"
+      + role    = "roles/datastore.viewer"
+    }
+
+  # google_project_iam_member.archiver_cloudsql_client will be created
+  + resource "google_project_iam_member" "archiver_cloudsql_client" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "serviceAccount:mp-3408afb4b076-archiver-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + project = "mp-proj-ec111b4e"
+      + role    = "roles/cloudsql.client"
+    }
+
+  # google_project_iam_member.processor_datastore_user will be created
+  + resource "google_project_iam_member" "processor_datastore_user" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "serviceAccount:mp-3408afb4b076-processor-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + project = "mp-proj-ec111b4e"
+      + role    = "roles/datastore.user"
+    }
+
+  # google_project_iam_member.relay_cloudsql_client will be created
+  + resource "google_project_iam_member" "relay_cloudsql_client" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "serviceAccount:mp-3408afb4b076-relay-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + project = "mp-proj-ec111b4e"
+      + role    = "roles/cloudsql.client"
+    }
+
+  # google_pubsub_subscription.dead_letters will be created
+  + resource "google_pubsub_subscription" "dead_letters" {
+      + ack_deadline_seconds       = 60
+      + deletion_policy            = "DELETE"
+      + effective_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+          + "role"                       = "dead-letter-archive"
+        }
+      + id                         = (known after apply)
+      + labels                     = {
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+          + "role"                  = "dead-letter-archive"
+        }
+      + message_retention_duration = "1209600s"
+      + name                       = "mp-3408afb4b076-events-dlq-sub"
+      + project                    = "mp-proj-ec111b4e"
+      + retain_acked_messages      = false
+      + terraform_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+          + "role"                       = "dead-letter-archive"
+        }
+      + topic                      = "mp-3408afb4b076-events-dlq"
+
+      + expiration_policy (known after apply)
+    }
+
+  # google_pubsub_subscription.processor_push will be created
+  + resource "google_pubsub_subscription" "processor_push" {
+      + ack_deadline_seconds       = 20
+      + deletion_policy            = "DELETE"
+      + effective_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+          + "role"                       = "processor-consumer"
+        }
+      + enable_message_ordering    = true
+      + id                         = (known after apply)
+      + labels                     = {
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+          + "role"                  = "processor-consumer"
+        }
+      + message_retention_duration = "345600s"
+      + name                       = "mp-3408afb4b076-events-processor-sub"
+      + project                    = "mp-proj-ec111b4e"
+      + terraform_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+          + "role"                       = "processor-consumer"
+        }
+      + topic                      = "mp-3408afb4b076-events"
+
+      + dead_letter_policy {
+          + dead_letter_topic     = (known after apply)
+          + max_delivery_attempts = 5
+        }
+
+      + expiration_policy (known after apply)
+
+      + push_config {
+          + push_endpoint = (known after apply)
+
+          + oidc_token {
+              + service_account_email = "mp-3408afb4b076-pubsub-push-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+            }
+        }
+
+      + retry_policy {
+          + maximum_backoff = "30s"
+          + minimum_backoff = "2s"
+        }
+    }
+
+  # google_pubsub_subscription_iam_member.processor_consume_events will be created
+  + resource "google_pubsub_subscription_iam_member" "processor_consume_events" {
+      + etag         = (known after apply)
+      + id           = (known after apply)
+      + member       = "serviceAccount:mp-3408afb4b076-processor-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + project      = (known after apply)
+      + role         = "roles/pubsub.subscriber"
+      + subscription = "mp-3408afb4b076-events-processor-sub"
+    }
+
+  # google_pubsub_topic.dead_letters will be created
+  + resource "google_pubsub_topic" "dead_letters" {
+      + deletion_policy            = "DELETE"
+      + effective_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+          + "role"                       = "dead-letter"
+        }
+      + id                         = (known after apply)
+      + kms_key_name               = (known after apply)
+      + labels                     = {
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+          + "role"                  = "dead-letter"
+        }
+      + message_retention_duration = "1209600s"
+      + name                       = "mp-3408afb4b076-events-dlq"
+      + project                    = "mp-proj-ec111b4e"
+      + terraform_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+          + "role"                       = "dead-letter"
+        }
+
+      + message_storage_policy (known after apply)
+    }
+
+  # google_pubsub_topic.events will be created
+  + resource "google_pubsub_topic" "events" {
+      + deletion_policy            = "DELETE"
+      + effective_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+          + "role"                       = "domain-events"
+        }
+      + id                         = (known after apply)
+      + kms_key_name               = (known after apply)
+      + labels                     = {
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+          + "role"                  = "domain-events"
+        }
+      + message_retention_duration = "345600s"
+      + name                       = "mp-3408afb4b076-events"
+      + project                    = "mp-proj-ec111b4e"
+      + terraform_labels           = {
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+          + "role"                       = "domain-events"
+        }
+
+      + message_storage_policy (known after apply)
+    }
+
+  # google_pubsub_topic_iam_member.api_publish_events will be created
+  + resource "google_pubsub_topic_iam_member" "api_publish_events" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "serviceAccount:mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + project = (known after apply)
+      + role    = "roles/pubsub.publisher"
+      + topic   = "mp-3408afb4b076-events"
+    }
+
+  # google_pubsub_topic_iam_member.relay_publish_events will be created
+  + resource "google_pubsub_topic_iam_member" "relay_publish_events" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "serviceAccount:mp-3408afb4b076-relay-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + project = (known after apply)
+      + role    = "roles/pubsub.publisher"
+      + topic   = "mp-3408afb4b076-events"
+    }
+
+  # google_secret_manager_secret.db_credentials will be created
+  + resource "google_secret_manager_secret" "db_credentials" {
+      + create_time           = (known after apply)
+      + deletion_policy       = "DELETE"
+      + deletion_protection   = false
+      + effective_annotations = (known after apply)
+      + effective_labels      = {
+          + "data_role"                  = "database-secret"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + expire_time           = (known after apply)
+      + id                    = (known after apply)
+      + labels                = {
+          + "data_role"             = "database-secret"
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + name                  = (known after apply)
+      + project               = "mp-proj-ec111b4e"
+      + secret_id             = "mp-3408afb4b076-db-credentials"
+      + terraform_labels      = {
+          + "data_role"                  = "database-secret"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+
+      + replication {
+          + auto {
+            }
+        }
+    }
+
+  # google_secret_manager_secret_iam_member.api_db_secret_accessor will be created
+  + resource "google_secret_manager_secret_iam_member" "api_db_secret_accessor" {
+      + etag      = (known after apply)
+      + id        = (known after apply)
+      + member    = "serviceAccount:mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + project   = (known after apply)
+      + role      = "roles/secretmanager.secretAccessor"
+      + secret_id = "mp-3408afb4b076-db-credentials"
+    }
+
+  # google_secret_manager_secret_version.db_credentials_v1 will be created
+  + resource "google_secret_manager_secret_version" "db_credentials_v1" {
+      + create_time     = (known after apply)
+      + deletion_policy = (known after apply)
+      + destroy_time    = (known after apply)
+      + enabled         = true
+      + id              = (known after apply)
+      + name            = (known after apply)
+      + project         = (known after apply)
+      + secret          = (known after apply)
+      + secret_data     = (sensitive value)
+      + secret_data_wo  = (write-only attribute)
+      + version         = (known after apply)
+    }
+
+  # google_service_account.api will be created
+  + resource "google_service_account" "api" {
+      + account_id      = "mp-3408afb4b076-api-sa"
+      + deletion_policy = "DELETE"
+      + disabled        = false
+      + display_name    = "MediaPulse Ingest Cloud Run API Service Account"
+      + email           = "mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + id              = (known after apply)
+      + member          = "serviceAccount:mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + unique_id       = (known after apply)
+    }
+
+  # google_service_account.archiver will be created
+  + resource "google_service_account" "archiver" {
+      + account_id      = "mp-3408afb4b076-archiver-sa"
+      + deletion_policy = "DELETE"
+      + disabled        = false
+      + display_name    = "MediaPulse Ingest Audit Archiver Function Service Account"
+      + email           = "mp-3408afb4b076-archiver-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + id              = (known after apply)
+      + member          = "serviceAccount:mp-3408afb4b076-archiver-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + unique_id       = (known after apply)
+    }
+
+  # google_service_account.client_admin will be created
+  + resource "google_service_account" "client_admin" {
+      + account_id      = "mp-3408afb4b076-client-admin"
+      + deletion_policy = "DELETE"
+      + disabled        = false
+      + display_name    = "MediaPulse Admin Scope Client (mediapulse/admin)"
+      + email           = "mp-3408afb4b076-client-admin@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + id              = (known after apply)
+      + member          = "serviceAccount:mp-3408afb4b076-client-admin@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + unique_id       = (known after apply)
+    }
+
+  # google_service_account.client_read will be created
+  + resource "google_service_account" "client_read" {
+      + account_id      = "mp-3408afb4b076-client-read"
+      + deletion_policy = "DELETE"
+      + disabled        = false
+      + display_name    = "MediaPulse Read Scope Client (mediapulse/read)"
+      + email           = "mp-3408afb4b076-client-read@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + id              = (known after apply)
+      + member          = "serviceAccount:mp-3408afb4b076-client-read@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + unique_id       = (known after apply)
+    }
+
+  # google_service_account.client_write will be created
+  + resource "google_service_account" "client_write" {
+      + account_id      = "mp-3408afb4b076-client-write"
+      + deletion_policy = "DELETE"
+      + disabled        = false
+      + display_name    = "MediaPulse Write Scope Client (mediapulse/write)"
+      + email           = "mp-3408afb4b076-client-write@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + id              = (known after apply)
+      + member          = "serviceAccount:mp-3408afb4b076-client-write@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + unique_id       = (known after apply)
+    }
+
+  # google_service_account.processor will be created
+  + resource "google_service_account" "processor" {
+      + account_id      = "mp-3408afb4b076-processor-sa"
+      + deletion_policy = "DELETE"
+      + disabled        = false
+      + display_name    = "MediaPulse Ingest Event Processor Function Service Account"
+      + email           = "mp-3408afb4b076-processor-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + id              = (known after apply)
+      + member          = "serviceAccount:mp-3408afb4b076-processor-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + unique_id       = (known after apply)
+    }
+
+  # google_service_account.pubsub_invoker will be created
+  + resource "google_service_account" "pubsub_invoker" {
+      + account_id      = "mp-3408afb4b076-pubsub-push-sa"
+      + deletion_policy = "DELETE"
+      + disabled        = false
+      + display_name    = "MediaPulse Ingest Pub/Sub Push Invoker Service Account"
+      + email           = "mp-3408afb4b076-pubsub-push-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + id              = (known after apply)
+      + member          = "serviceAccount:mp-3408afb4b076-pubsub-push-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + unique_id       = (known after apply)
+    }
+
+  # google_service_account.relay will be created
+  + resource "google_service_account" "relay" {
+      + account_id      = "mp-3408afb4b076-relay-sa"
+      + deletion_policy = "DELETE"
+      + disabled        = false
+      + display_name    = "MediaPulse Ingest Outbox Relay Function Service Account"
+      + email           = "mp-3408afb4b076-relay-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + id              = (known after apply)
+      + member          = "serviceAccount:mp-3408afb4b076-relay-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + unique_id       = (known after apply)
+    }
+
+  # google_service_account.scheduler will be created
+  + resource "google_service_account" "scheduler" {
+      + account_id      = "mp-3408afb4b076-scheduler-sa"
+      + deletion_policy = "DELETE"
+      + disabled        = false
+      + display_name    = "MediaPulse Ingest Cloud Scheduler Invoker Service Account"
+      + email           = "mp-3408afb4b076-scheduler-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + id              = (known after apply)
+      + member          = "serviceAccount:mp-3408afb4b076-scheduler-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + name            = (known after apply)
+      + project         = "mp-proj-ec111b4e"
+      + unique_id       = (known after apply)
+    }
+
+  # google_service_account_key.client_admin will be created
+  + resource "google_service_account_key" "client_admin" {
+      + deletion_policy    = "DELETE"
+      + id                 = (known after apply)
+      + key_algorithm      = "KEY_ALG_RSA_2048"
+      + name               = (known after apply)
+      + private_key        = (sensitive value)
+      + private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE"
+      + public_key         = (known after apply)
+      + public_key_type    = "TYPE_X509_PEM_FILE"
+      + service_account_id = (known after apply)
+      + valid_after        = (known after apply)
+      + valid_before       = (known after apply)
+    }
+
+  # google_service_account_key.client_read will be created
+  + resource "google_service_account_key" "client_read" {
+      + deletion_policy    = "DELETE"
+      + id                 = (known after apply)
+      + key_algorithm      = "KEY_ALG_RSA_2048"
+      + name               = (known after apply)
+      + private_key        = (sensitive value)
+      + private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE"
+      + public_key         = (known after apply)
+      + public_key_type    = "TYPE_X509_PEM_FILE"
+      + service_account_id = (known after apply)
+      + valid_after        = (known after apply)
+      + valid_before       = (known after apply)
+    }
+
+  # google_service_account_key.client_write will be created
+  + resource "google_service_account_key" "client_write" {
+      + deletion_policy    = "DELETE"
+      + id                 = (known after apply)
+      + key_algorithm      = "KEY_ALG_RSA_2048"
+      + name               = (known after apply)
+      + private_key        = (sensitive value)
+      + private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE"
+      + public_key         = (known after apply)
+      + public_key_type    = "TYPE_X509_PEM_FILE"
+      + service_account_id = (known after apply)
+      + valid_after        = (known after apply)
+      + valid_before       = (known after apply)
+    }
+
+  # google_sql_database.mediapulse will be created
+  + resource "google_sql_database" "mediapulse" {
+      + charset         = (known after apply)
+      + collation       = (known after apply)
+      + deletion_policy = "DELETE"
+      + id              = (known after apply)
+      + instance        = "mp-3408afb4b076-events-pg"
+      + name            = "mp_40203b"
+      + project         = "mp-proj-ec111b4e"
+      + self_link       = (known after apply)
+    }
+
+  # google_sql_database_instance.events will be created
+  + resource "google_sql_database_instance" "events" {
+      + available_maintenance_versions       = (known after apply)
+      + connection_name                      = (known after apply)
+      + database_version                     = "POSTGRES_16"
+      + deletion_policy                      = "DELETE"
+      + deletion_protection                  = false
+      + dns_name                             = (known after apply)
+      + dns_names                            = (known after apply)
+      + encryption_key_name                  = (known after apply)
+      + enforce_new_sql_network_architecture = (known after apply)
+      + first_ip_address                     = (known after apply)
+      + id                                   = (known after apply)
+      + instance_type                        = (known after apply)
+      + ip_address                           = (known after apply)
+      + maintenance_version                  = (known after apply)
+      + master_instance_name                 = (known after apply)
+      + name                                 = "mp-3408afb4b076-events-pg"
+      + node_count                           = (known after apply)
+      + private_ip_address                   = (known after apply)
+      + project                              = "mp-proj-ec111b4e"
+      + psc_service_attachment_link          = (known after apply)
+      + public_ip_address                    = (known after apply)
+      + region                               = "us-west1"
+      + replica_names                        = (known after apply)
+      + root_password_wo                     = (write-only attribute)
+      + self_link                            = (known after apply)
+      + server_ca_cert                       = (sensitive value)
+      + service_account_email_address        = (known after apply)
+
+      + replica_configuration (known after apply)
+
+      + replication_cluster (known after apply)
+
+      + settings {
+          + activation_policy                = "ALWAYS"
+          + availability_type                = "ZONAL"
+          + connector_enforcement            = (known after apply)
+          + data_api_access                  = (known after apply)
+          + data_disk_provisioned_iops       = (known after apply)
+          + data_disk_provisioned_throughput = (known after apply)
+          + disk_autoresize                  = true
+          + disk_autoresize_limit            = 0
+          + disk_size                        = 20
+          + disk_type                        = "PD_SSD"
+          + edition                          = (known after apply)
+          + effective_availability_type      = (known after apply)
+          + pricing_plan                     = "PER_USE"
+          + replication_lag_max_seconds      = (known after apply)
+          + tier                             = "db-custom-2-4096"
+          + user_labels                      = {
+              + "data_role"             = "event-store-outbox"
+              + "deployment"            = "mp-3408afb4b076"
+              + "encryption"            = "cmek"
+              + "managed_by"            = "terraform"
+              + "mediapulse_deployment" = "mp-3408afb4b076"
+              + "project"               = "mediapulse-ingest"
+            }
+          + version                          = (known after apply)
+
+          + backup_configuration {
+              + backup_tier                    = (known after apply)
+              + enabled                        = true
+              + point_in_time_recovery_enabled = true
+              + start_time                     = (known after apply)
+              + transaction_log_retention_days = (known after apply)
+
+              + backup_retention_settings (known after apply)
+            }
+
+          + connection_pool_config (known after apply)
+
+          + data_cache_config (known after apply)
+
+          + insights_config (known after apply)
+
+          + ip_configuration {
+              + ipv4_enabled    = false
+              + private_network = (known after apply)
+              + server_ca_mode  = (known after apply)
+              + ssl_mode        = (known after apply)
+            }
+
+          + location_preference (known after apply)
+
+          + read_pool_auto_scale_config (known after apply)
+        }
+    }
+
+  # google_sql_user.app will be created
+  + resource "google_sql_user" "app" {
+      + deletion_policy         = "DELETE"
+      + host                    = (known after apply)
+      + iam_email               = (known after apply)
+      + id                      = (known after apply)
+      + instance                = "mp-3408afb4b076-events-pg"
+      + name                    = "mp_user_3718ac"
+      + password                = (sensitive value)
+      + password_wo             = (write-only attribute)
+      + project                 = "mp-proj-ec111b4e"
+      + sql_server_user_details = (known after apply)
+    }
+
+  # google_storage_bucket.audit will be created
+  + resource "google_storage_bucket" "audit" {
+      + deletion_policy             = "DELETE"
+      + effective_labels            = {
+          + "data_role"                  = "immutable-audit"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + force_destroy               = true
+      + id                          = (known after apply)
+      + labels                      = {
+          + "data_role"             = "immutable-audit"
+          + "deployment"            = "mp-3408afb4b076"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-3408afb4b076"
+          + "project"               = "mediapulse-ingest"
+        }
+      + location                    = "US-WEST1"
+      + name                        = "mp-3408afb4b076-mp-proj-ec111b4e-audit"
+      + project                     = (known after apply)
+      + project_number              = (known after apply)
+      + public_access_prevention    = "enforced"
+      + rpo                         = (known after apply)
+      + self_link                   = (known after apply)
+      + storage_class               = "STANDARD"
+      + terraform_labels            = {
+          + "data_role"                  = "immutable-audit"
+          + "deployment"                 = "mp-3408afb4b076"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-3408afb4b076"
+          + "project"                    = "mediapulse-ingest"
+        }
+      + time_created                = (known after apply)
+      + uniform_bucket_level_access = true
+      + updated                     = (known after apply)
+      + url                         = (known after apply)
+
+      + encryption {
+          + default_kms_key_name = (known after apply)
+        }
+
+      + soft_delete_policy (known after apply)
+
+      + versioning {
+          + enabled = true
+        }
+
+      + website (known after apply)
+    }
+
+  # google_storage_bucket_iam_member.archiver_write_audit will be created
+  + resource "google_storage_bucket_iam_member" "archiver_write_audit" {
+      + bucket = "mp-3408afb4b076-mp-proj-ec111b4e-audit"
+      + etag   = (known after apply)
+      + id     = (known after apply)
+      + member = "serviceAccount:mp-3408afb4b076-archiver-sa@mp-proj-ec111b4e.iam.gserviceaccount.com"
+      + role   = "roles/storage.objectAdmin"
+    }
+
+Plan: 67 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + cloud_run_service_name = "mp-3408afb4b076-api"
+  + load_balancer_url      = (known after apply)
+  + manifest               = (sensitive value)
+  + pubsub_topic_id        = (known after apply)
+google_identity_platform_tenant.mediapulse: Creating...
+google_identity_platform_tenant.mediapulse: Creation complete after 0s [id=projects/mp-proj-ec111b4e/tenants/tenant-adfa06ec]
+google_service_account.pubsub_invoker: Creating...
+google_logging_project_bucket_config.archiver: Creating...
+google_service_account.client_read: Creating...
+google_service_account.api: Creating...
+google_kms_key_ring.mediapulse: Creating...
+google_compute_network.ingest: Creating...
+google_logging_project_bucket_config.processor: Creating...
+google_logging_project_bucket_config.relay: Creating...
+google_logging_project_bucket_config.api: Creating...
+google_secret_manager_secret.db_credentials: Creating...
+google_secret_manager_secret.db_credentials: Creation complete after 0s [id=projects/mp-proj-ec111b4e/secrets/mp-3408afb4b076-db-credentials]
+google_logging_project_bucket_config.processor: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/buckets/mp-3408afb4b076-processor-logs]
+google_logging_project_bucket_config.api: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/buckets/mp-3408afb4b076-api-logs]
+google_logging_project_bucket_config.relay: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/buckets/mp-3408afb4b076-relay-logs]
+google_service_account.client_write: Creating...
+google_monitoring_notification_channel.ops_email: Creating...
+google_compute_global_address.api_ip: Creating...
+google_cloud_tasks_queue.projection_rebuild: Creating...
+google_monitoring_notification_channel.ops_email: Creation complete after 0s [id=projects/mp-proj-ec111b4e/notificationChannels/notificationChannel-5545df91]
+google_cloud_tasks_queue.projection_rebuild: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/queues/mp-3408afb4b076-projection-rebuild-q]
+google_compute_global_address.api_ip: Creation complete after 0s [id=projects/mp-proj-ec111b4e/global/addresses/mp-3408afb4b076-api-lb-ip]
+google_service_account.processor: Creating...
+google_service_account.client_admin: Creating...
+google_service_account.scheduler: Creating...
+google_compute_network.ingest: Creation complete after 1s [id=projects/mp-proj-ec111b4e/global/networks/mp-3408afb4b076-vpc]
+google_logging_project_bucket_config.archiver: Creation complete after 1s [id=projects/mp-proj-ec111b4e/locations/us-west1/buckets/mp-3408afb4b076-archiver-logs]
+google_kms_key_ring.mediapulse: Creation complete after 1s [id=projects/mp-proj-ec111b4e/locations/us-west1/keyRings/mp-3408afb4b076-keyring]
+google_service_account.archiver: Creating...
+google_service_account.relay: Creating...
+google_compute_firewall.allow_workloads_to_postgres: Creating...
+google_compute_firewall.allow_workloads_to_postgres: Creation complete after 0s [id=projects/mp-proj-ec111b4e/global/firewalls/mp-3408afb4b076-allow-workloads-pg]
+google_compute_firewall.deny_external_ingress: Creating...
+google_compute_firewall.deny_external_ingress: Creation complete after 0s [id=projects/mp-proj-ec111b4e/global/firewalls/mp-3408afb4b076-deny-external-ingress]
+google_compute_firewall.allow_lb_to_api: Creating...
+google_compute_firewall.allow_lb_to_api: Creation complete after 0s [id=projects/mp-proj-ec111b4e/global/firewalls/mp-3408afb4b076-allow-lb-to-api]
+google_compute_subnetwork.private: Creating...
+google_compute_subnetwork.private: Creation complete after 0s [id=projects/mp-proj-ec111b4e/regions/us-west1/subnetworks/mp-3408afb4b076-subnet-private]
+google_compute_subnetwork.ingress: Creating...
+google_compute_subnetwork.ingress: Creation complete after 0s [id=projects/mp-proj-ec111b4e/regions/us-west1/subnetworks/mp-3408afb4b076-subnet-ingress]
+google_kms_crypto_key.messaging: Creating...
+google_kms_crypto_key.messaging: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/keyRings/mp-3408afb4b076-keyring/cryptoKeys/mp-3408afb4b076-messaging-cmek]
+google_kms_crypto_key.audit: Creating...
+google_kms_crypto_key.audit: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/keyRings/mp-3408afb4b076-keyring/cryptoKeys/mp-3408afb4b076-audit-cmek]
+google_kms_crypto_key.projection: Creating...
+google_kms_crypto_key.projection: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/keyRings/mp-3408afb4b076-keyring/cryptoKeys/mp-3408afb4b076-projection-cmek]
+google_kms_crypto_key.database: Creating...
+google_kms_crypto_key.database: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/keyRings/mp-3408afb4b076-keyring/cryptoKeys/mp-3408afb4b076-database-cmek]
+google_pubsub_topic.events: Creating...
+google_pubsub_topic.events: Creation complete after 0s [id=projects/mp-proj-ec111b4e/topics/mp-3408afb4b076-events]
+google_pubsub_topic.dead_letters: Creating...
+google_pubsub_topic.dead_letters: Creation complete after 0s [id=projects/mp-proj-ec111b4e/topics/mp-3408afb4b076-events-dlq]
+google_bigquery_dataset.audit_analytics: Creating...
+google_bigquery_dataset.audit_analytics: Creation complete after 0s [id=projects/mp-proj-ec111b4e/datasets/mp_3408afb4b076_audit_analytics]
+google_storage_bucket.audit: Creating...
+google_storage_bucket.audit: Creation complete after 0s [id=mp-3408afb4b076-mp-proj-ec111b4e-audit]
+google_firestore_database.projections: Creating...
+google_firestore_database.projections: Creation complete after 0s [id=projects/mp-proj-ec111b4e/databases/mp-3408afb4b076-projections]
+google_sql_database_instance.events: Creating...
+google_sql_database_instance.events: Creation complete after 0s [id=mp-3408afb4b076-events-pg]
+google_pubsub_subscription.dead_letters: Creating...
+google_pubsub_subscription.dead_letters: Creation complete after 0s [id=projects/mp-proj-ec111b4e/subscriptions/mp-3408afb4b076-events-dlq-sub]
+google_bigquery_table.archived_events: Creating...
+google_bigquery_table.archived_events: Creation complete after 1s [id=projects/mp-proj-ec111b4e/datasets/mp_3408afb4b076_audit_analytics/tables/archived_events]
+google_firestore_index.media_cache: Creating...
+google_firestore_index.media_cache: Creation complete after 0s [id=projects/mp-proj-ec111b4e/databases/mp-3408afb4b076-projections/collectionGroups/MediaCache/indexes/idx-b8df8038]
+google_sql_database.mediapulse: Creating...
+google_sql_database.mediapulse: Creation complete after 0s [id=projects/mp-proj-ec111b4e/instances/mp-3408afb4b076-events-pg/databases/mp_40203b]
+google_sql_user.app: Creating...
+google_sql_user.app: Creation complete after 0s [id=mp_user_3718ac/%/mp-3408afb4b076-events-pg]
+google_secret_manager_secret_version.db_credentials_v1: Creating...
+google_secret_manager_secret_version.db_credentials_v1: Creation complete after 0s [id=projects/mp-proj-ec111b4e/secrets/mp-3408afb4b076-db-credentials/versions/1]
+google_service_account.pubsub_invoker: Still creating... [00m10s elapsed]
+google_service_account.api: Still creating... [00m10s elapsed]
+google_service_account.client_read: Still creating... [00m10s elapsed]
+google_service_account.client_write: Still creating... [00m10s elapsed]
+google_service_account.processor: Still creating... [00m10s elapsed]
+google_service_account.client_admin: Still creating... [00m10s elapsed]
+google_service_account.scheduler: Still creating... [00m10s elapsed]
+google_service_account.pubsub_invoker: Creation complete after 11s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-pubsub-push-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_service_account.client_read: Creation complete after 11s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-client-read@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_service_account.archiver: Still creating... [00m10s elapsed]
+google_service_account.relay: Still creating... [00m10s elapsed]
+google_service_account.client_write: Creation complete after 11s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-client-write@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_service_account_key.client_read: Creating...
+google_service_account_key.client_write: Creating...
+google_service_account.processor: Creation complete after 11s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-processor-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_service_account.scheduler: Creation complete after 11s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-scheduler-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_service_account.client_admin: Creation complete after 11s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-client-admin@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_project_iam_member.processor_datastore_user: Creating...
+google_cloudfunctions2_function.processor: Creating...
+google_service_account_key.client_admin: Creating...
+google_cloudfunctions2_function.processor: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/functions/mp-3408afb4b076-processor]
+google_pubsub_subscription.processor_push: Creating...
+google_pubsub_subscription.processor_push: Creation complete after 0s [id=projects/mp-proj-ec111b4e/subscriptions/mp-3408afb4b076-events-processor-sub]
+google_pubsub_subscription_iam_member.processor_consume_events: Creating...
+google_service_account.api: Creation complete after 12s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_secret_manager_secret_iam_member.api_db_secret_accessor: Creating...
+google_project_iam_member.api_cloudsql_client: Creating...
+google_service_account.archiver: Creation complete after 11s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-archiver-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_service_account.relay: Creation complete after 11s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-relay-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_cloud_run_v2_service.api: Creating...
+google_project_iam_member.api_datastore_viewer: Creating...
+google_pubsub_topic_iam_member.api_publish_events: Creating...
+google_cloud_run_v2_service.api: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/services/mp-3408afb4b076-api]
+google_project_iam_member.archiver_cloudsql_client: Creating...
+google_pubsub_subscription_iam_member.processor_consume_events: Creation complete after 3s [id=projects/mp-proj-ec111b4e/subscriptions/mp-3408afb4b076-events-processor-sub/roles/pubsub.subscriber/serviceAccount:mp-3408afb4b076-processor-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_storage_bucket_iam_member.archiver_write_audit: Creating...
+google_secret_manager_secret_iam_member.api_db_secret_accessor: Creation complete after 3s [id=projects/mp-proj-ec111b4e/secrets/mp-3408afb4b076-db-credentials/roles/secretmanager.secretAccessor/serviceAccount:mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_pubsub_topic_iam_member.api_publish_events: Creation complete after 3s [id=projects/mp-proj-ec111b4e/topics/mp-3408afb4b076-events/roles/pubsub.publisher/serviceAccount:mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_project_iam_member.relay_cloudsql_client: Creating...
+google_cloudfunctions2_function.archiver: Creating...
+google_cloudfunctions2_function.archiver: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/functions/mp-3408afb4b076-audit-archiver]
+google_cloudfunctions2_function.relay: Creating...
+google_cloudfunctions2_function.relay: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/functions/mp-3408afb4b076-outbox-relay]
+google_pubsub_topic_iam_member.relay_publish_events: Creating...
+google_project_iam_member.archiver_cloudsql_client: Creation complete after 5s [id=mp-proj-ec111b4e/roles/cloudsql.client/serviceAccount:mp-3408afb4b076-archiver-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_project_iam_member.processor_datastore_user: Creation complete after 6s [id=mp-proj-ec111b4e/roles/datastore.user/serviceAccount:mp-3408afb4b076-processor-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_project_iam_member.api_cloudsql_client: Creation complete after 5s [id=mp-proj-ec111b4e/roles/cloudsql.client/serviceAccount:mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_project_iam_member.api_datastore_viewer: Creation complete after 5s [id=mp-proj-ec111b4e/roles/datastore.viewer/serviceAccount:mp-3408afb4b076-api-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_compute_region_network_endpoint_group.api_serverless_neg: Creating...
+google_logging_project_sink.api: Creating...
+google_compute_region_network_endpoint_group.api_serverless_neg: Creation complete after 0s [id=projects/mp-proj-ec111b4e/regions/us-west1/networkEndpointGroups/mp-3408afb4b076-api-neg]
+google_cloud_scheduler_job.archiver: Creating...
+google_cloud_scheduler_job.relay: Creating...
+google_compute_backend_service.api: Creating...
+google_logging_project_sink.api: Creation complete after 0s [id=projects/mp-proj-ec111b4e/sinks/mp-3408afb4b076-api-sink]
+google_compute_backend_service.api: Creation complete after 0s [id=projects/mp-proj-ec111b4e/global/backendServices/mp-3408afb4b076-api-backend]
+google_cloud_scheduler_job.archiver: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/jobs/mp-3408afb4b076-archiver-schedule]
+google_cloud_scheduler_job.relay: Creation complete after 0s [id=projects/mp-proj-ec111b4e/locations/us-west1/jobs/mp-3408afb4b076-relay-schedule]
+google_compute_url_map.api: Creating...
+google_compute_url_map.api: Creation complete after 0s [id=projects/mp-proj-ec111b4e/global/urlMaps/mp-3408afb4b076-api-urlmap]
+google_compute_target_http_proxy.api: Creating...
+google_compute_target_http_proxy.api: Creation complete after 0s [id=projects/mp-proj-ec111b4e/global/targetHttpProxies/mp-3408afb4b076-api-http-proxy]
+google_compute_global_forwarding_rule.http: Creating...
+google_compute_global_forwarding_rule.http: Creation complete after 0s [id=projects/mp-proj-ec111b4e/global/forwardingRules/mp-3408afb4b076-api-http-fwd]
+google_storage_bucket_iam_member.archiver_write_audit: Creation complete after 3s [id=b/mp-3408afb4b076-mp-proj-ec111b4e-audit/roles/storage.objectAdmin/serviceAccount:mp-3408afb4b076-archiver-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_pubsub_topic_iam_member.relay_publish_events: Creation complete after 3s [id=projects/mp-proj-ec111b4e/topics/mp-3408afb4b076-events/roles/pubsub.publisher/serviceAccount:mp-3408afb4b076-relay-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+google_service_account_key.client_write: Still creating... [00m10s elapsed]
+google_service_account_key.client_read: Still creating... [00m10s elapsed]
+google_service_account_key.client_write: Creation complete after 10s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-client-write@mp-proj-ec111b4e.iam.gserviceaccount.com/keys/b729999d406542ee]
+google_service_account_key.client_read: Creation complete after 10s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-client-read@mp-proj-ec111b4e.iam.gserviceaccount.com/keys/4fbf4be383ad4976]
+google_service_account_key.client_admin: Still creating... [00m10s elapsed]
+google_service_account_key.client_admin: Creation complete after 10s [id=projects/mp-proj-ec111b4e/serviceAccounts/mp-3408afb4b076-client-admin@mp-proj-ec111b4e.iam.gserviceaccount.com/keys/7f8e835d0ad74fa5]
+google_project_iam_member.relay_cloudsql_client: Creation complete after 6s [id=mp-proj-ec111b4e/roles/cloudsql.client/serviceAccount:mp-3408afb4b076-relay-sa@mp-proj-ec111b4e.iam.gserviceaccount.com]
+
+Apply complete! Resources: 67 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+cloud_run_service_name = "mp-3408afb4b076-api"
+load_balancer_url = "http://gcp"
+manifest = <sensitive>
+pubsub_topic_id = "projects/mp-proj-ec111b4e/topics/mp-3408afb4b076-events"
+MediaPulse Ingest is ready: http://gcp:4588

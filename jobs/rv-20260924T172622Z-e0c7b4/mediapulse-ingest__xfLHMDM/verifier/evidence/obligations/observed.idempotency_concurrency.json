@@ -1,7 +1,0 @@
-{
-  "associated_artifacts": [],
-  "details": {},
-  "obligation_id": "observed.idempotency_concurrency",
-  "outcome": "fail",
-  "summary": "no committed randomized workflow is available"
-}

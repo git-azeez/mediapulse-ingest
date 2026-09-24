@@ -1,0 +1,35 @@
+{
+  "auth": {
+    "admin_client_email": "mp-53bdf5c5aab5-client-admin@mp-ver-09c95494.iam.gserviceaccount.com",
+    "issuer": "http://gcp:4588/identitytoolkit.googleapis.com/v1/projects/mp-ver-09c95494",
+    "read_client_email": "mp-53bdf5c5aab5-client-read@mp-ver-09c95494.iam.gserviceaccount.com",
+    "tenant_id": "tenant-06765c6a",
+    "write_client_email": "mp-53bdf5c5aab5-client-write@mp-ver-09c95494.iam.gserviceaccount.com"
+  },
+  "iam": {
+    "api_service_account": "mp-53bdf5c5aab5-api-sa@mp-ver-09c95494.iam.gserviceaccount.com",
+    "archiver_service_account": "mp-53bdf5c5aab5-archiver-sa@mp-ver-09c95494.iam.gserviceaccount.com",
+    "processor_service_account": "mp-53bdf5c5aab5-processor-sa@mp-ver-09c95494.iam.gserviceaccount.com",
+    "relay_service_account": "mp-53bdf5c5aab5-relay-sa@mp-ver-09c95494.iam.gserviceaccount.com",
+    "scheduler_service_account": "mp-53bdf5c5aab5-scheduler-sa@mp-ver-09c95494.iam.gserviceaccount.com"
+  },
+  "kms": {
+    "audit_key_id": "projects/mp-ver-09c95494/locations/europe-west1/keyRings/mp-53bdf5c5aab5-keyring/cryptoKeys/mp-53bdf5c5aab5-audit-cmek",
+    "database_key_id": "projects/mp-ver-09c95494/locations/europe-west1/keyRings/mp-53bdf5c5aab5-keyring/cryptoKeys/mp-53bdf5c5aab5-database-cmek",
+    "keyring_id": "projects/mp-ver-09c95494/locations/europe-west1/keyRings/mp-53bdf5c5aab5-keyring",
+    "messaging_key_id": "projects/mp-ver-09c95494/locations/europe-west1/keyRings/mp-53bdf5c5aab5-keyring/cryptoKeys/mp-53bdf5c5aab5-messaging-cmek",
+    "projection_key_id": "projects/mp-ver-09c95494/locations/europe-west1/keyRings/mp-53bdf5c5aab5-keyring/cryptoKeys/mp-53bdf5c5aab5-projection-cmek"
+  },
+  "logs": {
+    "api": "mp-53bdf5c5aab5-api-logs",
+    "archiver": "mp-53bdf5c5aab5-archiver-logs",
+    "processor": "mp-53bdf5c5aab5-processor-logs",
+    "relay": "mp-53bdf5c5aab5-relay-logs"
+  },
+  "network": {
+    "ingress_subnet_id": "projects/mp-ver-09c95494/regions/europe-west1/subnetworks/mp-53bdf5c5aab5-subnet-ingress",
+    "private_subnet_id": "projects/mp-ver-09c95494/regions/europe-west1/subnetworks/mp-53bdf5c5aab5-subnet-private",
+    "vpc_id": "projects/mp-ver-09c95494/global/networks/mp-53bdf5c5aab5-vpc"
+  },
+  "state_resource_count": 67
+}

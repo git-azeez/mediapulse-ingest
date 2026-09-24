@@ -1,9 +1,0 @@
-{
-  "associated_artifacts": [
-    "evidence/lifecycle/deploy.log"
-  ],
-  "details": {},
-  "obligation_id": "lifecycle.reapply_stable",
-  "outcome": "fail",
-  "summary": "no deployed state and committed workflow exist"
-}

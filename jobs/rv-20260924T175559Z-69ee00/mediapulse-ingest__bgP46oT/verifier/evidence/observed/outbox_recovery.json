@@ -1,0 +1,11 @@
+{
+  "fault_media_id": "mp-b0ddb0e3a749-outbox-6949",
+  "outbox_repaired": true,
+  "relay_function": "projects/mp-ver-ef1459d4/locations/us-west1/functions/mp-b0ddb0e3a749-outbox-relay",
+  "relay_result": {
+    "archived": 0,
+    "published": 0,
+    "status": "ok"
+  },
+  "relay_scheduler_job": "mp-b0ddb0e3a749-relay-schedule"
+}

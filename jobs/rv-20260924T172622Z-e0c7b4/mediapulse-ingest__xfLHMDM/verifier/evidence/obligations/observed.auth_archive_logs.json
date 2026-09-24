@@ -1,7 +1,0 @@
-{
-  "associated_artifacts": [],
-  "details": {},
-  "obligation_id": "observed.auth_archive_logs",
-  "outcome": "fail",
-  "summary": "no committed randomized workflow is available"
-}

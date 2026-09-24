@@ -1,9 +1,0 @@
-
-Changes to Outputs:
-  - cloud_run_service_name = "mp-5b8fd3c93322-api" -> null
-
-You can apply this plan to save these new output values to the Terraform
-state, without changing any real infrastructure.
-
-Destroy complete! Resources: 0 destroyed.
-MediaPulse Ingest resources destroyed.

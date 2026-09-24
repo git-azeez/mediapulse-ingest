@@ -1,0 +1,20 @@
+{
+    "task": {
+        "path": "/Users/azeez/Azeez/microai/mediapulse-ingest"
+    },
+    "trial_name": "mediapulse-ingest__bgP46oT",
+    "trials_dir": "/Users/azeez/Azeez/microai/mediapulse-ingest/jobs/rv-20260924T175559Z-69ee00",
+    "agent": {
+        "name": "oracle",
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+        }
+    },
+    "verifier": {
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}",
+            "REWARDKIT_JUDGE": "${REWARDKIT_JUDGE}"
+        }
+    },
+    "job_id": "7227a45c-8899-47c4-b937-38b23d288ebf"
+}

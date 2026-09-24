@@ -1,0 +1,68 @@
+{
+  "resources": 67,
+  "shipments": [
+    {
+      "eventCount": 6,
+      "mediaId": "mp-53bdf5c5aab5-media-00-5989",
+      "ownerId": "owner-312",
+      "timelineStatus": 200,
+      "version": 6
+    },
+    {
+      "eventCount": 6,
+      "mediaId": "mp-53bdf5c5aab5-media-01-7397",
+      "ownerId": "owner-730",
+      "timelineStatus": 200,
+      "version": 6
+    },
+    {
+      "eventCount": 6,
+      "mediaId": "mp-53bdf5c5aab5-media-02-6530",
+      "ownerId": "owner-311",
+      "timelineStatus": 200,
+      "version": 6
+    },
+    {
+      "eventCount": 7,
+      "mediaId": "mp-53bdf5c5aab5-media-03-4576",
+      "ownerId": "owner-925",
+      "timelineStatus": 200,
+      "version": 7
+    },
+    {
+      "eventCount": 5,
+      "mediaId": "mp-53bdf5c5aab5-media-04-3348",
+      "ownerId": "owner-541",
+      "timelineStatus": 200,
+      "version": 5
+    },
+    {
+      "eventCount": 5,
+      "mediaId": "mp-53bdf5c5aab5-media-05-4095",
+      "ownerId": "owner-878",
+      "timelineStatus": 200,
+      "version": 5
+    },
+    {
+      "eventCount": 7,
+      "mediaId": "mp-53bdf5c5aab5-media-06-4286",
+      "ownerId": "owner-473",
+      "timelineStatus": 200,
+      "version": 7
+    },
+    {
+      "eventCount": 6,
+      "mediaId": "mp-53bdf5c5aab5-media-07-5792",
+      "ownerId": "owner-416",
+      "timelineStatus": 200,
+      "version": 6
+    },
+    {
+      "eventCount": 6,
+      "mediaId": "mp-53bdf5c5aab5-media-08-7458",
+      "ownerId": "owner-702",
+      "timelineStatus": 200,
+      "version": 6
+    }
+  ]
+}

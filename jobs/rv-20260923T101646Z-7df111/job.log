@@ -1,4 +1,0 @@
-Skipping image OS validation for hb__fbe9c6cfb405dba73c9480c844ef6921: docker inspect returned 1
-Collecting main service artifacts
-Trial mediapulse-ingest__7Bq74UY failed: Task environment directory /Users/azeez/Azeez/microai/mediapulse-ingest/tests has no environment definition. Set [environment].docker_image or add environment/Dockerfile or environment/docker-compose.yaml.
-Not retrying trial because the maximum number of retries has been reached

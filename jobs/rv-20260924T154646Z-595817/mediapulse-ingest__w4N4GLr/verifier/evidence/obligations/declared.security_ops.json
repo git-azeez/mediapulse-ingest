@@ -1,7 +1,0 @@
-{
-  "associated_artifacts": [],
-  "details": {},
-  "obligation_id": "declared.security_ops",
-  "outcome": "invalid",
-  "summary": "benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission"
-}

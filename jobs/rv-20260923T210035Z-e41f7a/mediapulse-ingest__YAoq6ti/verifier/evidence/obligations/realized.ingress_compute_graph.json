@@ -1,7 +1,0 @@
-{
-  "associated_artifacts": [],
-  "details": {},
-  "obligation_id": "realized.ingress_compute_graph",
-  "outcome": "fail",
-  "summary": "deployment did not complete"
-}

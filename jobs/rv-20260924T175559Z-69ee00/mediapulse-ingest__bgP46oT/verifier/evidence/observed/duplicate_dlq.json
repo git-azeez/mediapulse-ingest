@@ -1,0 +1,11 @@
+{
+  "dlq_publish": {
+    "messageIds": [
+      "57"
+    ]
+  },
+  "dlq_topic": "mp-b0ddb0e3a749-events-dlq",
+  "max_delivery_attempts": 5,
+  "poison_marker": "poison-mp-b0ddb0e3a749-8213",
+  "projector_poison_status": 204
+}

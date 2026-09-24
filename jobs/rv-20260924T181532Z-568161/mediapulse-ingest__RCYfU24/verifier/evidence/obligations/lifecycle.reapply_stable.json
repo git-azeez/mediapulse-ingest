@@ -1,0 +1,13 @@
+{
+  "associated_artifacts": [
+    "evidence/lifecycle/deploy.log",
+    "evidence/lifecycle/reapply.json"
+  ],
+  "details": {
+    "database_instance": "mp-53bdf5c5aab5-events-pg",
+    "resources": 67
+  },
+  "obligation_id": "lifecycle.reapply_stable",
+  "outcome": "pass",
+  "summary": "second deploy.sh execution converged cleanly without replacing Cloud SQL state"
+}

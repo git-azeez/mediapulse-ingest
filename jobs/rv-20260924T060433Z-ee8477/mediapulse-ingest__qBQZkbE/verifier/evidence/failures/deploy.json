@@ -1,5 +1,0 @@
-{
-  "exception": "CommandFailure",
-  "message": "runner command failed (1): bash /workspace/submission/deploy.sh",
-  "traceback": "Traceback (most recent call last):\n  File \"/tests/suite/tools/trial.py\", line 247, in _setup\n    deploy(self.ctx)\n  File \"/tests/suite/tools/execution/deployment.py\", line 20, in deploy\n    completed, manifest = ctx.runner.deploy(effective_timeout)\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/suite/tools/execution/runner_client.py\", line 192, in deploy\n    completed = self._completed(value.get(\"completed\"), check=True)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tests/suite/tools/execution/runner_client.py\", line 138, in _completed\n    raise CommandFailure(\nsuite.tools.reporting.errors.CommandFailure: runner command failed (1): bash /workspace/submission/deploy.sh\n"
-}

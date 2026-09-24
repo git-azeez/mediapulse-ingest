@@ -1,0 +1,18 @@
+{
+  "after_inventory": {
+    "cloudfunctions.functions": [],
+    "compute.networks": [
+      "decoy-shared-vpc"
+    ],
+    "pubsub.subscriptions": [],
+    "pubsub.topics": [],
+    "run.services": [],
+    "sql.instances": [],
+    "storage.buckets": [
+      "decoy-mp-ver-e459135a-shared-bucket"
+    ]
+  },
+  "destroy_returncode": 0,
+  "leaked_prefixed": {},
+  "removed_baseline": {}
+}

@@ -1,0 +1,35 @@
+MediaPulse verifier: starting pytest oracle
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+collected 19 items
+
+suite/test_declared.py ....                                              [ 21%]
+suite/test_live.py ...                                                   [ 36%]
+suite/test_behavior.py ..........                                        [ 89%]
+suite/test_lifecycle.py ..                                               [100%]
+
+==================================== PASSES ====================================
+--------------------------- Captured stdout teardown ---------------------------
+{"reward": 1.0, "score": 100, "seed": 6903483177032474208, "total": 100, "valid": true}
+=========================== short test summary info ============================
+PASSED suite/test_declared.py::test_managed_iac
+PASSED suite/test_declared.py::test_compute_ingress
+PASSED suite/test_declared.py::test_data_async
+PASSED suite/test_declared.py::test_security_ops
+PASSED suite/test_live.py::test_ingress_compute_graph
+PASSED suite/test_live.py::test_data_event_graph
+PASSED suite/test_live.py::test_security_ops_graph
+PASSED suite/test_behavior.py::test_workflow_relations
+PASSED suite/test_behavior.py::test_projection_cache
+PASSED suite/test_behavior.py::test_idempotency_concurrency
+PASSED suite/test_behavior.py::test_backlog_recovery
+PASSED suite/test_behavior.py::test_duplicate_dlq
+PASSED suite/test_behavior.py::test_outbox_recovery
+PASSED suite/test_behavior.py::test_projection_rebuild
+PASSED suite/test_behavior.py::test_ecs_recovery
+PASSED suite/test_behavior.py::test_rds_reboot
+PASSED suite/test_behavior.py::test_auth_archive_logs
+PASSED suite/test_lifecycle.py::test_reapply_stable
+PASSED suite/test_lifecycle.py::test_destroy_clean
+======================== 19 passed in 156.90s (0:02:36) ========================

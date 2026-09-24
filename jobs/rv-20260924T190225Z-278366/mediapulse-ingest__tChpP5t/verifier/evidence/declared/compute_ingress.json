@@ -1,0 +1,7 @@
+{
+  "backend_service": "mp-eb97af09a963-api-backend",
+  "cloud_run_service": "mp-eb97af09a963-api",
+  "forwarding_rule": "mp-eb97af09a963-api-http-fwd",
+  "min_instance_count": 2,
+  "serverless_neg": "mp-eb97af09a963-api-neg"
+}

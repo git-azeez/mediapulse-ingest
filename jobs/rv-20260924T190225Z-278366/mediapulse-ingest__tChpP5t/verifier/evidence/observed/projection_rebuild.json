@@ -1,0 +1,7 @@
+{
+  "firestore_database": "mp-eb97af09a963-projections",
+  "mediaId": "mp-eb97af09a963-media-00-8112",
+  "rebuild_tasks_queue": "mp-eb97af09a963-projection-rebuild-q",
+  "reconstructed_from_cloud_sql": true,
+  "requeued_events": 7
+}

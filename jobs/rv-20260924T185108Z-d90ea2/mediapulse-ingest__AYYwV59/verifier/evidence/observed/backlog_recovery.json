@@ -1,0 +1,7 @@
+{
+  "drained_to_zero": true,
+  "projection_read_status": 200,
+  "queued_commands": 28,
+  "subscription": "projects/mp-ver-e459135a/subscriptions/mp-bb2e033c7a50-events-processor-sub",
+  "subscriptions_active": 2
+}

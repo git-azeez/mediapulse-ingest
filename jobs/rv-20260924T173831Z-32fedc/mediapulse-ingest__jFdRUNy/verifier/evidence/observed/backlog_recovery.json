@@ -1,0 +1,11 @@
+{
+  "drained_to_zero": true,
+  "queued_commands": 30,
+  "relay_flushed": {
+    "archived": 0,
+    "published": 0,
+    "status": "ok"
+  },
+  "subscription": "projects/mp-ver-eca48fd4/subscriptions/mp-83ebe1706afb-events-processor-sub",
+  "subscriptions_active": 2
+}

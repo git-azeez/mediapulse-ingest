@@ -1,0 +1,13 @@
+{
+  "associated_artifacts": [
+    "evidence/failures/lifecycle.reapply_stable.json",
+    "evidence/lifecycle/deploy.log"
+  ],
+  "details": {
+    "exception": "SubmissionFailure",
+    "message": "state command failed"
+  },
+  "obligation_id": "lifecycle.reapply_stable",
+  "outcome": "fail",
+  "summary": "state command failed"
+}

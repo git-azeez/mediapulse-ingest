@@ -1,0 +1,62 @@
+{
+  "categories": {
+    "architecture": {
+      "earned": 17,
+      "label": "Architecture and deployment",
+      "possible": 17
+    },
+    "async_processing": {
+      "earned": 13,
+      "label": "Asynchronous processing",
+      "possible": 13
+    },
+    "core_behavior": {
+      "earned": 24,
+      "label": "Core product behavior",
+      "possible": 24
+    },
+    "lifecycle": {
+      "earned": 8,
+      "label": "Lifecycle",
+      "possible": 15
+    },
+    "recovery": {
+      "earned": 20,
+      "label": "Recovery",
+      "possible": 20
+    },
+    "security_operations": {
+      "earned": 11,
+      "label": "Security and observability",
+      "possible": 11
+    }
+  },
+  "failed": [
+    "lifecycle.reapply_stable"
+  ],
+  "planes": {
+    "declared": {
+      "earned": 10,
+      "possible": 10
+    },
+    "lifecycle": {
+      "earned": 8,
+      "possible": 15
+    },
+    "observed": {
+      "earned": 60,
+      "possible": 60
+    },
+    "realized": {
+      "earned": 15,
+      "possible": 15
+    }
+  },
+  "prefix": "mp-83ebe1706afb",
+  "raw_score": 93,
+  "reward": 0.93,
+  "score": 93,
+  "seed": 3464819684866684810,
+  "total": 100,
+  "trial_valid": true
+}

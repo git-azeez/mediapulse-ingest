@@ -1,0 +1,9 @@
+{
+  "conditional_get_status": 304,
+  "datastore_namespace": "mp-83ebe1706afb-cache",
+  "etag": "W/\"mp-83ebe1706afb-media-00-3977-v6\"",
+  "firestore_database": "mp-83ebe1706afb-projections",
+  "first_read_cache": "MISS",
+  "mediaId": "mp-83ebe1706afb-media-00-3977",
+  "second_read_cache": "HIT"
+}

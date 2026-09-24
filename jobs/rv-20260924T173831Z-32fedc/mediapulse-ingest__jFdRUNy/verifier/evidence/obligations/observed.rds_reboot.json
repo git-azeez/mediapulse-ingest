@@ -1,0 +1,11 @@
+{
+  "associated_artifacts": [
+    "evidence/observed/rds_reboot.json"
+  ],
+  "details": {
+    "instance_name": "mp-83ebe1706afb-events-pg"
+  },
+  "obligation_id": "observed.rds_reboot",
+  "outcome": "pass",
+  "summary": "Cloud SQL for PostgreSQL instance mp-83ebe1706afb-events-pg recovered cleanly after restart and preserved committed rows"
+}

@@ -1,0 +1,19 @@
+{
+  "firstStatus": 200,
+  "idempotencyKey": "idem-mp-83ebe1706afb-69351",
+  "logicalTransitionsCreated": 1,
+  "mediaId": "mp-83ebe1706afb-media-00-3977",
+  "optimisticConcurrencyConflictStatus": 409,
+  "replayAttempts": 9,
+  "replayStatuses": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+  ]
+}

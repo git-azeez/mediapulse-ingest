@@ -1,0 +1,12 @@
+{
+  "associated_artifacts": [
+    "evidence/realized/ingress_compute.json"
+  ],
+  "details": {
+    "min_instance_count": 2,
+    "service_name": "mp-83ebe1706afb-api"
+  },
+  "obligation_id": "realized.ingress_compute_graph",
+  "outcome": "pass",
+  "summary": "live Global Load Balancer, Serverless NEG, and Cloud Run v2 API service are active"
+}

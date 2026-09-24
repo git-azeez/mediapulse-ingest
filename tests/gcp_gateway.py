@@ -558,6 +558,48 @@ class GatewayHandler(BaseHTTPRequestHandler):
             )
             return
 
+        if path in ("/oauth2/v4/token", "/oauth2/token", "/token") or path.endswith("/oauth2/v4/token") or path.endswith("/token"):
+            req_scope = "mediapulse/read mediapulse/write"
+            client_id = "mediapulse-client"
+            if body:
+                text = body.decode("utf-8", errors="replace")
+                if text.strip().startswith("{"):
+                    try:
+                        doc = json.loads(text)
+                        req_scope = str(doc.get("scope") or req_scope)
+                        client_id = str(doc.get("client_id") or client_id)
+                    except Exception:
+                        pass
+                else:
+                    form = urllib.parse.parse_qs(text)
+                    if form.get("scope"):
+                        req_scope = form["scope"][0]
+                    if form.get("client_id"):
+                        client_id = form["client_id"][0]
+            hdr = base64.urlsafe_b64encode(json.dumps({"alg": "RS256", "typ": "JWT", "kid": JWKS_KID}).encode()).decode().rstrip("=")
+            pld = base64.urlsafe_b64encode(
+                json.dumps(
+                    {
+                        "sub": client_id,
+                        "scope": req_scope,
+                        "iss": f"{BACKEND_URL}/identity",
+                        "aud": "mediapulse",
+                        "exp": 4102444800,
+                    }
+                ).encode()
+            ).decode().rstrip("=")
+            sig = base64.urlsafe_b64encode(JWKS_SECRET.encode("utf-8")).decode().rstrip("=")
+            self._send_json(
+                200,
+                {
+                    "access_token": f"{hdr}.{pld}.{sig}",
+                    "token_type": "Bearer",
+                    "expires_in": 3600,
+                    "scope": req_scope,
+                },
+            )
+            return
+
         app_path = re.sub(r"^/run/[^/]+", "", path)
 
         if app_path.startswith("/v1/media") or app_path.startswith("/v1/shipments") or app_path.startswith("/v1/admin/"):

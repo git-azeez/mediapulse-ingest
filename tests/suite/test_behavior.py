@@ -1,23 +1,16 @@
 from __future__ import annotations
 
-import base64
 import json
 import urllib.error
 import urllib.request
 from typing import Any
 
 from suite.test_declared import prepare
+from suite.tools.cloud.api import MediaPulseApi
 from suite.tools.execution.deployment import deploy
 from suite.tools.reporting.errors import AcceptedWriteLoss, AuthEscalation, SubmissionFailure
 from suite.tools.reporting.results import CheckResult, Outcome
 from suite.tools.trial import TrialContext, obligation
-
-
-def _make_jwt(scope: str, sub: str = "mediapulse-verifier") -> str:
-    header = base64.urlsafe_b64encode(json.dumps({"alg": "RS256", "typ": "JWT", "kid": "mediapulse-key-1"}).encode()).decode().rstrip("=")
-    payload = base64.urlsafe_b64encode(json.dumps({"sub": sub, "scope": scope, "iss": "https://securetoken.google.com/mediapulse"}).encode()).decode().rstrip("=")
-    sig = base64.urlsafe_b64encode(b"mediapulse-signature").decode().rstrip("=")
-    return f"{header}.{payload}.{sig}"
 
 
 def _api_request(
@@ -30,38 +23,20 @@ def _api_request(
     headers: dict[str, str] | None = None,
 ) -> tuple[int, dict[str, str], dict[str, Any]]:
     manifest = ctx.manifest or ctx.refresh_manifest()
-    base_url = str(
-        manifest.get("connect_url")
-        or manifest.get("load_balancer", {}).get("base_url")
-        or ctx.gcp.endpoint
-    ).rstrip("/")
-    if "localhost" in base_url or "127.0.0.1" in base_url:
-        base_url = ctx.gcp.endpoint.rstrip("/")
-    url = f"{base_url}/{path.lstrip('/')}"
-    req_headers: dict[str, str] = {"Accept": "application/json"}
-    if scope:
-        req_headers["Authorization"] = f"Bearer {_make_jwt(scope)}"
-    if headers:
-        req_headers.update(headers)
-    body = None
-    if payload is not None:
-        body = json.dumps(payload).encode("utf-8")
-        req_headers.setdefault("Content-Type", "application/json")
-    req = urllib.request.Request(url, data=body, headers=req_headers, method=method)
+    api = MediaPulseApi.from_manifest(manifest, ctx.gcp.endpoint)
+    token = api.token(scope) if scope else None
     try:
-        with urllib.request.urlopen(req, timeout=10.0) as resp:
-            raw = resp.read().decode("utf-8", errors="replace")
-            resp_headers = {k.lower(): v for k, v in resp.headers.items()}
-            data = json.loads(raw) if raw.strip() else {}
-            return resp.status, resp_headers, data
-    except urllib.error.HTTPError as exc:
-        raw = exc.read().decode("utf-8", errors="replace") if exc.fp else ""
-        resp_headers = {k.lower(): v for k, v in exc.headers.items()} if exc.headers else {}
-        try:
-            data = json.loads(raw) if raw.strip() else {}
-        except Exception:
-            data = {"raw": raw}
-        return exc.code, resp_headers, data
+        resp = api.http.request(
+            method,
+            path,
+            token=token,
+            headers={"Accept": "application/json", **(headers or {})},
+            json_body=payload,
+        )
+        data = resp.json() if resp.body.strip() else {}
+        if not isinstance(data, dict):
+            data = {"data": data}
+        return resp.status, resp.headers, data
     except Exception as exc:
         return 599, {}, {"_error": str(exc)}
 
@@ -155,7 +130,7 @@ def test_workflow_relations(ctx: TrialContext) -> CheckResult:
             raise AcceptedWriteLoss(f"accepted timeline versions are missing or duplicated: {versions}")
 
         record = {
-            "shipmentId": shipment_id,
+            "mediaId": shipment_id,
             "mediaId": shipment_id,
             "ownerId": owner_id,
             "version": len(versions),
@@ -185,8 +160,8 @@ def test_projection_cache(ctx: TrialContext) -> CheckResult:
     if not projections.get("firestore_database"):
         raise SubmissionFailure("Cloud Firestore projection database is missing from manifest")
 
-    shipment = ctx.shipments[0] if ctx.shipments else {"shipmentId": f"{ctx.config.prefix}-media-00", "version": 1}
-    media_id = shipment["shipmentId"]
+    shipment = ctx.shipments[0] if ctx.shipments else {"mediaId": f"{ctx.config.prefix}-media-00", "version": 1}
+    media_id = shipment["mediaId"]
 
     status_1, headers_1, _ = _api_request(
         ctx,
@@ -213,7 +188,7 @@ def test_projection_cache(ctx: TrialContext) -> CheckResult:
         raise SubmissionFailure(f"GET /v1/media/{media_id} failed ({status_1}, {status_2})")
 
     evidence = {
-        "shipmentId": media_id,
+        "mediaId": media_id,
         "firestore_database": projections.get("firestore_database"),
         "datastore_namespace": cache.get("datastore_namespace"),
         "first_read_cache": headers_1.get("x-cache", "MISS"),
@@ -233,8 +208,8 @@ def test_projection_cache(ctx: TrialContext) -> CheckResult:
 
 @obligation("observed.idempotency_concurrency")
 def test_idempotency_concurrency(ctx: TrialContext) -> CheckResult:
-    shipment = ctx.shipments[0] if ctx.shipments else {"shipmentId": f"{ctx.config.prefix}-media-00", "version": 2}
-    media_id = shipment["shipmentId"]
+    shipment = ctx.shipments[0] if ctx.shipments else {"mediaId": f"{ctx.config.prefix}-media-00", "version": 2}
+    media_id = shipment["mediaId"]
     current_version = int(shipment.get("version") or 2)
     replay_count = ctx.rng.randint(5, 10)
     idempotency_key = f"idem-{ctx.config.prefix}-{ctx.rng.randrange(10000, 99999)}"
@@ -289,7 +264,7 @@ def test_idempotency_concurrency(ctx: TrialContext) -> CheckResult:
 
     shipment["version"] = current_version + 1
     evidence = {
-        "shipmentId": media_id,
+        "mediaId": media_id,
         "idempotencyKey": idempotency_key,
         "firstStatus": first_status,
         "replayAttempts": replay_count,
@@ -433,8 +408,8 @@ def test_projection_rebuild(ctx: TrialContext) -> CheckResult:
     if not rebuild_queue or not firestore_db:
         raise SubmissionFailure("Cloud Tasks rebuild queue or Firestore database missing from manifest")
 
-    shipment = ctx.shipments[0] if ctx.shipments else {"shipmentId": f"{ctx.config.prefix}-media-00"}
-    media_id = shipment["shipmentId"]
+    shipment = ctx.shipments[0] if ctx.shipments else {"mediaId": f"{ctx.config.prefix}-media-00"}
+    media_id = shipment["mediaId"]
     rebuild_status, _, rebuild_body = _api_request(
         ctx,
         "POST",
@@ -446,7 +421,7 @@ def test_projection_rebuild(ctx: TrialContext) -> CheckResult:
         raise SubmissionFailure(f"POST /v1/admin/projections/{media_id}/rebuild returned {rebuild_status}: {rebuild_body}")
 
     evidence = {
-        "shipmentId": media_id,
+        "mediaId": media_id,
         "rebuild_tasks_queue": rebuild_queue,
         "firestore_database": firestore_db,
         "requeued_events": rebuild_body.get("requeued", 1),
@@ -534,8 +509,8 @@ def test_auth_archive_logs(ctx: TrialContext) -> CheckResult:
     ):
         raise AuthEscalation("Identity Platform scoped identities, GCS audit bucket, or Cloud Logging buckets missing")
 
-    shipment = ctx.shipments[0] if ctx.shipments else {"shipmentId": f"{ctx.config.prefix}-media-00"}
-    media_id = shipment["shipmentId"]
+    shipment = ctx.shipments[0] if ctx.shipments else {"mediaId": f"{ctx.config.prefix}-media-00"}
+    media_id = shipment["mediaId"]
 
     unauth_status, _, _ = _api_request(ctx, "GET", f"/v1/media/{media_id}", scope=None)
     forbidden_write, _, _ = _api_request(

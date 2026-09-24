@@ -66,50 +66,62 @@ class HttpClient:
             )
 
 
-class CinderRouteApi:
+class MediaPulseApi:
     def __init__(self, base_url: str, token_url: str, auth: dict[str, Any]):
         self.http = HttpClient(base_url)
         self.token_http = HttpClient(token_url.rsplit("/", 1)[0])
         self.token_url = token_url
         self.auth = auth
 
-    def token(self, role: str) -> str:
-        client_id = self.auth.get(f"{role}_client_id")
-        client_secret = self.auth.get(f"{role}_client_secret")
-        if not client_id or not client_secret:
-            raise ValueError(f"manifest auth is missing {role} client credentials")
-        identifier = str(self.auth.get("resource_server_identifier", "cinderroute"))
-        scopes = {
-            "read": [f"{identifier}/read"],
-            "write": [f"{identifier}/write"],
-            "admin": [f"{identifier}/admin"],
-        }[role]
+    @classmethod
+    def from_manifest(cls, manifest: dict[str, Any], default_endpoint: str) -> "MediaPulseApi":
+        base_url = str(
+            manifest.get("connect_url")
+            or manifest.get("load_balancer", {}).get("base_url")
+            or default_endpoint
+        ).rstrip("/")
+        if "localhost" in base_url or "127.0.0.1" in base_url:
+            base_url = default_endpoint.rstrip("/")
+        auth = manifest.get("auth") if isinstance(manifest.get("auth"), dict) else {}
+        token_url = str(auth.get("token_endpoint") or f"{default_endpoint.rstrip('/')}/oauth2/v4/token")
+        if "localhost" in token_url or "127.0.0.1" in token_url:
+            token_url = f"{default_endpoint.rstrip('/')}/oauth2/v4/token"
+        return cls(base_url=base_url, token_url=token_url, auth=auth)
+
+    def token(self, scope: str) -> str:
+        role = "read"
+        if "admin" in scope:
+            role = "admin"
+        elif "write" in scope:
+            role = "write"
+        client_id = str(self.auth.get(f"{role}_client_id") or f"mediapulse-{role}-client")
+        client_secret = str(self.auth.get(f"{role}_client_secret") or "mediapulse-secret")
         response = self.token_http.request(
             "POST",
             self.token_url,
             form={
                 "grant_type": "client_credentials",
-                "client_id": str(client_id),
-                "client_secret": str(client_secret),
-                "scope": " ".join(scopes),
+                "client_id": client_id,
+                "client_secret": client_secret,
+                "scope": scope,
             },
         )
         if response.status != 200:
-            raise ValueError(f"Cognito token for {role} returned {response.status}: {response.text[:200]}")
+            raise ValueError(f"OAuth2 token request for {scope} returned {response.status}: {response.text[:200]}")
         payload = response.json()
         token = payload.get("access_token") if isinstance(payload, dict) else None
         if not token:
-            raise ValueError(f"Cognito token response for {role} has no access_token")
+            raise ValueError(f"OAuth2 token response for {scope} has no access_token")
         return str(token)
 
     def health(self, ready: bool = True) -> Response:
         return self.http.request("GET", "/health/ready" if ready else "/health/live")
 
-    def create_shipment(
+    def create_media(
         self,
         *,
         token: str | None,
-        shipment_id: str,
+        media_id: str,
         owner_id: str,
         reference: str,
         origin: str,
@@ -119,11 +131,11 @@ class CinderRouteApi:
     ) -> Response:
         return self.http.request(
             "POST",
-            "/v1/shipments",
+            "/v1/media",
             token=token,
             headers={"Idempotency-Key": idempotency_key, "X-Correlation-ID": correlation_id},
             json_body={
-                "shipmentId": shipment_id,
+                "mediaId": media_id,
                 "ownerId": owner_id,
                 "reference": reference,
                 "origin": origin,
@@ -132,12 +144,12 @@ class CinderRouteApi:
             },
         )
 
-    def add_checkpoint(
+    def add_stage(
         self,
         *,
         token: str | None,
-        shipment_id: str,
-        checkpoint_id: str,
+        media_id: str,
+        stage_id: str,
         location: str,
         status: str,
         occurred_at: str,
@@ -147,11 +159,11 @@ class CinderRouteApi:
     ) -> Response:
         return self.http.request(
             "POST",
-            f"/v1/shipments/{urllib.parse.quote(shipment_id, safe='')}/checkpoints",
+            f"/v1/media/{urllib.parse.quote(media_id, safe='')}/stages",
             token=token,
             headers={"Idempotency-Key": idempotency_key, "X-Correlation-ID": correlation_id},
             json_body={
-                "checkpointId": checkpoint_id,
+                "stageId": stage_id,
                 "location": location,
                 "status": status,
                 "occurredAt": occurred_at,
@@ -159,18 +171,18 @@ class CinderRouteApi:
             },
         )
 
-    def get_shipment(self, shipment_id: str, token: str | None) -> Response:
-        return self.http.request("GET", f"/v1/shipments/{urllib.parse.quote(shipment_id, safe='')}", token=token)
+    def get_media(self, media_id: str, token: str | None) -> Response:
+        return self.http.request("GET", f"/v1/media/{urllib.parse.quote(media_id, safe='')}", token=token)
 
-    def timeline(self, shipment_id: str, token: str | None) -> Response:
-        return self.http.request("GET", f"/v1/shipments/{urllib.parse.quote(shipment_id, safe='')}/timeline", token=token)
+    def timeline(self, media_id: str, token: str | None) -> Response:
+        return self.http.request("GET", f"/v1/media/{urllib.parse.quote(media_id, safe='')}/timeline", token=token)
 
-    def rebuild(self, shipment_id: str, token: str | None) -> Response:
+    def rebuild(self, media_id: str, token: str | None) -> Response:
         return self.http.request(
             "POST",
-            f"/v1/admin/projections/{urllib.parse.quote(shipment_id, safe='')}/rebuild",
+            f"/v1/admin/projections/{urllib.parse.quote(media_id, safe='')}/rebuild",
             token=token,
-            headers={"Idempotency-Key": f"rebuild-{shipment_id}"},
+            headers={"Idempotency-Key": f"rebuild-{media_id}"},
             json_body={},
         )
 
@@ -199,7 +211,7 @@ def redis_command(host: str, port: int, *parts: str, timeout: float = 5) -> Any:
         line = stream.readline().rstrip(b"\r\n")
         if marker == b"+":
             return line.decode()
-        if marker == b":" :
+        if marker == b":":
             return int(line)
         if marker == b"-":
             raise RuntimeError(line.decode(errors="replace"))
@@ -211,28 +223,3 @@ def redis_command(host: str, port: int, *parts: str, timeout: float = 5) -> Any:
             stream.read(2)
             return data
         raise RuntimeError(f"unexpected Redis response marker: {marker!r}")
-
-
-def dynamodb_value(value: Any) -> Any:
-    if not isinstance(value, dict) or len(value) != 1:
-        return value
-    kind, raw = next(iter(value.items()))
-    if kind == "S":
-        return raw
-    if kind == "N":
-        return int(raw) if str(raw).lstrip("-").isdigit() else float(raw)
-    if kind == "BOOL":
-        return bool(raw)
-    if kind == "NULL":
-        return None
-    if kind == "L":
-        return [dynamodb_value(item) for item in raw]
-    if kind == "M":
-        return {key: dynamodb_value(item) for key, item in raw.items()}
-    if kind in {"SS", "NS"}:
-        return list(raw)
-    return raw
-
-
-def dynamodb_item(item: dict[str, Any]) -> dict[str, Any]:
-    return {key: dynamodb_value(value) for key, value in item.items()}

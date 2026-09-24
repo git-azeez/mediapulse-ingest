@@ -14,8 +14,8 @@ services:
       http_proxy: http://172.20.0.1:18080
       HTTPS_PROXY: http://172.20.0.1:18080
       https_proxy: http://172.20.0.1:18080
-      NO_PROXY: localhost,127.0.0.1,::1,gcp,floci-gcp,floci,runtime-setup,googleapis.com,.googleapis.com
-      no_proxy: localhost,127.0.0.1,::1,gcp,floci-gcp,floci,runtime-setup,googleapis.com,.googleapis.com
+      NO_PROXY: localhost,127.0.0.1,::1,runtime-setup,floci-gcp,gcp-gateway,gcp,floci
+      no_proxy: localhost,127.0.0.1,::1,runtime-setup,floci-gcp,gcp-gateway,gcp,floci
       CURL_CA_BUNDLE: /etc/daytona-netleash-ca.crt
       SSL_CERT_FILE: /etc/daytona-netleash-ca.crt
       REQUESTS_CA_BUNDLE: /etc/daytona-netleash-ca.crt

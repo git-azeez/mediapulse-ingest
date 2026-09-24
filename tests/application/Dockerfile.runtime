@@ -1,0 +1,35 @@
+FROM gcr.io/distroless/static-debian12:nonroot@sha256:aef9602f8710ec12bde19d593fed1f76c708531bb7aba205110f1029786ead7b AS api-runtime
+LABEL org.opencontainers.image.title="CinderRouter Dispatch API" \
+      org.opencontainers.image.version="1.0.0" \
+      dev.cinderrouter.fixture="true"
+COPY --chown=65532:65532 bin/api /app/api
+USER 65532:65532
+EXPOSE 8080
+ENTRYPOINT ["/app/api"]
+
+FROM gcr.io/distroless/static-debian12:nonroot@sha256:aef9602f8710ec12bde19d593fed1f76c708531bb7aba205110f1029786ead7b AS projector-runtime
+LABEL org.opencontainers.image.title="CinderRouter Dispatch Projector" \
+      org.opencontainers.image.version="1.0.0" \
+      dev.cinderrouter.fixture="true"
+COPY --chown=65532:65532 bin/projector /app/bootstrap
+USER 65532:65532
+ENTRYPOINT ["/app/bootstrap"]
+CMD ["projector"]
+
+FROM gcr.io/distroless/static-debian12:nonroot@sha256:aef9602f8710ec12bde19d593fed1f76c708531bb7aba205110f1029786ead7b AS relay-runtime
+LABEL org.opencontainers.image.title="CinderRouter Dispatch Outbox Relay" \
+      org.opencontainers.image.version="1.0.0" \
+      dev.cinderrouter.fixture="true"
+COPY --chown=65532:65532 bin/outbox-relay /app/bootstrap
+USER 65532:65532
+ENTRYPOINT ["/app/bootstrap"]
+CMD ["outbox-relay"]
+
+FROM gcr.io/distroless/static-debian12:nonroot@sha256:aef9602f8710ec12bde19d593fed1f76c708531bb7aba205110f1029786ead7b AS archiver-runtime
+LABEL org.opencontainers.image.title="CinderRouter Dispatch Audit Archiver" \
+      org.opencontainers.image.version="1.0.0" \
+      dev.cinderrouter.fixture="true"
+COPY --chown=65532:65532 bin/audit-archiver /app/bootstrap
+USER 65532:65532
+ENTRYPOINT ["/app/bootstrap"]
+CMD ["audit-archiver"]

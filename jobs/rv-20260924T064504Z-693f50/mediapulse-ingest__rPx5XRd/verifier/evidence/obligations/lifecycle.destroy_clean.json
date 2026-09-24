@@ -1,0 +1,12 @@
+{
+  "associated_artifacts": [
+    "evidence/lifecycle/destroy.json",
+    "evidence/lifecycle/destroy.log"
+  ],
+  "details": {
+    "leaked_count": 0
+  },
+  "obligation_id": "lifecycle.destroy_clean",
+  "outcome": "pass",
+  "summary": "destroy.sh removed all trial-prefixed GCP resources while preserving baseline resources"
+}

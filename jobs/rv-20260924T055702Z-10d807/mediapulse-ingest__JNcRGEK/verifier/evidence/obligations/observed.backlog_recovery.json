@@ -1,0 +1,7 @@
+{
+  "associated_artifacts": [],
+  "details": {},
+  "obligation_id": "observed.backlog_recovery",
+  "outcome": "fail",
+  "summary": "deployment did not complete"
+}

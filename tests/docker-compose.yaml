@@ -1,0 +1,207 @@
+services:
+  main:
+    build:
+      context: .
+      dockerfile: runtime/Dockerfile
+      target: verifier
+    command: ["sleep", "infinity"]
+    user: "10002:10002"
+    group_add:
+      - "10003"
+    depends_on:
+      runner-auth-init:
+        condition: service_completed_successfully
+      runtime-setup:
+        condition: service_completed_successfully
+      runner:
+        condition: service_healthy
+      floci-gcp:
+        condition: service_started
+    environment:
+      GCP_ENDPOINT_URL: http://gcp:4588
+      PUBSUB_EMULATOR_HOST: gcp:4588
+      FIRESTORE_EMULATOR_HOST: gcp:4588
+      DATASTORE_EMULATOR_HOST: gcp:4588
+      STORAGE_EMULATOR_HOST: http://gcp:4588
+      SECRET_MANAGER_EMULATOR_HOST: gcp:4588
+      FIREBASE_AUTH_EMULATOR_HOST: gcp:4588
+      MEDIAPULSE_RUNNER_SOCKET: /runner-api/runner.sock
+      MEDIAPULSE_RUNNER_TOKEN_FILE: /runner-auth/token
+      MEDIAPULSE_CONFIG: /workspace/config/config.json
+      MEDIAPULSE_LOGS_DIR: /logs/verifier
+      MEDIAPULSE_SUBMISSION_DIR: /workspace/submission
+      CINDERROUTE_RUNNER_SOCKET: /runner-api/runner.sock
+      CINDERROUTE_RUNNER_TOKEN_FILE: /runner-auth/token
+      CINDERROUTE_CONFIG: /workspace/config/config.json
+      CINDERROUTE_LOGS_DIR: /logs/verifier
+      CINDERROUTE_SUBMISSION_DIR: /workspace/submission
+    networks:
+      - verifier-control
+    read_only: true
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=268435456,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - submission-data:/workspace/submission
+      - evidence-data:/workspace/evidence
+      - harbor-artifacts:/logs/artifacts
+      - config:/workspace/config:ro
+      - runner-auth:/runner-auth:ro
+      - runner-api:/runner-api:ro
+
+  runner-auth-init:
+    image: mirror.gcr.io/library/docker:27.5.1-cli@sha256:851f91d241214e7c6db86513b270d58776379aacc5eb9c4a87e5b47115e3065c
+    pull_policy: missing
+    command:
+      - /bin/sh
+      - -ceu
+      - |
+        umask 027
+        od -An -N32 -tx1 /dev/urandom | tr -d ' \n' > /runner-auth/token.tmp
+        chown 0:10003 /runner-auth/token.tmp
+        chmod 0440 /runner-auth/token.tmp
+        mv /runner-auth/token.tmp /runner-auth/token
+        test "$(wc -c < /runner-auth/token)" -eq 64
+        chown 0:10003 /runner-api
+        chmod 0770 /runner-api
+    restart: "no"
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - runner-auth:/runner-auth
+      - runner-api:/runner-api
+
+  runtime-setup:
+    build:
+      context: .
+      dockerfile: runtime/Dockerfile
+      target: runtime-setup
+    command: ["/bin/sh", "/runtime.sh"]
+    environment:
+      DOCKER_BUILDKIT: "1"
+    networks:
+      - verifier-control
+    restart: "no"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - config:/config
+
+  floci-gcp:
+    image: floci/floci-gcp:latest@sha256:ea29a53b34d04ba05240cdc6833608e43ae2b0a67849e5b97f01a7224e1138ea
+    pull_policy: missing
+    environment:
+      FLOCI_GCP_HOSTNAME: gcp
+      FLOCI_GCP_BASE_URL: http://gcp:4588
+      FLOCI_GCP_STORAGE_MODE: persistent
+      FLOCI_GCP_STORAGE_PERSISTENT_PATH: /app/data
+      FLOCI_DOCKER_DOCKER_HOST: unix:///var/run/docker.sock
+      FLOCI_DOCKER_RESOURCE_NAMESPACE: ${COMPOSE_PROJECT_NAME}
+      FLOCI_SERVICES_DOCKER_NETWORK: ${COMPOSE_PROJECT_NAME}_workload
+    networks:
+      verifier-control:
+        aliases: [gcp, floci-gcp, floci]
+      runner-control:
+        aliases: [gcp, floci-gcp, floci]
+      workload:
+        aliases: [gcp, floci-gcp, floci]
+    restart: unless-stopped
+    volumes:
+      - floci-data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  runner:
+    build:
+      context: .
+      dockerfile: runtime/Dockerfile
+      target: runner
+    platform: linux/amd64
+    command: ["python3", "/runner.py"]
+    init: true
+    user: "0:0"
+    group_add:
+      - "10003"
+    depends_on:
+      runner-auth-init:
+        condition: service_completed_successfully
+    environment:
+      GCP_ENDPOINT_URL: http://gcp:4588
+      PUBSUB_EMULATOR_HOST: gcp:4588
+      FIRESTORE_EMULATOR_HOST: gcp:4588
+      DATASTORE_EMULATOR_HOST: gcp:4588
+      STORAGE_EMULATOR_HOST: http://gcp:4588
+      SECRET_MANAGER_EMULATOR_HOST: gcp:4588
+      FIREBASE_AUTH_EMULATOR_HOST: gcp:4588
+      CINDERROUTE_RUNNER_ROOT: /runner
+      CINDERROUTE_RUNNER_SOURCE: /runner/source/submission
+      CINDERROUTE_RUNNER_WORK: /workspace/submission
+      CINDERROUTE_RUNNER_TOKEN_FILE: /runner-auth/token
+      CINDERROUTE_RUNNER_SOCKET: /runner-api/runner.sock
+      CINDERROUTE_RUNNER_AUTH_GID: "10003"
+      CINDERROUTE_EXECUTOR_UID: "10001"
+      CINDERROUTE_EXECUTOR_GID: "10001"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import json,socket; s=socket.socket(socket.AF_UNIX); s.settimeout(2); s.connect('/runner-api/runner.sock'); nl=bytes((13,10)); s.sendall(b'GET /healthz HTTP/1.1'+nl+b'Host: runner'+nl+b'Connection: close'+nl+nl); raw=b''.join(iter(lambda:s.recv(65536),b'')); v=json.loads(raw.split(nl+nl,1)[1]); assert v['broker_root'] and v['executor']['uid'] != 0"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+    networks:
+      - runner-control
+    cpus: 4
+    mem_limit: 6g
+    pids_limit: 512
+    ulimits:
+      nofile:
+        soft: 4096
+        hard: 4096
+      nproc:
+        soft: 512
+        hard: 512
+    read_only: true
+    restart: unless-stopped
+    tmpfs:
+      - /runner:rw,nosuid,nodev,size=268435456,mode=0755
+      - /workspace:rw,nosuid,nodev,size=2147483648,mode=0755
+      - /tmp:rw,nosuid,nodev,size=134217728,mode=1777
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - KILL
+      - SETGID
+      - SETPCAP
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - submission-data:/runner/source/submission:ro
+      - config:/workspace/config:ro
+      - runner-auth:/runner-auth:ro
+      - runner-api:/runner-api
+
+networks:
+  verifier-control:
+    internal: true
+  runner-control:
+    internal: true
+  workload:
+    name: ${COMPOSE_PROJECT_NAME}_workload
+    internal: true
+
+volumes:
+  floci-data: {}
+  config: {}
+  runner-auth: {}
+  runner-api: {}
+  submission-data: {}
+  evidence-data: {}
+  harbor-artifacts: {}

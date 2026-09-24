@@ -1,0 +1,76 @@
+MediaPulse Ingest deployment copied to /workspace/submission; starting deployment...
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding hashicorp/google-beta versions matching ">= 5.0.0"...
+- Finding hashicorp/google versions matching ">= 5.0.0"...
+- Installing hashicorp/google-beta v8.4.0...
+- Installed hashicorp/google-beta v8.4.0 (unauthenticated)
+- Installing hashicorp/google v8.4.0...
+- Installed hashicorp/google v8.4.0 (unauthenticated)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+
+Warning: Incomplete lock file information for providers
+
+Due to your customized provider installation methods, Terraform was forced to
+calculate lock file checksums locally for the following providers:
+  - hashicorp/google
+  - hashicorp/google-beta
+
+The current .terraform.lock.hcl file only includes checksums for linux_amd64,
+so Terraform running on another platform will fail to install these
+providers.
+
+To calculate additional checksums for another platform, run:
+  terraform providers lock -platform=linux_amd64
+(where linux_amd64 is the platform to generate)
+Terraform has been successfully initialized!
+
+Error: Unsupported argument
+
+  on provider.tf line 11, in provider "google":
+  11:   datastore_custom_endpoint      = "${var.gcp_endpoint_url}/v1/"
+
+An argument named "datastore_custom_endpoint" is not expected here.
+
+Error: Unsupported argument
+
+  on provider.tf line 13, in provider "google":
+  13:   run_custom_endpoint            = "${var.gcp_endpoint_url}/"
+
+An argument named "run_custom_endpoint" is not expected here.
+
+Error: Unsupported argument
+
+  on provider.tf line 22, in provider "google":
+  22:   bigquery_custom_endpoint       = "${var.gcp_endpoint_url}/bigquery/v2/"
+
+An argument named "bigquery_custom_endpoint" is not expected here. Did you
+mean "big_query_custom_endpoint"?
+
+Error: Unsupported argument
+
+  on provider.tf line 38, in provider "google-beta":
+  38:   datastore_custom_endpoint      = "${var.gcp_endpoint_url}/v1/"
+
+An argument named "datastore_custom_endpoint" is not expected here.
+
+Error: Unsupported argument
+
+  on provider.tf line 40, in provider "google-beta":
+  40:   run_custom_endpoint            = "${var.gcp_endpoint_url}/"
+
+An argument named "run_custom_endpoint" is not expected here.
+
+Error: Unsupported argument
+
+  on provider.tf line 50, in provider "google-beta":
+  50:   bigquery_custom_endpoint       = "${var.gcp_endpoint_url}/bigquery/v2/"
+
+An argument named "bigquery_custom_endpoint" is not expected here. Did you
+mean "big_query_custom_endpoint"?

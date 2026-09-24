@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mediapulse.invalid/contracts/schemas/manifest.schema.json",
+  "title": "MediaPulse Ingest GCP deployment manifest",
+  "description": "Discovery inventory cross-checked against Terraform/OpenTofu state and live Floci-GCP APIs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "prefix",
+    "project_id",
+    "region",
+    "gcp_endpoint_url",
+    "approved_images",
+    "load_balancer",
+    "cloud_run",
+    "database",
+    "messaging",
+    "projections",
+    "cache",
+    "auth",
+    "workers",
+    "schedules",
+    "audit",
+    "network",
+    "iam",
+    "kms",
+    "logs"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "prefix": { "type": "string", "minLength": 1 },
+    "project_id": { "type": "string", "minLength": 1 },
+    "region": { "type": "string", "minLength": 1 },
+    "gcp_endpoint_url": { "type": "string", "format": "uri" },
+    "approved_images": {
+      "type": "object",
+      "required": ["api", "processor", "relay", "archiver"]
+    },
+    "load_balancer": {
+      "type": "object",
+      "required": ["ip_address", "url", "connect_url", "forwarding_rule_id", "backend_service_id", "serverless_neg_id"]
+    },
+    "cloud_run": {
+      "type": "object",
+      "required": ["service_id", "service_name", "service_uri", "min_instance_count", "max_instance_count"]
+    },
+    "database": {
+      "type": "object",
+      "required": ["instance_name", "private_ip", "port", "name", "secret_id"]
+    },
+    "messaging": {
+      "type": "object",
+      "required": ["topic_id", "topic_name", "subscription_id", "dlq_topic_id", "dlq_subscription_id", "max_delivery_attempts", "rebuild_tasks_queue"]
+    },
+    "projections": {
+      "type": "object",
+      "required": ["firestore_database", "collection", "bigquery_dataset"]
+    },
+    "cache": {
+      "type": "object",
+      "required": ["engine", "datastore_namespace", "emulator_host"]
+    },
+    "auth": {
+      "type": "object",
+      "required": ["tenant_id", "resource_server_identifier", "issuer", "jwks_url", "read_client_email", "write_client_email", "admin_client_email"]
+    },
+    "workers": {
+      "type": "object",
+      "required": ["processor_id", "relay_id", "archiver_id"]
+    },
+    "schedules": {
+      "type": "object",
+      "required": ["relay_job_name", "archiver_job_name"]
+    },
+    "audit": {
+      "type": "object",
+      "required": ["bucket", "prefix"]
+    },
+    "network": {
+      "type": "object",
+      "required": ["vpc_id", "ingress_subnet_id", "private_subnet_id"]
+    },
+    "iam": {
+      "type": "object",
+      "required": ["api_service_account", "processor_service_account", "relay_service_account", "archiver_service_account", "scheduler_service_account"]
+    },
+    "kms": {
+      "type": "object",
+      "required": ["keyring_id", "database_key_id", "messaging_key_id", "projection_key_id", "audit_key_id"]
+    },
+    "logs": {
+      "type": "object",
+      "required": ["api", "processor", "relay", "archiver"]
+    }
+  }
+}

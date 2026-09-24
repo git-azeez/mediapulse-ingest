@@ -1,0 +1,14 @@
+{
+  "after_inventory": {
+    "cloudfunctions.functions": [],
+    "compute.networks": [],
+    "pubsub.subscriptions": [],
+    "pubsub.topics": [],
+    "run.services": [],
+    "sql.instances": [],
+    "storage.buckets": []
+  },
+  "destroy_returncode": 0,
+  "leaked_prefixed": {},
+  "removed_baseline": {}
+}

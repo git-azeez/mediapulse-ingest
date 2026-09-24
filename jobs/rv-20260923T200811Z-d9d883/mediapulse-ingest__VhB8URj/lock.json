@@ -1,0 +1,40 @@
+{
+    "schema_version": 1,
+    "task": {
+        "name": "mediapulse-ingest",
+        "type": "local",
+        "digest": "sha256:bc9b7c169fc6376280f7ca47a20ff6f3f720af74a1584b56252048f7eafece5a",
+        "path": "/Users/azeez/Azeez/microai/mediapulse-ingest"
+    },
+    "install_only": false,
+    "timeout_multiplier": 1.0,
+    "agent": {
+        "name": "oracle",
+        "skills": [],
+        "resume_trajectory": false,
+        "extra_allowed_hosts": [],
+        "kwargs": {},
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+        },
+        "mcp_servers": []
+    },
+    "skills": [],
+    "environment": {
+        "type": "docker",
+        "force_build": false,
+        "delete": true,
+        "cpu_enforcement_policy": "auto",
+        "memory_enforcement_policy": "auto",
+        "extra_docker_compose": [],
+        "kwargs": {},
+        "extra_allowed_hosts": []
+    },
+    "verifier": {
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}",
+            "REWARDKIT_JUDGE": "${REWARDKIT_JUDGE}"
+        },
+        "disable": false
+    }
+}

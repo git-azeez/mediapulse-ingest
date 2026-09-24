@@ -1,0 +1,509 @@
+openapi: 3.1.0
+info:
+  title: CinderRouter Dispatch API
+  version: 1.0.0
+  description: >-
+    The supplied API image implements this contract and must be deployed without modification.
+    All data paths are intentionally asynchronous after command commit.
+servers:
+  - url: http://{albEndpoint}
+    variables:
+      albEndpoint:
+        default: localhost
+tags:
+  - name: health
+  - name: shipments
+  - name: admin
+paths:
+  /health/live:
+    get:
+      tags: [health]
+      operationId: live
+      security: []
+      responses:
+        "200":
+          description: Process is live.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
+  /health/ready:
+    get:
+      tags: [health]
+      operationId: ready
+      security: []
+      responses:
+        "200":
+          description: >-
+            Critical PostgreSQL and DynamoDB stores are reachable. SQS and Valkey status is also
+            reported, but their documented fallback paths keep the API ready during an outage.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
+        "503":
+          description: At least one critical dependency is unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
+  /v1/shipments:
+    post:
+      tags: [shipments]
+      operationId: createShipment
+      security:
+        - cognito: [cinderroute/write]
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+        - $ref: "#/components/parameters/CorrelationId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateShipment"
+      responses:
+        "201":
+          description: New shipment command committed durably.
+          headers:
+            X-Correlation-Id:
+              $ref: "#/components/headers/CorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MutationResult"
+        "200":
+          description: Idempotent replay of a previously committed command.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MutationResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /v1/shipments/{id}/checkpoints:
+    post:
+      tags: [shipments]
+      operationId: recordCheckpoint
+      security:
+        - cognito: [cinderroute/write]
+      parameters:
+        - $ref: "#/components/parameters/ShipmentId"
+        - $ref: "#/components/parameters/IdempotencyKey"
+        - $ref: "#/components/parameters/CorrelationId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecordCheckpoint"
+      responses:
+        "202":
+          description: Checkpoint command committed; projection is asynchronous.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MutationResult"
+        "200":
+          description: Idempotent replay of a previously committed command.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MutationResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /v1/shipments/{id}:
+    get:
+      tags: [shipments]
+      operationId: getShipment
+      security:
+        - cognito: [cinderroute/read]
+      parameters:
+        - $ref: "#/components/parameters/ShipmentId"
+      responses:
+        "200":
+          description: Current projected state.
+          headers:
+            X-CinderRoute-Source:
+              $ref: "#/components/headers/DataSource"
+            X-CinderRoute-Version:
+              $ref: "#/components/headers/ProjectionVersion"
+            X-CinderRoute-Instance:
+              $ref: "#/components/headers/Instance"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShipmentProjection"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+  /v1/shipments/{id}/timeline:
+    get:
+      tags: [shipments]
+      operationId: getShipmentTimeline
+      security:
+        - cognito: [cinderroute/read]
+      parameters:
+        - $ref: "#/components/parameters/ShipmentId"
+      responses:
+        "200":
+          description: Projected events sorted by aggregateVersion.
+          headers:
+            X-CinderRoute-Source:
+              $ref: "#/components/headers/DataSource"
+            X-CinderRoute-Version:
+              $ref: "#/components/headers/ProjectionVersion"
+            X-CinderRoute-Instance:
+              $ref: "#/components/headers/Instance"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Timeline"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+  /v1/admin/projections/{id}/rebuild:
+    post:
+      tags: [admin]
+      operationId: rebuildProjection
+      security:
+        - cognito: [cinderroute/admin]
+      parameters:
+        - $ref: "#/components/parameters/ShipmentId"
+      responses:
+        "202":
+          description: All persisted aggregate events were requeued in version order.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RebuildResult"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+components:
+  securitySchemes:
+    cognito:
+      type: oauth2
+      description: >-
+        Client credentials are issued by the Cognito user pool created for this deployment. The concrete endpoint
+        and clients are discovered from live infrastructure.
+      flows:
+        clientCredentials:
+          tokenUrl: /cognito-idp/oauth2/token
+          scopes:
+            cinderroute/read: Read projections and timelines.
+            cinderroute/write: Create shipments and checkpoints.
+            cinderroute/admin: Requeue persisted events for projection rebuild.
+  parameters:
+    ShipmentId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 200
+    CorrelationId:
+      name: X-Correlation-Id
+      in: header
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 200
+  headers:
+    CorrelationId:
+      description: Caller-provided or generated correlation identifier.
+      schema:
+        type: string
+    DataSource:
+      description: System that satisfied this read.
+      schema:
+        enum: [projection, cache]
+    ProjectionVersion:
+      description: Aggregate version returned by the read model.
+      schema:
+        type: integer
+        minimum: 1
+    Instance:
+      description: ECS container instance identifier that handled this request.
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: Request or required header is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: Bearer token is absent, malformed, expired, untrusted or for another client.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Forbidden:
+      description: Authenticated token lacks the exact route scope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: Aggregate or its asynchronous projection does not exist yet.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Conflict:
+      description: Aggregate version or idempotency ownership conflict.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unavailable:
+      description: Required cloud dependency is temporarily unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    CreateShipment:
+      type: object
+      additionalProperties: false
+      required: [shipmentId, ownerId, reference, origin, destination, expectedVersion]
+      properties:
+        shipmentId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        reference:
+          type: string
+          minLength: 1
+          maxLength: 128
+        origin:
+          type: string
+          minLength: 1
+          maxLength: 256
+        destination:
+          type: string
+          minLength: 1
+          maxLength: 256
+        expectedVersion:
+          const: 0
+    RecordCheckpoint:
+      type: object
+      additionalProperties: false
+      required: [checkpointId, status, location, occurredAt, expectedVersion]
+      properties:
+        checkpointId:
+          type: string
+          format: uuid
+        status:
+          $ref: "#/components/schemas/CheckpointStatus"
+        location:
+          type: string
+          minLength: 1
+          maxLength: 256
+        note:
+          type: string
+          maxLength: 1000
+        occurredAt:
+          type: string
+          format: date-time
+        expectedVersion:
+          type: integer
+          minimum: 1
+    MutationResult:
+      type: object
+      additionalProperties: false
+      required: [shipmentId, eventId, version, accepted, idempotentReplay]
+      properties:
+        shipmentId:
+          type: string
+          format: uuid
+        eventId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          minimum: 1
+        accepted:
+          const: true
+        idempotentReplay:
+          type: boolean
+    ShipmentProjection:
+      type: object
+      additionalProperties: false
+      required: [shipmentId, ownerId, reference, origin, destination, status, version, updatedAt]
+      properties:
+        shipmentId:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+        reference:
+          type: string
+        origin:
+          type: string
+        destination:
+          type: string
+        status:
+          $ref: "#/components/schemas/ShipmentStatus"
+        version:
+          type: integer
+          minimum: 1
+        updatedAt:
+          type: string
+          format: date-time
+    Timeline:
+      type: object
+      additionalProperties: false
+      required: [shipmentId, version, events]
+      properties:
+        shipmentId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          minimum: 1
+        events:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/EventEnvelope"
+    EventEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        [schemaVersion, eventId, eventType, aggregateId, aggregateVersion, ownerId, occurredAt, correlationId, data]
+      properties:
+        schemaVersion:
+          const: "1.0"
+        eventId:
+          type: string
+          format: uuid
+        eventType:
+          enum: [ShipmentCreated, CheckpointRecorded]
+        aggregateId:
+          type: string
+          format: uuid
+        aggregateVersion:
+          type: integer
+          minimum: 1
+        ownerId:
+          type: string
+        occurredAt:
+          type: string
+          format: date-time
+        correlationId:
+          type: string
+        data:
+          oneOf:
+            - $ref: "#/components/schemas/ShipmentCreatedData"
+            - $ref: "#/components/schemas/CheckpointRecordedData"
+    ShipmentCreatedData:
+      type: object
+      additionalProperties: false
+      required: [kind, reference, origin, destination]
+      properties:
+        kind:
+          const: shipmentCreated
+        reference:
+          type: string
+        origin:
+          type: string
+        destination:
+          type: string
+    CheckpointRecordedData:
+      type: object
+      additionalProperties: false
+      required: [kind, checkpointId, status, location]
+      properties:
+        kind:
+          const: checkpointRecorded
+        checkpointId:
+          type: string
+          format: uuid
+        status:
+          $ref: "#/components/schemas/CheckpointStatus"
+        location:
+          type: string
+        note:
+          type: string
+    CheckpointStatus:
+      enum: [PICKED_UP, IN_TRANSIT, AT_HUB, OUT_FOR_DELIVERY, DELIVERED, EXCEPTION]
+    ShipmentStatus:
+      enum: [CREATED, PICKED_UP, IN_TRANSIT, AT_HUB, OUT_FOR_DELIVERY, DELIVERED, EXCEPTION]
+    RebuildResult:
+      type: object
+      additionalProperties: false
+      required: [shipmentId, requeued]
+      properties:
+        shipmentId:
+          type: string
+          format: uuid
+        requeued:
+          type: integer
+          minimum: 1
+    Health:
+      type: object
+      additionalProperties: false
+      required: [status, service, instance, checks]
+      properties:
+        status:
+          enum: [UP, DOWN]
+        service:
+          const: cinderroute-api
+        instance:
+          type: string
+        checks:
+          type: object
+          additionalProperties:
+            enum: [UP, DOWN]
+    Error:
+      type: object
+      additionalProperties: false
+      required: [error, message]
+      properties:
+        error:
+          type: string
+        message:
+          type: string

@@ -1,0 +1,312 @@
+{
+  "schema_version": "1.1",
+  "benchmark": "MediaPulse Ingest",
+  "total_points": 100,
+  "pass_threshold": 100,
+  "categories": [
+    {
+      "id": "architecture",
+      "label": "Architecture and deployment",
+      "weight": 17,
+      "obligations": [
+        "declared.managed_iac",
+        "declared.compute_ingress",
+        "declared.data_async",
+        "realized.ingress_compute_graph",
+        "realized.data_event_graph"
+      ]
+    },
+    {
+      "id": "core_behavior",
+      "label": "Core product behavior",
+      "weight": 24,
+      "obligations": [
+        "observed.workflow_relations",
+        "observed.projection_cache",
+        "observed.idempotency_concurrency"
+      ]
+    },
+    {
+      "id": "async_processing",
+      "label": "Asynchronous processing",
+      "weight": 13,
+      "obligations": [
+        "observed.backlog_recovery",
+        "observed.duplicate_dlq"
+      ]
+    },
+    {
+      "id": "security_operations",
+      "label": "Security and observability",
+      "weight": 11,
+      "obligations": [
+        "declared.security_ops",
+        "realized.security_ops_graph",
+        "observed.auth_archive_logs"
+      ]
+    },
+    {
+      "id": "recovery",
+      "label": "Recovery",
+      "weight": 20,
+      "obligations": [
+        "observed.outbox_recovery",
+        "observed.projection_rebuild",
+        "observed.ecs_recovery",
+        "observed.rds_reboot"
+      ]
+    },
+    {
+      "id": "lifecycle",
+      "label": "Lifecycle",
+      "weight": 15,
+      "obligations": [
+        "lifecycle.reapply_stable",
+        "lifecycle.destroy_clean"
+      ]
+    }
+  ],
+  "planes": {
+    "declared": 10,
+    "realized": 15,
+    "observed": 60,
+    "lifecycle": 15
+  },
+  "hard_gates": [
+    "trial.integrity",
+    "declared.managed_iac",
+    "declared.compute_ingress",
+    "declared.data_async",
+    "declared.security_ops",
+    "realized.approved_ingress",
+    "realized.complete_data",
+    "realized.complete_security",
+    "observed.no_accepted_write_loss",
+    "observed.no_auth_escalation",
+    "lifecycle.baseline_preserved"
+  ],
+  "score_caps": {
+    "accepted_write_loss_or_corruption": 49,
+    "critical_auth_escalation": 49,
+    "cleanup_leak": 79
+  },
+  "obligations": [
+    {
+      "id": "declared.managed_iac",
+      "plane": "declared",
+      "weight": 3,
+      "hard_gate": "declared.managed_iac",
+      "fidelity": "state",
+      "implementation": "executable",
+      "given": "a submission containing Terraform or OpenTofu GCP infrastructure",
+      "when": "the verifier initializes, validates, and reads machine-readable state",
+      "then": ["configuration validates", "all scored GCP resource families are managed in state"],
+      "deadline_seconds": 120
+    },
+    {
+      "id": "declared.compute_ingress",
+      "plane": "declared",
+      "weight": 2,
+      "hard_gate": "declared.compute_ingress",
+      "fidelity": "state",
+      "implementation": "executable",
+      "given": "the supplied immutable API image",
+      "when": "the state graph is inspected semantically",
+      "then": ["Cloud Run min_instance_count is at least two", "Global External Application Load Balancer and Serverless NEG route to Cloud Run", "the approved image is selected"],
+      "deadline_seconds": 30
+    },
+    {
+      "id": "declared.data_async",
+      "plane": "declared",
+      "weight": 2,
+      "hard_gate": "declared.data_async",
+      "fidelity": "state",
+      "implementation": "executable",
+      "given": "the event-store, projection, cache, and archive contract",
+      "when": "managed resource values are inspected",
+      "then": ["Cloud SQL PostgreSQL, Pub/Sub and DLQ, Cloud Functions, Firestore, Datastore and private GCS are declared", "dead-letter delivery attempts are bounded"],
+      "deadline_seconds": 30
+    },
+    {
+      "id": "declared.security_ops",
+      "plane": "declared",
+      "weight": 3,
+      "hard_gate": "declared.security_ops",
+      "fidelity": "state",
+      "implementation": "executable",
+      "given": "the public IAM, VPC network, KMS encryption and Cloud Logging requirements",
+      "when": "state values and IAM bindings are inspected",
+      "then": ["service accounts are separated", "ingress/private VPC subnets are declared", "data services are private", "log retention and 4 KMS crypto keys exist"],
+      "deadline_seconds": 45
+    },
+    {
+      "id": "realized.ingress_compute_graph",
+      "plane": "realized",
+      "weight": 5,
+      "fidelity": "real",
+      "implementation": "executable",
+      "hard_gate": "realized.approved_ingress",
+      "given": "a completed deploy through Floci-GCP",
+      "when": "Global Load Balancer, Serverless NEG, and Cloud Run v2 services are discovered via APIs",
+      "then": ["the manifest resolves to the live Load Balancer and Cloud Run service", "at least two warm API instances are configured"],
+      "deadline_seconds": 90
+    },
+    {
+      "id": "realized.data_event_graph",
+      "plane": "realized",
+      "weight": 5,
+      "hard_gate": "realized.complete_data",
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "a completed deploy",
+      "when": "live GCP service APIs and Cloud Function/Run environments are cross-checked",
+      "then": ["Cloud SQL, Pub/Sub + DLQ, Cloud Functions, Firestore and Datastore are live", "relay and archiver Cloud Scheduler jobs target the correct functions", "GCS bucket is private"],
+      "deadline_seconds": 90
+    },
+    {
+      "id": "realized.security_ops_graph",
+      "plane": "realized",
+      "weight": 5,
+      "hard_gate": "realized.complete_security",
+      "fidelity": "topology",
+      "implementation": "executable",
+      "given": "a completed deploy",
+      "when": "Compute Engine, IAM, Identity Platform, Cloud KMS and Cloud Logging APIs are queried",
+      "then": ["VPC firewall rules match the contract", "Identity Platform clients expose only their scopes", "distinct service accounts and explicit log buckets exist"],
+      "deadline_seconds": 120
+    },
+    {
+      "id": "observed.workflow_relations",
+      "plane": "observed",
+      "weight": 9,
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "valid write/read credentials and an empty randomized namespace",
+      "when": "8-12 media workflows with 3-6 checkpoints each are ingested",
+      "then": ["every accepted version appears without loss or duplication", "read and timeline relationships match generated values"],
+      "deadline_seconds": 180
+    },
+    {
+      "id": "observed.projection_cache",
+      "plane": "observed",
+      "weight": 7,
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "committed media items and a healthy asynchronous pipeline",
+      "when": "Cloud Datastore entity cache is invalidated and the same item is read twice",
+      "then": ["the first read comes from Firestore projection", "the second read comes from repopulated Cloud Datastore cache"],
+      "deadline_seconds": 90
+    },
+    {
+      "id": "observed.idempotency_concurrency",
+      "plane": "observed",
+      "weight": 8,
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "a media item at a known version",
+      "when": "one idempotency key is replayed 5-10 times concurrently and two distinct writes race at one expected version",
+      "then": ["the replay creates one logical transition", "exactly one distinct racing write succeeds and the other returns 409 conflict"],
+      "deadline_seconds": 90
+    },
+    {
+      "id": "observed.backlog_recovery",
+      "plane": "observed",
+      "weight": 7,
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "a healthy Pub/Sub push subscription",
+      "when": "push delivery is paused and 20-35 commands are accepted",
+      "then": ["visible backlog grows", "after resume the subscription drains", "all projections converge without loss"],
+      "deadline_seconds": 180
+    },
+    {
+      "id": "observed.duplicate_dlq",
+      "plane": "observed",
+      "weight": 6,
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "the published event schema and bounded delivery attempts",
+      "when": "a valid event is duplicated and a uniquely marked invalid message is published",
+      "then": ["the duplicate advances the projection once", "the invalid body reaches the dead-letter topic within max_delivery_attempts", "healthy traffic continues"],
+      "deadline_seconds": 150
+    },
+    {
+      "id": "observed.outbox_recovery",
+      "plane": "observed",
+      "weight": 6,
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "a healthy deployment and a durable Cloud SQL PostgreSQL outbox",
+      "when": "the main Pub/Sub topic faults, a write is accepted, deploy repairs the topic, and the relay function runs",
+      "then": ["the accepted write reaches the projection exactly once", "previous committed data remains readable"],
+      "deadline_seconds": 1080
+    },
+    {
+      "id": "observed.projection_rebuild",
+      "plane": "observed",
+      "weight": 5,
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "a committed media item whose Firestore projection and Datastore cache entry are removed",
+      "when": "the admin rebuild endpoint / Cloud Tasks rebuild queue is triggered",
+      "then": ["the projection is reconstructed from Cloud SQL PostgreSQL", "version and timeline match the pre-fault state"],
+      "deadline_seconds": 120
+    },
+    {
+      "id": "observed.ecs_recovery",
+      "plane": "observed",
+      "weight": 5,
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "two warm Cloud Run API instances and committed data",
+      "when": "an active instance is terminated",
+      "then": ["Cloud Run maintains two healthy warm instances", "prior data remains readable"],
+      "deadline_seconds": 60
+    },
+    {
+      "id": "observed.rds_reboot",
+      "plane": "observed",
+      "weight": 4,
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "committed data on Cloud SQL for PostgreSQL",
+      "when": "the Cloud SQL instance is restarted",
+      "then": ["the instance returns runnable", "API readiness recovers", "pre-restart data remains readable"],
+      "deadline_seconds": 120
+    },
+    {
+      "id": "observed.auth_archive_logs",
+      "plane": "observed",
+      "weight": 3,
+      "fidelity": "real",
+      "implementation": "executable",
+      "given": "anonymous, read, write and admin identities plus correlated events",
+      "when": "the authorization matrix, GCS archiver and Cloud Logging buckets are exercised",
+      "then": ["no identity exceeds its public scopes", "the archiver writes valid NDJSON to GCS", "logs contain correlation/event IDs without known secrets"],
+      "deadline_seconds": 150
+    },
+    {
+      "id": "lifecycle.reapply_stable",
+      "plane": "lifecycle",
+      "weight": 7,
+      "fidelity": "state+real",
+      "implementation": "executable",
+      "given": "a fault-repaired deployment containing committed data",
+      "when": "deploy.sh is rerun",
+      "then": ["the deployment converges cleanly", "Cloud SQL instance identity is unchanged", "committed data remains readable"],
+      "deadline_seconds": 1200
+    },
+    {
+      "id": "lifecycle.destroy_clean",
+      "plane": "lifecycle",
+      "weight": 8,
+      "fidelity": "real",
+      "implementation": "executable",
+      "hard_gate": "lifecycle.baseline_preserved",
+      "given": "the inventory captured before deployment",
+      "when": "destroy.sh is run and the live GCP environment is inventoried again",
+      "then": ["no trial-prefixed GCP resource remains", "no baseline resource was deleted"],
+      "deadline_seconds": 900
+    }
+  ]
+}

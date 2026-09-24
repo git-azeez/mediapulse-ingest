@@ -1,0 +1,87 @@
+services:
+  main:
+    command: [ "sleep", "infinity" ]
+    user: "10001:10001"
+    depends_on:
+      runtime-setup:
+        condition: service_completed_successfully
+      floci-gcp:
+        condition: service_started
+    environment:
+      HTTP_PROXY: http://172.20.0.1:18080
+      http_proxy: http://172.20.0.1:18080
+      HTTPS_PROXY: http://172.20.0.1:18080
+      https_proxy: http://172.20.0.1:18080
+      NO_PROXY: localhost,127.0.0.1,::1,gcp,floci-gcp,floci,runtime-setup
+      no_proxy: localhost,127.0.0.1,::1,gcp,floci-gcp,floci,runtime-setup
+      CURL_CA_BUNDLE: /etc/daytona-netleash-ca.crt
+      SSL_CERT_FILE: /etc/daytona-netleash-ca.crt
+      REQUESTS_CA_BUNDLE: /etc/daytona-netleash-ca.crt
+      NODE_EXTRA_CA_CERTS: /etc/daytona-netleash-ca.crt
+      GCP_ENDPOINT_URL: http://gcp:4588
+      PUBSUB_EMULATOR_HOST: gcp:4588
+      FIRESTORE_EMULATOR_HOST: gcp:4588
+      DATASTORE_EMULATOR_HOST: gcp:4588
+      STORAGE_EMULATOR_HOST: http://gcp:4588
+      SECRET_MANAGER_EMULATOR_HOST: gcp:4588
+      FIREBASE_AUTH_EMULATOR_HOST: gcp:4588
+    networks:
+      - solver-control
+      - agent
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
+      - DAC_READ_SEARCH
+    volumes:
+      - config:/workspace/config:ro
+      - /etc/daytona/netleash/ca.crt:/etc/daytona-netleash-ca.crt:ro
+
+  runtime-setup:
+    build:
+      context: ./application
+      target: runtime-setup
+    command: [ "/bin/sh", "/runtime.sh" ]
+    environment:
+      DOCKER_BUILDKIT: "1"
+    networks:
+      - solver-control
+    restart: "no"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./runtime.sh:/runtime.sh:ro
+      - config:/config
+
+  floci-gcp:
+    image: floci/floci-gcp:latest@sha256:ea29a53b34d04ba05240cdc6833608e43ae2b0a67849e5b97f01a7224e1138ea
+    pull_policy: missing
+    environment:
+      FLOCI_GCP_HOSTNAME: gcp
+      FLOCI_GCP_BASE_URL: http://gcp:4588
+      FLOCI_GCP_STORAGE_MODE: persistent
+      FLOCI_GCP_STORAGE_PERSISTENT_PATH: /app/data
+      FLOCI_DOCKER_DOCKER_HOST: unix:///var/run/docker.sock
+      FLOCI_DOCKER_RESOURCE_NAMESPACE: ${COMPOSE_PROJECT_NAME}
+      FLOCI_SERVICES_DOCKER_NETWORK: ${COMPOSE_PROJECT_NAME}_workload
+    networks:
+      solver-control:
+        aliases: [ gcp, floci-gcp, floci ]
+      workload:
+        aliases: [ gcp, floci-gcp, floci ]
+    restart: unless-stopped
+    volumes:
+      - floci-data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  agent: {}
+  solver-control:
+    internal: true
+  workload:
+    name: ${COMPOSE_PROJECT_NAME}_workload
+    internal: true
+
+volumes:
+  floci-data: {}
+  config: {}

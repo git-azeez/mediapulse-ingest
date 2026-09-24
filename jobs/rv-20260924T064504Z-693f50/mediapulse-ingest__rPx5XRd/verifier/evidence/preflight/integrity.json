@@ -1,0 +1,35 @@
+{
+  "baseline": {
+    "cloudfunctions.functions": [],
+    "compute.networks": [],
+    "pubsub.subscriptions": [],
+    "pubsub.topics": [],
+    "run.services": [],
+    "sql.instances": [],
+    "storage.buckets": []
+  },
+  "baseline_source": "fresh-separate-verifier",
+  "endpoint": "http://gcp:4588",
+  "prefix": "mp-5b8fd3c93322",
+  "privilege_separation": true,
+  "runner_attestation": {
+    "active": false,
+    "broker_root": true,
+    "broker_uid": 0,
+    "executor": {
+      "anchor_rename_denied": true,
+      "broker_environ_denied": true,
+      "broker_signal_denied": true,
+      "gid": 10001,
+      "runner_api_denied": true,
+      "token_file_denied": true,
+      "token_in_env": false,
+      "uid": 10001
+    },
+    "ok": true
+  },
+  "runner_clone_digest": "f2a56d59333ba602ae63134d82b7c871af321da735185046ce1e6d24955c84cd",
+  "seed": 8972591639408014715,
+  "separate_verifier": true,
+  "submission_digest": "f2a56d59333ba602ae63134d82b7c871af321da735185046ce1e6d24955c84cd"
+}

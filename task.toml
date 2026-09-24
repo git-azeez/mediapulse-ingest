@@ -1,0 +1,68 @@
+schema_version = "1.1"
+artifacts = [
+  { source = "/workspace/submission", destination = "submission", exclude = [
+    "*/.terraform",
+    "*/.terraform/**",
+    "*/terraform.tfstate",
+    "*/terraform.tfstate.*",
+    "*/config.auto.tfvars.json",
+    "*/.terraform.tfstate.lock.info",
+  ] },
+  { source = "/workspace/evidence", destination = "evidence" },
+]
+
+[task]
+name = "devcloud/mediapulse-ingest"
+description = "Build and operate a production-shaped event-driven media processing platform on Google Cloud Platform (Floci-GCP) using Terraform or OpenTofu."
+keywords = [
+  "cloud-infrastructure",
+  "terraform",
+  "opentofu",
+  "gcp",
+  "floci-gcp",
+  "cloud-run",
+  "cloud-functions",
+  "pubsub",
+  "cloud-sql",
+  "firestore",
+  "datastore",
+  "secret-manager",
+  "gcs",
+  "kms",
+  "resilience",
+]
+authors = [{ name = "Azeez", email = "azeez@micro1.ai" }]
+
+[metadata]
+source = "devcloudbenchmark"
+environment_id = "devcloud"
+task_id = "1"
+instance_id = "messaging_and_events_mediapulse_ingest"
+category = "messaging_and_events"
+difficulty = "hard"
+version = "0.1.0"
+
+[agent]
+timeout_sec = 43200.0
+user = "agent"
+
+[verifier]
+timeout_sec = 7200.0
+environment_mode = "separate"
+user = "verifier"
+
+[verifier.environment]
+build_timeout_sec = 3600.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 30720
+gpus = 0
+allow_internet = true
+
+[environment]
+build_timeout_sec = 3600.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 30720
+gpus = 0
+allow_internet = true

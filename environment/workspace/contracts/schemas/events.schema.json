@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cinderrouter.invalid/contracts/schemas/events.schema.json",
+  "title": "CinderRouter Dispatch event envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "eventId",
+    "eventType",
+    "aggregateId",
+    "aggregateVersion",
+    "ownerId",
+    "occurredAt",
+    "correlationId",
+    "data"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "eventId": { "type": "string", "format": "uuid" },
+    "eventType": { "enum": ["ShipmentCreated", "CheckpointRecorded"] },
+    "aggregateId": { "type": "string", "format": "uuid" },
+    "aggregateVersion": { "type": "integer", "minimum": 1 },
+    "ownerId": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "correlationId": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "data": {
+      "oneOf": [
+        { "$ref": "#/$defs/shipmentCreated" },
+        { "$ref": "#/$defs/checkpointRecorded" }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "eventType": { "const": "ShipmentCreated" } } },
+      "then": {
+        "properties": {
+          "aggregateVersion": { "const": 1 },
+          "data": { "$ref": "#/$defs/shipmentCreated" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "eventType": { "const": "CheckpointRecorded" } } },
+      "then": {
+        "properties": {
+          "aggregateVersion": { "type": "integer", "minimum": 2 },
+          "data": { "$ref": "#/$defs/checkpointRecorded" }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "shipmentCreated": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "reference", "origin", "destination"],
+      "properties": {
+        "kind": { "const": "shipmentCreated" },
+        "reference": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "origin": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "destination": { "type": "string", "minLength": 1, "maxLength": 256 }
+      }
+    },
+    "checkpointRecorded": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "checkpointId", "status", "location"],
+      "properties": {
+        "kind": { "const": "checkpointRecorded" },
+        "checkpointId": { "type": "string", "format": "uuid" },
+        "status": { "$ref": "#/$defs/checkpointStatus" },
+        "location": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "note": { "type": "string", "maxLength": 1000 }
+      }
+    },
+    "checkpointStatus": {
+      "enum": [
+        "PICKED_UP",
+        "IN_TRANSIT",
+        "AT_HUB",
+        "OUT_FOR_DELIVERY",
+        "DELIVERED",
+        "EXCEPTION"
+      ]
+    }
+  }
+}

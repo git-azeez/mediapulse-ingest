@@ -1,8 +1,0 @@
-Initializing provider plugins...
-- Reusing previous version of hashicorp/google from the dependency lock file
-- Reusing previous version of hashicorp/google-beta from the dependency lock file
-- Using previously-installed hashicorp/google v8.4.0
-- Using previously-installed hashicorp/google-beta v8.4.0
-
-
-Terraform has been successfully initialized!

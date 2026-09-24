@@ -1,6 +1,0 @@
-{
-  "fault_media_id": "mp-eb97af09a963-outbox-6969",
-  "outbox_repaired": true,
-  "relay_function": "projects/mp-ver-e51be546/locations/us-central1/functions/mp-eb97af09a963-outbox-relay",
-  "relay_scheduler_job": "mp-eb97af09a963-relay-schedule"
-}

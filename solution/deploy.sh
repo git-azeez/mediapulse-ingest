@@ -65,6 +65,14 @@ mv "$tfvars_tmp" "$tfvars_path"
 chmod 0600 "$tfvars_path"
 trap - EXIT
 
+CURRENT_PREFIX="$(jq -r '.resource_prefix' "$CONFIG_FILE")"
+CURRENT_PROJECT="$(jq -r '.gcp_project_id' "$CONFIG_FILE")"
+if [[ -f "$INFRA_DIR/terraform.tfstate" ]]; then
+  if ! grep -q "$CURRENT_PREFIX" "$INFRA_DIR/terraform.tfstate" || ! grep -q "$CURRENT_PROJECT" "$INFRA_DIR/terraform.tfstate"; then
+    rm -f "$INFRA_DIR/terraform.tfstate" "$INFRA_DIR/terraform.tfstate.backup" "$MANIFEST_PATH"
+  fi
+fi
+
 rm -rf "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl"
 terraform -chdir="$INFRA_DIR" init -input=false -no-color
 terraform -chdir="$INFRA_DIR" apply -input=false -auto-approve -lock-timeout=60s -no-color

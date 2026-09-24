@@ -17,7 +17,11 @@ def deploy(ctx: TrialContext, *, timeout: int | None = None) -> Completed:
     effective_timeout = timeout or ctx.config.deploy_timeout
     if ctx.runner is None:
         raise HarnessError("isolated execution runner is required")
-    completed, manifest = ctx.runner.deploy(effective_timeout)
+    try:
+        completed, manifest = ctx.runner.deploy(effective_timeout)
+    except CommandFailure as exc:
+        ctx.evidence.text("lifecycle/deploy.log", (exc.stdout or "") + (exc.stderr or ""))
+        raise
     ctx.manifest = manifest
     ctx.evidence.text("lifecycle/deploy.log", completed.stdout + completed.stderr)
     return completed

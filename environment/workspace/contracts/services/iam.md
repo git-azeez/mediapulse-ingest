@@ -25,4 +25,4 @@ Create an Identity Platform tenant (`google_identity_platform_tenant`) and three
 - `auth.write_client_secret`: Set to `google_service_account_key.client_write.private_key`.
 - `auth.admin_client_secret`: Set to `google_service_account_key.client_admin.private_key`.
 - `auth.token_endpoint`: Set to `<gcp_endpoint_url>/oauth2/v4/token` (where `client_id`, `client_secret`, and `scope` are exchanged via `grant_type=client_credentials` for a signed RS256 JWT).
-- `auth.jwks_url` (and `auth.jwks_uri`): Set to `<gcp_endpoint_url>/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com`.
+- `auth.jwks_url`: Set to `<gcp_endpoint_url>/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com`.

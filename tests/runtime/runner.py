@@ -270,23 +270,31 @@ class ExecutionRunner:
             "FIREBASE_AUTH_EMULATOR_HOST": required_environment("FIREBASE_AUTH_EMULATOR_HOST"),
             "GOOGLE_COMPUTE_CUSTOM_ENDPOINT": f"{gcp_endpoint}/compute/v1/",
             "GOOGLE_STORAGE_CUSTOM_ENDPOINT": f"{gcp_endpoint}/storage/v1/",
-            "GOOGLE_IAM_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_PUBSUB_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_FIRESTORE_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_DATASTORE_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_SQL_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_CLOUD_RUN_V2_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_CLOUDFUNCTIONS2_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_CLOUD_SCHEDULER_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_CLOUD_TASKS_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_SECRET_MANAGER_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_KMS_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_LOGGING_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_MONITORING_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
+            "GOOGLE_PUBSUB_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_FIRESTORE_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_DATASTORE_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_SQL_CUSTOM_ENDPOINT": f"{gcp_endpoint}/sql/v1beta4/",
+            "GOOGLE_CLOUD_RUN_CUSTOM_ENDPOINT": f"{gcp_endpoint}/run/v1/",
+            "GOOGLE_CLOUD_RUN_V2_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v2/",
+            "GOOGLE_CLOUDFUNCTIONS2_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v2/",
+            "GOOGLE_CLOUD_SCHEDULER_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_CLOUD_TASKS_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v2/",
+            "GOOGLE_SECRET_MANAGER_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_KMS_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_IAM_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_IAM_BETA_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_IAM_CREDENTIALS_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_RESOURCE_MANAGER_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_RESOURCE_MANAGER_V3_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v3/",
+            "GOOGLE_CLOUD_RESOURCE_MANAGER_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_SERVICE_USAGE_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_IDENTITY_PLATFORM_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v2/",
+            "GOOGLE_LOGGING_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v2/",
+            "GOOGLE_MONITORING_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v3/",
+            "GOOGLE_BIG_QUERY_CUSTOM_ENDPOINT": f"{gcp_endpoint}/bigquery/v2/",
             "GOOGLE_BIGQUERY_CUSTOM_ENDPOINT": f"{gcp_endpoint}/bigquery/v2/",
-            "GOOGLE_IDENTITY_PLATFORM_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_ARTIFACT_REGISTRY_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
-            "GOOGLE_CLOUD_RESOURCE_MANAGER_CUSTOM_ENDPOINT": f"{gcp_endpoint}/",
+            "GOOGLE_EVENTARC_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
+            "GOOGLE_ARTIFACT_REGISTRY_CUSTOM_ENDPOINT": f"{gcp_endpoint}/v1/",
             "CHECKPOINT_DISABLE": "1",
             "TF_IN_AUTOMATION": "1",
             "TF_INPUT": "0",
@@ -556,9 +564,31 @@ print(json.dumps(result, sort_keys=True))
                 stack.extend((nested, depth + 1) for nested in item)
         return value
 
+    def _purge_stale_foreign_state(self) -> None:
+        """If submission contains terraform.tfstate from the agent container's prefix/project, remove it before fresh verifier deploy."""
+        try:
+            cfg = json.loads(self.config.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return
+        expected_prefix = str(cfg.get("resource_prefix") or "").strip()
+        expected_project = str(cfg.get("gcp_project_id") or "").strip()
+        if not expected_prefix and not expected_project:
+            return
+        for state_file in list(self.work.rglob("terraform.tfstate")):
+            try:
+                raw = state_file.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            if (expected_prefix and expected_prefix not in raw) or (expected_project and expected_project not in raw):
+                for pattern in ("terraform.tfstate", "terraform.tfstate.backup", "*.tfplan", ".terraform.lock.hcl"):
+                    for item in state_file.parent.glob(pattern):
+                        item.unlink(missing_ok=True)
+                (self.work / "manifest.json").unlink(missing_ok=True)
+
     def deploy(self, body: dict[str, Any]) -> dict[str, Any]:
         with self._operation_lock:
             self._ensure_prepared()
+            self._purge_stale_foreign_state()
             completed = self._execute(
                 ["bash", str(self._require_script("deploy.sh"))],
                 cwd=self.work,

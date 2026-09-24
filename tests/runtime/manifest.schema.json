@@ -69,7 +69,6 @@
         "resource_server_identifier": { "type": "string", "minLength": 1 },
         "issuer": { "type": "string", "minLength": 1 },
         "jwks_url": { "type": "string", "format": "uri" },
-        "jwks_uri": { "type": "string", "format": "uri" },
         "token_endpoint": { "type": "string", "format": "uri", "description": "OAuth2 token endpoint (<gcp_endpoint_url>/oauth2/v4/token) accepting client_credentials grant." },
         "read_client_email": { "type": "string", "minLength": 1 },
         "write_client_email": { "type": "string", "minLength": 1 },

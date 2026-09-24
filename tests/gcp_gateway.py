@@ -223,8 +223,8 @@ def _active_pubsub_topics() -> list[tuple[str, str]]:
                 doc = json.loads(raw.decode("utf-8", errors="replace"))
                 for t in doc.get("topics") or []:
                     full_name = str(t.get("name") or "")
-                    if full_name and full_name not in deleted and not full_name.endswith("-dlq") and "decoy" not in full_name:
-                        topic_short = full_name.split("/")[-1]
+                    topic_short = full_name.split("/")[-1]
+                    if full_name and full_name not in deleted and topic_short not in deleted and not full_name.endswith("-dlq") and "decoy" not in full_name:
                         found.append((proj, topic_short))
             except Exception:
                 pass
@@ -255,7 +255,8 @@ def _active_audit_buckets() -> list[str]:
                 doc = json.loads(raw.decode("utf-8", errors="replace"))
                 for b in doc.get("items") or []:
                     bname = str(b.get("name") or "")
-                    if bname and bname not in deleted and "audit" in bname and "decoy" not in bname:
+                    bshort = bname.split("/")[-1]
+                    if bname and bname not in deleted and bshort not in deleted and "audit" in bname and "decoy" not in bname:
                         buckets.append(bname)
             except Exception:
                 pass
@@ -665,48 +666,97 @@ class GatewayHandler(BaseHTTPRequestHandler):
         deleted_set = set(state.get("deleted_resources") or [])
         canonical = path.lstrip("/").removeprefix("v1/").removeprefix("v2/").removeprefix("storage/v1/b/").removeprefix("sql/v1beta4/")
         short_id = canonical.split("/")[-1].split("?")[0]
+        collection_plurals = {
+            "topics", "subscriptions", "items", "services", "functions", "instances", "b", "o",
+            "networks", "subnetworks", "firewalls", "addresses", "networkEndpointGroups",
+            "backendServices", "urlMaps", "targetHttpProxies", "forwardingRules", "keys",
+            "users", "databases", "buckets", "sinks", "queues", "tenants", "operations",
+            "keyRings", "cryptoKeys", "cryptoKeyVersions", "notificationChannels", "alertPolicies",
+        }
 
         if method == "DELETE":
             deleted_set.add(canonical)
-            deleted_set.add(short_id)
+            if short_id not in collection_plurals:
+                deleted_set.add(short_id)
             state["deleted_resources"] = sorted(deleted_set)
             _save_state(state)
-            if status >= 400:
+            m_del_sql = re.match(r"^(?:/sql/v1beta4)?/projects/([^/]+)/instances/([^/]+)$", path)
+            m_del_v2 = re.match(r"^(?:/v2)?/projects/([^/]+)/locations/([^/]+)/(services|functions)/([^/]+)$", path)
+            if m_del_sql:
+                proj_sql, inst_sql = m_del_sql.groups()
+                status = 200
+                resp_body = json.dumps({
+                    "kind": "sql#operation",
+                    "status": "DONE",
+                    "operationType": "DELETE",
+                    "name": f"op-sql-del-{inst_sql}",
+                    "targetProject": proj_sql,
+                    "targetId": inst_sql,
+                    "selfLink": f"{BACKEND_URL}/sql/v1beta4/projects/{proj_sql}/operations/op-sql-del-{inst_sql}",
+                }).encode("utf-8")
+            elif m_del_v2:
+                proj_v2, loc_v2, _, name_v2 = m_del_v2.groups()
+                status = 200
+                resp_body = json.dumps({
+                    "name": f"projects/{proj_v2}/locations/{loc_v2}/operations/op-del-{name_v2}",
+                    "done": True,
+                    "response": {},
+                }).encode("utf-8")
+            elif status >= 400:
                 status = 200
                 resp_body = b"{}"
-        elif method in ("POST", "PUT") and status < 300:
-            if canonical in deleted_set or short_id in deleted_set:
-                deleted_set.discard(canonical)
-                deleted_set.discard(short_id)
+        elif method in ("POST", "PUT", "PATCH"):
+            if deleted_set:
+                changed_del = False
+                if canonical in deleted_set:
+                    deleted_set.discard(canonical)
+                    changed_del = True
+                if short_id in deleted_set:
+                    deleted_set.discard(short_id)
+                    changed_del = True
                 for item_key in list(deleted_set):
-                    if body and item_key.encode("utf-8") in body:
+                    if item_key in self.path or (body and item_key.encode("utf-8") in body):
                         deleted_set.discard(item_key)
-                state["deleted_resources"] = sorted(deleted_set)
-                _save_state(state)
-        elif method == "GET" and status == 200 and resp_body and deleted_set:
-            try:
-                doc = json.loads(resp_body.decode("utf-8", errors="replace"))
-                if isinstance(doc, dict):
-                    modified = False
-                    for list_key in ("topics", "subscriptions", "items", "services", "functions"):
-                        if isinstance(doc.get(list_key), list):
-                            orig_len = len(doc[list_key])
-                            doc[list_key] = [
-                                item for item in doc[list_key]
-                                if not (
-                                    isinstance(item, dict)
-                                    and (
-                                        str(item.get("name") or "") in deleted_set
-                                        or str(item.get("name") or "").split("/")[-1] in deleted_set
+                        changed_del = True
+                if changed_del:
+                    state["deleted_resources"] = sorted(deleted_set)
+                    _save_state(state)
+            if status == 409:
+                st_get, hdr_get, body_get = _backend_request("GET", path, headers=fwd_headers)
+                if st_get == 200 and body_get:
+                    status, resp_headers, resp_body = st_get, hdr_get, body_get
+                else:
+                    status = 200
+                    resp_body = json.dumps({"name": canonical}).encode("utf-8")
+        elif method == "GET" and deleted_set:
+            if short_id not in collection_plurals and (canonical in deleted_set or short_id in deleted_set):
+                status = 404
+                resp_body = json.dumps({"error": {"code": 404, "message": "Resource not found", "status": "NOT_FOUND"}}).encode("utf-8")
+            elif status == 200 and resp_body:
+                try:
+                    doc = json.loads(resp_body.decode("utf-8", errors="replace"))
+                    if isinstance(doc, dict):
+                        modified = False
+                        for list_key in ("topics", "subscriptions", "items", "services", "functions", "buckets", "instances", "networks"):
+                            if isinstance(doc.get(list_key), list):
+                                orig_len = len(doc[list_key])
+                                doc[list_key] = [
+                                    item for item in doc[list_key]
+                                    if not (
+                                        isinstance(item, dict)
+                                        and (
+                                            str(item.get("name") or "") in deleted_set
+                                            or str(item.get("name") or "").split("/")[-1] in deleted_set
+                                            or str(item.get("id") or "") in deleted_set
+                                        )
                                     )
-                                )
-                            ]
-                            if len(doc[list_key]) != orig_len:
-                                modified = True
-                    if modified:
-                        resp_body = json.dumps(doc).encode("utf-8")
-            except Exception:
-                pass
+                                ]
+                                if len(doc[list_key]) != orig_len:
+                                    modified = True
+                        if modified:
+                            resp_body = json.dumps(doc).encode("utf-8")
+                except Exception:
+                    pass
 
         if resp_body and b"4589" in resp_body:
             resp_body = resp_body.replace(b":4589", b":4588")
@@ -1089,8 +1139,8 @@ class GatewayHandler(BaseHTTPRequestHandler):
                 self._send_json(200, {})
                 return True
 
-        # --- A3. Cloud SQL Users, Databases, and Operations (`/sql/v1beta4/projects/{proj}/instances/{inst}/(users|databases)`) ---
-        m_sql_op = re.match(r"^(?:/sql/v1beta4)?/projects/([^/]+)/operations/(op-sql-[^/]+)$", norm_path)
+        # --- A3. Cloud SQL Users, Databases, and Operations (`/sql/v1beta4/projects/{proj}/operations/{op_id}`) ---
+        m_sql_op = re.match(r"^(?:/sql/v1beta4)?/projects/([^/]+)/operations/([^/]+)$", norm_path)
         if m_sql_op:
             proj, op_id = m_sql_op.groups()
             self._send_json(
@@ -1103,6 +1153,32 @@ class GatewayHandler(BaseHTTPRequestHandler):
                     "selfLink": f"{BACKEND_URL}/sql/v1beta4/projects/{proj}/operations/{op_id}",
                 },
             )
+            return True
+
+        m_lro = re.match(r"^(?:/v[123][a-z0-9]*)?/projects/([^/]+)/locations/([^/]+)/operations/([^/]+)$", norm_path)
+        if m_lro:
+            proj, loc, op_id = m_lro.groups()
+            self._send_json(
+                200,
+                {
+                    "name": f"projects/{proj}/locations/{loc}/operations/{op_id}",
+                    "done": True,
+                    "response": {},
+                },
+            )
+            return True
+
+        m_kms_ver = re.match(
+            r"^(?:/v1)?/projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)/cryptoKeyVersions(?:/([^/:]+))?(?::(destroy|restore))?$",
+            norm_path,
+        )
+        if m_kms_ver:
+            proj, loc, kr, ck, ver_id, action = m_kms_ver.groups()
+            if method == "GET" and not ver_id:
+                self._send_json(200, {"cryptoKeyVersions": [], "totalSize": 0})
+                return True
+            v_name = f"projects/{proj}/locations/{loc}/keyRings/{kr}/cryptoKeys/{ck}/cryptoKeyVersions/{ver_id or '1'}"
+            self._send_json(200, {"name": v_name, "state": "DESTROY_SCHEDULED" if action == "destroy" else "ENABLED"})
             return True
 
         m_sql_sub = re.match(r"^(?:/sql/v1beta4)?/projects/([^/]+)/instances/([^/]+)/(users|databases)(?:/([^/:]+))?$", norm_path)

@@ -85,7 +85,7 @@ Write these exact fields under `auth` in `/workspace/manifest.json`:
 - `tenant_id`: `google_identity_platform_tenant.<name>.name`
 - `resource_server_identifier`: `"https://api.mediapulse.io"` (or your API resource server URI)
 - `issuer`: `"<gcp_endpoint_url>/identitytoolkit/v3/relyingparty/<gcp_project_id>"`
-- `jwks_url` (and `jwks_uri`): `"<gcp_endpoint_url>/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com"` (pass this URL as `FIREBASE_AUTH_JWKS_URL` / `AUTH_JWKS_URL` to the Cloud Run API)
+- `jwks_url`: `"<gcp_endpoint_url>/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com"` (pass this URL as `FIREBASE_AUTH_JWKS_URL` / `AUTH_JWKS_URL` to the Cloud Run API)
 - `token_endpoint`: `"<gcp_endpoint_url>/oauth2/v4/token"`
 - `read_client_email` and `read_client_id`: `google_service_account.client_read.email`
 - `write_client_email` and `write_client_id`: `google_service_account.client_write.email`

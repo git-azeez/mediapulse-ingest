@@ -254,6 +254,8 @@ class TrialSession:
                     {
                         "exception": type(exc).__name__,
                         "message": str(exc),
+                        "stdout": getattr(exc, "stdout", "")[-4000:],
+                        "stderr": getattr(exc, "stderr", "")[-4000:],
                         "traceback": traceback.format_exc(),
                     },
                 )

@@ -32,7 +32,7 @@ output "manifest" {
     load_balancer = {
       ip_address         = google_compute_global_address.api_ip.address
       url                = "http://${google_compute_global_address.api_ip.address}"
-      connect_url        = coalesce(google_cloud_run_v2_service.api.uri, "${var.gcp_endpoint_url}/run/${google_cloud_run_v2_service.api.name}")
+      connect_url        = var.gcp_endpoint_url
       forwarding_rule_id = google_compute_global_forwarding_rule.http.id
       backend_service_id = google_compute_backend_service.api.id
       serverless_neg_id  = google_compute_region_network_endpoint_group.api_serverless_neg.id

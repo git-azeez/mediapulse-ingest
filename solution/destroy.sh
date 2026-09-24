@@ -35,6 +35,15 @@ if [[ -f "$STATE_PATH" ]] && [[ -r "$TFVARS_PATH" ]]; then
     export TF_IN_AUTOMATION=1
     export TF_INPUT=0
     unset TF_PLUGIN_CACHE_DIR
+    export HTTP_PROXY="${GCP_EP}"
+    export HTTPS_PROXY="${GCP_EP}"
+    export http_proxy="${GCP_EP}"
+    export https_proxy="${GCP_EP}"
+    export NO_PROXY="localhost,127.0.0.1,::1,runtime-setup,floci-gcp,gcp-gateway,gcp,floci"
+    export no_proxy="localhost,127.0.0.1,::1,runtime-setup,floci-gcp,gcp-gateway,gcp,floci"
+    export GCE_METADATA_HOST="127.0.0.1:1"
+    export GCE_METADATA_ROOT="127.0.0.1:1"
+    export NO_GCE_CHECK="true"
     export GOOGLE_RESOURCE_MANAGER_CUSTOM_ENDPOINT="${GCP_EP}/v1/"
     export GOOGLE_CLOUD_RESOURCE_MANAGER_CUSTOM_ENDPOINT="${GCP_EP}/v1/"
     export GOOGLE_IAM_CUSTOM_ENDPOINT="${GCP_EP}/v1/"

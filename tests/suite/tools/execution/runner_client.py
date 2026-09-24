@@ -131,7 +131,11 @@ class RunnerClient:
         except (KeyError, TypeError, ValueError) as exc:
             raise HarnessError("runner returned an invalid command result") from exc
         if value.get("timed_out") is True:
-            raise DeadlineExceeded(f"isolated runner command exceeded its deadline: {completed.args[0]}")
+            raise DeadlineExceeded(
+                f"isolated runner command exceeded its deadline: {completed.args[0]}",
+                stdout=completed.stdout,
+                stderr=completed.stderr,
+            )
         if value.get("output_limited") is True:
             raise SubmissionFailure("submission command exceeded the runner output limit")
         if check and completed.returncode != 0:

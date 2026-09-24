@@ -4,7 +4,7 @@ import json
 import time
 from typing import TYPE_CHECKING, Any, Callable
 
-from ..reporting.errors import CommandFailure, HarnessError, SubmissionFailure
+from ..reporting.errors import CommandFailure, DeadlineExceeded, HarnessError, SubmissionFailure
 from .process import Completed, poll
 
 if TYPE_CHECKING:
@@ -19,7 +19,7 @@ def deploy(ctx: TrialContext, *, timeout: int | None = None) -> Completed:
         raise HarnessError("isolated execution runner is required")
     try:
         completed, manifest = ctx.runner.deploy(effective_timeout)
-    except CommandFailure as exc:
+    except (CommandFailure, DeadlineExceeded) as exc:
         ctx.evidence.text("lifecycle/deploy.log", (exc.stdout or "") + (exc.stderr or ""))
         raise
     ctx.manifest = manifest

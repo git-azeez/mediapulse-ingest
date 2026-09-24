@@ -573,6 +573,10 @@ class GatewayHandler(BaseHTTPRequestHandler):
             )
             return
 
+        if "userinfo" in path or "tokeninfo" in path:
+            self._send_json(200, {"email": "terraform@mediapulse.local", "verified_email": True, "sub": "terraform"})
+            return
+
         if "jwk" in path or path.endswith("/jwks.json") or path == "/.well-known/jwks.json":
             self._send_json(
                 200,
@@ -1730,6 +1734,12 @@ class GatewayHandler(BaseHTTPRequestHandler):
 
     def do_HEAD(self) -> None:
         self._handle_all("HEAD")
+
+    def do_CONNECT(self) -> None:
+        self.send_response(403, "Forbidden")
+        self.send_header("Content-Length", "0")
+        self.send_header("Connection", "close")
+        self.end_headers()
 
 
 class ThreadedHTTPServer(socketserver.ThreadingMixIn, HTTPServer):

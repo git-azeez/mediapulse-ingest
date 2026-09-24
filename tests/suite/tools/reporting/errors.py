@@ -28,3 +28,8 @@ class CommandFailure(VerifierError):
 
 class DeadlineExceeded(VerifierError):
     """A published polling deadline expired."""
+
+    def __init__(self, message: str, *, stdout: str = "", stderr: str = ""):
+        super().__init__(message)
+        self.stdout = stdout
+        self.stderr = stderr

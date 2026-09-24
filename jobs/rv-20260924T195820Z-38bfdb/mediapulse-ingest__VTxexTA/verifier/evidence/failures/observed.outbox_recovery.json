@@ -1,0 +1,13 @@
+{
+  "cap_reason": null,
+  "details": {
+    "exception": "CommandFailure",
+    "message": "runner command failed (1): bash /workspace/submission/deploy.sh"
+  },
+  "duration_seconds": 13.279096047997882,
+  "evidence": [],
+  "hard_gate": null,
+  "obligation_id": "observed.outbox_recovery",
+  "outcome": "fail",
+  "summary": "runner command failed (1): bash /workspace/submission/deploy.sh"
+}

@@ -1,0 +1,12 @@
+{
+  "associated_artifacts": [
+    "evidence/realized/security_ops.json"
+  ],
+  "details": {
+    "distinct_kms_keys": 4,
+    "distinct_service_accounts": 5
+  },
+  "obligation_id": "realized.security_ops_graph",
+  "outcome": "pass",
+  "summary": "VPC firewall topology, Identity Platform scopes, 5 IAM service accounts, 4 KMS keys, and Cloud Logging buckets verified"
+}

@@ -1,0 +1,407 @@
+google_identity_platform_tenant.mediapulse: Refreshing state... [id=projects/mp-ver-5f182757/tenants/tenant-a81bbd55]
+google_service_account.pubsub_invoker: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-pubsub-push-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_service_account.processor: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-processor-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_service_account.api: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-api-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_service_account.client_admin: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-client-admin@mp-ver-5f182757.iam.gserviceaccount.com]
+google_service_account.relay: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-relay-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_service_account.archiver: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-archiver-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_service_account.scheduler: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-scheduler-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_compute_network.ingest: Refreshing state... [id=projects/mp-ver-5f182757/global/networks/mp-85edfcec4b96-vpc]
+google_logging_project_bucket_config.relay: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/buckets/mp-85edfcec4b96-relay-logs]
+google_logging_project_bucket_config.processor: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/buckets/mp-85edfcec4b96-processor-logs]
+google_kms_key_ring.mediapulse: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring]
+google_logging_project_bucket_config.archiver: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/buckets/mp-85edfcec4b96-archiver-logs]
+google_service_account.client_read: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-client-read@mp-ver-5f182757.iam.gserviceaccount.com]
+google_logging_project_bucket_config.api: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/buckets/mp-85edfcec4b96-api-logs]
+google_compute_global_address.api_ip: Refreshing state... [id=projects/mp-ver-5f182757/global/addresses/mp-85edfcec4b96-api-lb-ip]
+google_cloud_tasks_queue.projection_rebuild: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/queues/mp-85edfcec4b96-projection-rebuild-q]
+google_monitoring_notification_channel.ops_email: Refreshing state... [id=projects/mp-ver-5f182757/notificationChannels/notificationChannel-a5c11262]
+google_secret_manager_secret.db_credentials: Refreshing state... [id=projects/mp-ver-5f182757/secrets/mp-85edfcec4b96-db-credentials]
+google_service_account.client_write: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-client-write@mp-ver-5f182757.iam.gserviceaccount.com]
+google_project_iam_member.api_datastore_viewer: Refreshing state... [id=mp-ver-5f182757/roles/datastore.viewer/serviceAccount:mp-85edfcec4b96-api-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_project_iam_member.api_cloudsql_client: Refreshing state... [id=mp-ver-5f182757/roles/cloudsql.client/serviceAccount:mp-85edfcec4b96-api-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_project_iam_member.archiver_cloudsql_client: Refreshing state... [id=mp-ver-5f182757/roles/cloudsql.client/serviceAccount:mp-85edfcec4b96-archiver-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_project_iam_member.relay_cloudsql_client: Refreshing state... [id=mp-ver-5f182757/roles/cloudsql.client/serviceAccount:mp-85edfcec4b96-relay-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_service_account_key.client_admin: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-client-admin@mp-ver-5f182757.iam.gserviceaccount.com/keys/d50a1eb3620c404c]
+google_kms_crypto_key.database: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-database-cmek]
+google_kms_crypto_key.projection: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-projection-cmek]
+google_kms_crypto_key.audit: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-audit-cmek]
+google_kms_crypto_key.messaging: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-messaging-cmek]
+google_service_account_key.client_read: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-client-read@mp-ver-5f182757.iam.gserviceaccount.com/keys/7a93c7f943b94bd9]
+google_secret_manager_secret_iam_member.api_db_secret_accessor: Refreshing state... [id=projects/mp-ver-5f182757/secrets/mp-85edfcec4b96-db-credentials/roles/secretmanager.secretAccessor/serviceAccount:mp-85edfcec4b96-api-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_service_account_key.client_write: Refreshing state... [id=projects/mp-ver-5f182757/serviceAccounts/mp-85edfcec4b96-client-write@mp-ver-5f182757.iam.gserviceaccount.com/keys/071ffa4396004216]
+google_firestore_database.projections: Refreshing state... [id=projects/mp-ver-5f182757/databases/mp-85edfcec4b96-projections]
+google_pubsub_topic.events: Refreshing state... [id=projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events]
+google_pubsub_topic.dead_letters: Refreshing state... [id=projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events-dlq]
+google_bigquery_dataset.audit_analytics: Refreshing state... [id=projects/mp-ver-5f182757/datasets/mp_85edfcec4b96_audit_analytics]
+google_storage_bucket.audit: Refreshing state... [id=mp-85edfcec4b96-mp-ver-5f182757-audit]
+google_firestore_index.media_cache: Refreshing state... [id=projects/mp-ver-5f182757/databases/mp-85edfcec4b96-projections/collectionGroups/MediaCache/indexes/idx-0c8869c9]
+google_pubsub_subscription.dead_letters: Refreshing state... [id=projects/mp-ver-5f182757/subscriptions/mp-85edfcec4b96-events-dlq-sub]
+google_pubsub_topic_iam_member.api_publish_events: Refreshing state... [id=projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events/roles/pubsub.publisher/serviceAccount:mp-85edfcec4b96-api-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_pubsub_topic_iam_member.relay_publish_events: Refreshing state... [id=projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events/roles/pubsub.publisher/serviceAccount:mp-85edfcec4b96-relay-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_bigquery_table.archived_events: Refreshing state... [id=projects/mp-ver-5f182757/datasets/mp_85edfcec4b96_audit_analytics/tables/archived_events]
+google_storage_bucket_iam_member.archiver_write_audit: Refreshing state... [id=b/mp-85edfcec4b96-mp-ver-5f182757-audit/roles/storage.objectAdmin/serviceAccount:mp-85edfcec4b96-archiver-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_project_iam_member.processor_datastore_user: Refreshing state... [id=mp-ver-5f182757/roles/datastore.user/serviceAccount:mp-85edfcec4b96-processor-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_compute_firewall.allow_workloads_to_postgres: Refreshing state... [id=projects/mp-ver-5f182757/global/firewalls/mp-85edfcec4b96-allow-workloads-pg]
+google_compute_firewall.allow_lb_to_api: Refreshing state... [id=projects/mp-ver-5f182757/global/firewalls/mp-85edfcec4b96-allow-lb-to-api]
+google_cloudfunctions2_function.processor: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/functions/mp-85edfcec4b96-processor]
+google_compute_subnetwork.ingress: Refreshing state... [id=projects/mp-ver-5f182757/regions/us-east1/subnetworks/mp-85edfcec4b96-subnet-ingress]
+google_compute_firewall.deny_external_ingress: Refreshing state... [id=projects/mp-ver-5f182757/global/firewalls/mp-85edfcec4b96-deny-external-ingress]
+google_sql_database_instance.events: Refreshing state... [id=mp-85edfcec4b96-events-pg]
+google_compute_subnetwork.private: Refreshing state... [id=projects/mp-ver-5f182757/regions/us-east1/subnetworks/mp-85edfcec4b96-subnet-private]
+google_pubsub_subscription.processor_push: Refreshing state... [id=projects/mp-ver-5f182757/subscriptions/mp-85edfcec4b96-events-processor-sub]
+google_pubsub_subscription_iam_member.processor_consume_events: Refreshing state... [id=projects/mp-ver-5f182757/subscriptions/mp-85edfcec4b96-events-processor-sub/roles/pubsub.subscriber/serviceAccount:mp-85edfcec4b96-processor-sa@mp-ver-5f182757.iam.gserviceaccount.com]
+google_sql_user.app: Refreshing state... [id=mp_user_09189b/%/mp-85edfcec4b96-events-pg]
+google_sql_database.mediapulse: Refreshing state... [id=projects/mp-ver-5f182757/instances/mp-85edfcec4b96-events-pg/databases/mp_7d6227]
+google_secret_manager_secret_version.db_credentials_v1: Refreshing state... [id=projects/mp-ver-5f182757/secrets/mp-85edfcec4b96-db-credentials/versions/1]
+google_cloudfunctions2_function.archiver: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/functions/mp-85edfcec4b96-audit-archiver]
+google_cloudfunctions2_function.relay: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/functions/mp-85edfcec4b96-outbox-relay]
+google_cloud_run_v2_service.api: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/services/mp-85edfcec4b96-api]
+google_cloud_scheduler_job.relay: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/jobs/mp-85edfcec4b96-relay-schedule]
+google_cloud_scheduler_job.archiver: Refreshing state... [id=projects/mp-ver-5f182757/locations/us-east1/jobs/mp-85edfcec4b96-archiver-schedule]
+google_logging_project_sink.api: Refreshing state... [id=projects/mp-ver-5f182757/sinks/mp-85edfcec4b96-api-sink]
+google_compute_region_network_endpoint_group.api_serverless_neg: Refreshing state... [id=projects/mp-ver-5f182757/regions/us-east1/networkEndpointGroups/mp-85edfcec4b96-api-neg]
+google_compute_backend_service.api: Refreshing state... [id=projects/mp-ver-5f182757/global/backendServices/mp-85edfcec4b96-api-backend]
+google_compute_url_map.api: Refreshing state... [id=projects/mp-ver-5f182757/global/urlMaps/mp-85edfcec4b96-api-urlmap]
+google_compute_target_http_proxy.api: Refreshing state... [id=projects/mp-ver-5f182757/global/targetHttpProxies/mp-85edfcec4b96-api-http-proxy]
+google_compute_global_forwarding_rule.http: Refreshing state... [id=projects/mp-ver-5f182757/global/forwardingRules/mp-85edfcec4b96-api-http-fwd]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the
+last "terraform apply" which may have affected this plan:
+
+  # google_pubsub_topic.events has been deleted
+  - resource "google_pubsub_topic" "events" {
+      - id                         = "projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events" -> null
+      - name                       = "mp-85edfcec4b96-events" -> null
+        # (7 unchanged attributes hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the
+relevant attributes using ignore_changes, the following plan may include
+actions to undo or respond to these changes.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # google_bigquery_dataset.audit_analytics will be updated in-place
+  ~ resource "google_bigquery_dataset" "audit_analytics" {
+        id                              = "projects/mp-ver-5f182757/datasets/mp_85edfcec4b96_audit_analytics"
+        # (20 unchanged attributes hidden)
+
+      + default_encryption_configuration {
+          + kms_key_name = "projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-audit-cmek"
+        }
+    }
+
+  # google_cloud_scheduler_job.archiver will be updated in-place
+  ~ resource "google_cloud_scheduler_job" "archiver" {
+        id               = "projects/mp-ver-5f182757/locations/us-east1/jobs/mp-85edfcec4b96-archiver-schedule"
+        name             = "mp-85edfcec4b96-archiver-schedule"
+        # (9 unchanged attributes hidden)
+
+      ~ http_target {
+            # (4 unchanged attributes hidden)
+
+          + oidc_token {
+              + audience              = "https://us-east1-mp-ver-5f182757.cloudfunctions.net/mp-85edfcec4b96-audit-archiver"
+              + service_account_email = "mp-85edfcec4b96-scheduler-sa@mp-ver-5f182757.iam.gserviceaccount.com"
+            }
+        }
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_cloud_scheduler_job.relay will be updated in-place
+  ~ resource "google_cloud_scheduler_job" "relay" {
+        id               = "projects/mp-ver-5f182757/locations/us-east1/jobs/mp-85edfcec4b96-relay-schedule"
+        name             = "mp-85edfcec4b96-relay-schedule"
+        # (9 unchanged attributes hidden)
+
+      ~ http_target {
+            # (4 unchanged attributes hidden)
+
+          + oidc_token {
+              + audience              = "https://us-east1-mp-ver-5f182757.cloudfunctions.net/mp-85edfcec4b96-outbox-relay"
+              + service_account_email = "mp-85edfcec4b96-scheduler-sa@mp-ver-5f182757.iam.gserviceaccount.com"
+            }
+        }
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.audit will be updated in-place
+  ~ resource "google_kms_crypto_key" "audit" {
+      ~ effective_labels              = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "gcs-audit"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        id                            = "projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-audit-cmek"
+      ~ labels                        = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "gcs-audit"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        name                          = "mp-85edfcec4b96-audit-cmek"
+      + rotation_period               = "7776000s"
+      ~ terraform_labels              = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "gcs-audit"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        # (8 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.database will be updated in-place
+  ~ resource "google_kms_crypto_key" "database" {
+      ~ effective_labels              = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "cloud-sql"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        id                            = "projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-database-cmek"
+      ~ labels                        = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "cloud-sql"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        name                          = "mp-85edfcec4b96-database-cmek"
+      + rotation_period               = "7776000s"
+      ~ terraform_labels              = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "cloud-sql"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        # (8 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.messaging will be updated in-place
+  ~ resource "google_kms_crypto_key" "messaging" {
+      ~ effective_labels              = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "pubsub"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        id                            = "projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-messaging-cmek"
+      ~ labels                        = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "pubsub"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        name                          = "mp-85edfcec4b96-messaging-cmek"
+      + rotation_period               = "7776000s"
+      ~ terraform_labels              = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "pubsub"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        # (8 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.projection will be updated in-place
+  ~ resource "google_kms_crypto_key" "projection" {
+      ~ effective_labels              = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "firestore-datastore"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        id                            = "projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-projection-cmek"
+      ~ labels                        = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "firestore-datastore"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        name                          = "mp-85edfcec4b96-projection-cmek"
+      + rotation_period               = "7776000s"
+      ~ terraform_labels              = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "key_scope"             = "firestore-datastore"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        # (8 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_pubsub_subscription.processor_push will be updated in-place
+  ~ resource "google_pubsub_subscription" "processor_push" {
+        id                           = "projects/mp-ver-5f182757/subscriptions/mp-85edfcec4b96-events-processor-sub"
+        name                         = "mp-85edfcec4b96-events-processor-sub"
+        # (12 unchanged attributes hidden)
+
+      ~ push_config {
+            # (2 unchanged attributes hidden)
+
+          + oidc_token {
+              + service_account_email = "mp-85edfcec4b96-pubsub-push-sa@mp-ver-5f182757.iam.gserviceaccount.com"
+            }
+        }
+
+        # (2 unchanged blocks hidden)
+    }
+
+  # google_pubsub_topic.dead_letters will be updated in-place
+  ~ resource "google_pubsub_topic" "dead_letters" {
+        id                         = "projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events-dlq"
+      + kms_key_name               = "projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-messaging-cmek"
+        name                       = "mp-85edfcec4b96-events-dlq"
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_pubsub_topic.events will be created
+  + resource "google_pubsub_topic" "events" {
+      + deletion_policy            = "DELETE"
+      + effective_labels           = {
+          + "deployment"                 = "mp-85edfcec4b96"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-85edfcec4b96"
+          + "project"                    = "mediapulse-ingest"
+          + "role"                       = "domain-events"
+        }
+      + id                         = (known after apply)
+      + kms_key_name               = "projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-messaging-cmek"
+      + labels                     = {
+          + "deployment"            = "mp-85edfcec4b96"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+          + "role"                  = "domain-events"
+        }
+      + message_retention_duration = "345600s"
+      + name                       = "mp-85edfcec4b96-events"
+      + project                    = "mp-ver-5f182757"
+      + terraform_labels           = {
+          + "deployment"                 = "mp-85edfcec4b96"
+          + "goog-terraform-provisioned" = "true"
+          + "managed_by"                 = "terraform"
+          + "mediapulse_deployment"      = "mp-85edfcec4b96"
+          + "project"                    = "mediapulse-ingest"
+          + "role"                       = "domain-events"
+        }
+
+      + message_storage_policy (known after apply)
+    }
+
+  # google_secret_manager_secret.db_credentials will be updated in-place
+  ~ resource "google_secret_manager_secret" "db_credentials" {
+      ~ effective_labels      = {
+          + "data_role"             = "database-secret"
+          + "deployment"            = "mp-85edfcec4b96"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        id                    = "projects/mp-ver-5f182757/secrets/mp-85edfcec4b96-db-credentials"
+      ~ labels                = {
+          + "data_role"             = "database-secret"
+          + "deployment"            = "mp-85edfcec4b96"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        name                  = "projects/mp-ver-5f182757/secrets/mp-85edfcec4b96-db-credentials"
+      ~ terraform_labels      = {
+          + "data_role"             = "database-secret"
+          + "deployment"            = "mp-85edfcec4b96"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-85edfcec4b96"
+          + "project"               = "mediapulse-ingest"
+        }
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_storage_bucket.audit will be updated in-place
+  ~ resource "google_storage_bucket" "audit" {
+        id                          = "mp-85edfcec4b96-mp-ver-5f182757-audit"
+        name                        = "mp-85edfcec4b96-mp-ver-5f182757-audit"
+      ~ uniform_bucket_level_access = false -> true
+        # (17 unchanged attributes hidden)
+
+      + encryption {
+          + default_kms_key_name = "projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-audit-cmek"
+        }
+
+        # (2 unchanged blocks hidden)
+    }
+
+Plan: 1 to add, 11 to change, 0 to destroy.
+
+Changes to Outputs:
+  ~ manifest               = (sensitive value)
+  ~ pubsub_topic_id        = "projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events" -> (known after apply)
+google_secret_manager_secret.db_credentials: Modifying... [id=projects/mp-ver-5f182757/secrets/mp-85edfcec4b96-db-credentials]
+google_kms_crypto_key.audit: Modifying... [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-audit-cmek]
+google_kms_crypto_key.projection: Modifying... [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-projection-cmek]
+google_kms_crypto_key.database: Modifying... [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-database-cmek]
+google_kms_crypto_key.messaging: Modifying... [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-messaging-cmek]
+google_kms_crypto_key.audit: Modifications complete after 0s [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-audit-cmek]
+google_kms_crypto_key.projection: Modifications complete after 0s [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-projection-cmek]
+google_kms_crypto_key.database: Modifications complete after 0s [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-database-cmek]
+google_secret_manager_secret.db_credentials: Modifications complete after 0s [id=projects/mp-ver-5f182757/secrets/mp-85edfcec4b96-db-credentials]
+google_kms_crypto_key.messaging: Modifications complete after 0s [id=projects/mp-ver-5f182757/locations/us-east1/keyRings/mp-85edfcec4b96-keyring/cryptoKeys/mp-85edfcec4b96-messaging-cmek]
+google_pubsub_topic.dead_letters: Modifying... [id=projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events-dlq]
+google_pubsub_topic.events: Creating...
+google_bigquery_dataset.audit_analytics: Modifying... [id=projects/mp-ver-5f182757/datasets/mp_85edfcec4b96_audit_analytics]
+google_storage_bucket.audit: Modifying... [id=mp-85edfcec4b96-mp-ver-5f182757-audit]
+google_pubsub_topic.events: Creation complete after 0s [id=projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events]
+google_pubsub_topic.dead_letters: Modifications complete after 0s [id=projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events-dlq]
+google_storage_bucket.audit: Modifications complete after 0s [id=mp-85edfcec4b96-mp-ver-5f182757-audit]
+google_bigquery_dataset.audit_analytics: Modifications complete after 0s [id=projects/mp-ver-5f182757/datasets/mp_85edfcec4b96_audit_analytics]
+google_cloud_scheduler_job.relay: Modifying... [id=projects/mp-ver-5f182757/locations/us-east1/jobs/mp-85edfcec4b96-relay-schedule]
+google_pubsub_subscription.processor_push: Modifying... [id=projects/mp-ver-5f182757/subscriptions/mp-85edfcec4b96-events-processor-sub]
+google_cloud_scheduler_job.archiver: Modifying... [id=projects/mp-ver-5f182757/locations/us-east1/jobs/mp-85edfcec4b96-archiver-schedule]
+google_cloud_scheduler_job.relay: Modifications complete after 0s [id=projects/mp-ver-5f182757/locations/us-east1/jobs/mp-85edfcec4b96-relay-schedule]
+google_pubsub_subscription.processor_push: Modifications complete after 0s [id=projects/mp-ver-5f182757/subscriptions/mp-85edfcec4b96-events-processor-sub]
+google_cloud_scheduler_job.archiver: Modifications complete after 0s [id=projects/mp-ver-5f182757/locations/us-east1/jobs/mp-85edfcec4b96-archiver-schedule]
+
+Apply complete! Resources: 1 added, 11 changed, 0 destroyed.
+
+Outputs:
+
+cloud_run_service_name = "mp-85edfcec4b96-api"
+load_balancer_url = "http://gcp"
+manifest = <sensitive>
+pubsub_topic_id = "projects/mp-ver-5f182757/topics/mp-85edfcec4b96-events"
+MediaPulse Ingest is ready: http://gcp:4588

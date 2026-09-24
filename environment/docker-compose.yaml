@@ -10,16 +10,11 @@ services:
       gcp-gateway:
         condition: service_started
     environment:
-      HTTP_PROXY: http://172.20.0.1:18080
-      http_proxy: http://172.20.0.1:18080
-      HTTPS_PROXY: http://172.20.0.1:18080
-      https_proxy: http://172.20.0.1:18080
       NO_PROXY: localhost,127.0.0.1,::1,runtime-setup,floci-gcp,gcp-gateway,gcp,floci
       no_proxy: localhost,127.0.0.1,::1,runtime-setup,floci-gcp,gcp-gateway,gcp,floci
-      CURL_CA_BUNDLE: /etc/daytona-netleash-ca.crt
-      SSL_CERT_FILE: /etc/daytona-netleash-ca.crt
-      REQUESTS_CA_BUNDLE: /etc/daytona-netleash-ca.crt
-      NODE_EXTRA_CA_CERTS: /etc/daytona-netleash-ca.crt
+      GCE_METADATA_HOST: "127.0.0.1:1"
+      GCE_METADATA_ROOT: "127.0.0.1:1"
+      NO_GCE_CHECK: "true"
       GCP_ENDPOINT_URL: http://gcp:4588
       PUBSUB_EMULATOR_HOST: gcp:4588
       FIRESTORE_EMULATOR_HOST: gcp:4588
@@ -38,7 +33,6 @@ services:
       - DAC_READ_SEARCH
     volumes:
       - config:/workspace/config:ro
-      - /etc/daytona/netleash/ca.crt:/etc/daytona-netleash-ca.crt:ro
 
   runtime-setup:
     build:

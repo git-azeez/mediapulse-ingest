@@ -1,0 +1,35 @@
+{
+  "auth": {
+    "admin_client_email": "mp-068d02f18a92-client-admin@mp-ver-81e2f46d.iam.gserviceaccount.com",
+    "issuer": "http://gcp:4588/identitytoolkit.googleapis.com/v1/projects/mp-ver-81e2f46d",
+    "read_client_email": "mp-068d02f18a92-client-read@mp-ver-81e2f46d.iam.gserviceaccount.com",
+    "tenant_id": "tenant-8bd6b00b",
+    "write_client_email": "mp-068d02f18a92-client-write@mp-ver-81e2f46d.iam.gserviceaccount.com"
+  },
+  "iam": {
+    "api_service_account": "mp-068d02f18a92-api-sa@mp-ver-81e2f46d.iam.gserviceaccount.com",
+    "archiver_service_account": "mp-068d02f18a92-archiver-sa@mp-ver-81e2f46d.iam.gserviceaccount.com",
+    "processor_service_account": "mp-068d02f18a92-processor-sa@mp-ver-81e2f46d.iam.gserviceaccount.com",
+    "relay_service_account": "mp-068d02f18a92-relay-sa@mp-ver-81e2f46d.iam.gserviceaccount.com",
+    "scheduler_service_account": "mp-068d02f18a92-scheduler-sa@mp-ver-81e2f46d.iam.gserviceaccount.com"
+  },
+  "kms": {
+    "audit_key_id": "projects/mp-ver-81e2f46d/locations/us-west1/keyRings/mp-068d02f18a92-keyring/cryptoKeys/mp-068d02f18a92-audit-cmek",
+    "database_key_id": "projects/mp-ver-81e2f46d/locations/us-west1/keyRings/mp-068d02f18a92-keyring/cryptoKeys/mp-068d02f18a92-database-cmek",
+    "keyring_id": "projects/mp-ver-81e2f46d/locations/us-west1/keyRings/mp-068d02f18a92-keyring",
+    "messaging_key_id": "projects/mp-ver-81e2f46d/locations/us-west1/keyRings/mp-068d02f18a92-keyring/cryptoKeys/mp-068d02f18a92-messaging-cmek",
+    "projection_key_id": "projects/mp-ver-81e2f46d/locations/us-west1/keyRings/mp-068d02f18a92-keyring/cryptoKeys/mp-068d02f18a92-projection-cmek"
+  },
+  "logs": {
+    "api": "mp-068d02f18a92-api-logs",
+    "archiver": "mp-068d02f18a92-archiver-logs",
+    "processor": "mp-068d02f18a92-processor-logs",
+    "relay": "mp-068d02f18a92-relay-logs"
+  },
+  "network": {
+    "ingress_subnet_id": "projects/mp-ver-81e2f46d/regions/us-west1/subnetworks/mp-068d02f18a92-subnet-ingress",
+    "private_subnet_id": "projects/mp-ver-81e2f46d/regions/us-west1/subnetworks/mp-068d02f18a92-subnet-private",
+    "vpc_id": "projects/mp-ver-81e2f46d/global/networks/mp-068d02f18a92-vpc"
+  },
+  "state_resource_count": 67
+}

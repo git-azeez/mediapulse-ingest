@@ -1,0 +1,58 @@
+MediaPulse verifier: starting pytest oracle
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+collected 19 items
+
+suite/test_declared.py ....                                              [ 21%]
+suite/test_live.py ...                                                   [ 36%]
+suite/test_behavior.py FFFFFFFFFF                                        [ 89%]
+suite/test_lifecycle.py F.                                               [100%]
+
+=================================== FAILURES ===================================
+___________________________ test_workflow_relations ____________________________
+fail: POST /v1/media/mp-068d02f18a92-media-00-8250/checkpoints failed at step 1: 201
+____________________________ test_projection_cache _____________________________
+fail: no committed randomized workflow is available
+_________________________ test_idempotency_concurrency _________________________
+fail: no committed randomized workflow is available
+____________________________ test_backlog_recovery _____________________________
+fail: no committed randomized workflow is available
+______________________________ test_duplicate_dlq ______________________________
+fail: no committed randomized workflow is available
+_____________________________ test_outbox_recovery _____________________________
+fail: no committed randomized workflow is available
+___________________________ test_projection_rebuild ____________________________
+fail: no committed randomized workflow is available
+______________________________ test_ecs_recovery _______________________________
+fail: no committed randomized workflow is available
+_______________________________ test_rds_reboot ________________________________
+fail: no committed randomized workflow is available
+____________________________ test_auth_archive_logs ____________________________
+fail: no committed randomized workflow is available
+_____________________________ test_reapply_stable ______________________________
+fail: no deployed state and committed workflow exist
+==================================== PASSES ====================================
+--------------------------- Captured stdout teardown ---------------------------
+{"reward": 0.33, "score": 33, "seed": 8225653277688220449, "total": 100, "valid": true}
+=========================== short test summary info ============================
+PASSED suite/test_declared.py::test_managed_iac
+PASSED suite/test_declared.py::test_compute_ingress
+PASSED suite/test_declared.py::test_data_async
+PASSED suite/test_declared.py::test_security_ops
+PASSED suite/test_live.py::test_ingress_compute_graph
+PASSED suite/test_live.py::test_data_event_graph
+PASSED suite/test_live.py::test_security_ops_graph
+PASSED suite/test_lifecycle.py::test_destroy_clean
+FAILED suite/test_behavior.py::test_workflow_relations - Failed: fail: POST /...
+FAILED suite/test_behavior.py::test_projection_cache - Failed: fail: no commi...
+FAILED suite/test_behavior.py::test_idempotency_concurrency - Failed: fail: n...
+FAILED suite/test_behavior.py::test_backlog_recovery - Failed: fail: no commi...
+FAILED suite/test_behavior.py::test_duplicate_dlq - Failed: fail: no committe...
+FAILED suite/test_behavior.py::test_outbox_recovery - Failed: fail: no commit...
+FAILED suite/test_behavior.py::test_projection_rebuild - Failed: fail: no com...
+FAILED suite/test_behavior.py::test_ecs_recovery - Failed: fail: no committed...
+FAILED suite/test_behavior.py::test_rds_reboot - Failed: fail: no committed r...
+FAILED suite/test_behavior.py::test_auth_archive_logs - Failed: fail: no comm...
+FAILED suite/test_lifecycle.py::test_reapply_stable - Failed: fail: no deploy...
+=================== 11 failed, 8 passed in 109.47s (0:01:49) ===================

@@ -1,0 +1,7 @@
+{
+  "associated_artifacts": [],
+  "details": {},
+  "obligation_id": "observed.ecs_recovery",
+  "outcome": "fail",
+  "summary": "no committed randomized workflow is available"
+}

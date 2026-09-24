@@ -1,0 +1,585 @@
+{
+  "caps_applied": [
+    "accepted_write_loss_or_corruption"
+  ],
+  "category_scores": {
+    "architecture": {
+      "earned": 17,
+      "label": "Architecture and deployment",
+      "possible": 17
+    },
+    "async_processing": {
+      "earned": 0,
+      "label": "Asynchronous processing",
+      "possible": 13
+    },
+    "core_behavior": {
+      "earned": 0,
+      "label": "Core product behavior",
+      "possible": 24
+    },
+    "lifecycle": {
+      "earned": 8,
+      "label": "Lifecycle",
+      "possible": 15
+    },
+    "recovery": {
+      "earned": 0,
+      "label": "Recovery",
+      "possible": 20
+    },
+    "security_operations": {
+      "earned": 8,
+      "label": "Security and observability",
+      "possible": 11
+    }
+  },
+  "hard_gates": {
+    "declared.compute_ingress": true,
+    "declared.data_async": true,
+    "declared.managed_iac": true,
+    "declared.security_ops": true,
+    "lifecycle.baseline_preserved": true,
+    "observed.no_accepted_write_loss": false,
+    "observed.no_auth_escalation": true,
+    "realized.approved_ingress": true,
+    "realized.complete_data": true,
+    "realized.complete_security": true,
+    "trial.integrity": true
+  },
+  "obligation_scores": {
+    "declared.compute_ingress": {
+      "category": "architecture",
+      "earned": 2,
+      "experiments": [
+        "Cloud Run min_instance_count is at least two",
+        "Global External Application Load Balancer and Serverless NEG route to Cloud Run",
+        "the approved image is selected"
+      ],
+      "outcome": "pass",
+      "plane": "declared",
+      "possible": 2
+    },
+    "declared.data_async": {
+      "category": "architecture",
+      "earned": 2,
+      "experiments": [
+        "Cloud SQL PostgreSQL, Pub/Sub and DLQ, Cloud Functions, Firestore, Datastore and private GCS are declared",
+        "dead-letter delivery attempts are bounded"
+      ],
+      "outcome": "pass",
+      "plane": "declared",
+      "possible": 2
+    },
+    "declared.managed_iac": {
+      "category": "architecture",
+      "earned": 3,
+      "experiments": [
+        "configuration validates",
+        "all scored GCP resource families are managed in state"
+      ],
+      "outcome": "pass",
+      "plane": "declared",
+      "possible": 3
+    },
+    "declared.security_ops": {
+      "category": "security_operations",
+      "earned": 3,
+      "experiments": [
+        "service accounts are separated",
+        "ingress/private VPC subnets are declared",
+        "data services are private",
+        "log retention and 4 KMS crypto keys exist"
+      ],
+      "outcome": "pass",
+      "plane": "declared",
+      "possible": 3
+    },
+    "lifecycle.destroy_clean": {
+      "category": "lifecycle",
+      "earned": 8,
+      "experiments": [
+        "no trial-prefixed GCP resource remains",
+        "no baseline resource was deleted"
+      ],
+      "outcome": "pass",
+      "plane": "lifecycle",
+      "possible": 8
+    },
+    "lifecycle.reapply_stable": {
+      "category": "lifecycle",
+      "earned": 0,
+      "experiments": [
+        "the deployment converges cleanly",
+        "Cloud SQL instance identity is unchanged",
+        "committed data remains readable"
+      ],
+      "outcome": "fail",
+      "plane": "lifecycle",
+      "possible": 7
+    },
+    "observed.auth_archive_logs": {
+      "category": "security_operations",
+      "earned": 0,
+      "experiments": [
+        "no identity exceeds its public scopes",
+        "the archiver writes valid NDJSON to GCS",
+        "logs contain correlation/event IDs without known secrets"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 3
+    },
+    "observed.backlog_recovery": {
+      "category": "async_processing",
+      "earned": 0,
+      "experiments": [
+        "visible backlog grows",
+        "after resume the subscription drains",
+        "all projections converge without loss"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 7
+    },
+    "observed.duplicate_dlq": {
+      "category": "async_processing",
+      "earned": 0,
+      "experiments": [
+        "the duplicate advances the projection once",
+        "the invalid body reaches the dead-letter topic within max_delivery_attempts",
+        "healthy traffic continues"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 6
+    },
+    "observed.ecs_recovery": {
+      "category": "recovery",
+      "earned": 0,
+      "experiments": [
+        "Cloud Run maintains two healthy warm instances",
+        "prior data remains readable"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 5
+    },
+    "observed.idempotency_concurrency": {
+      "category": "core_behavior",
+      "earned": 0,
+      "experiments": [
+        "the replay creates one logical transition",
+        "exactly one distinct racing write succeeds and the other returns 409 conflict"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 8
+    },
+    "observed.outbox_recovery": {
+      "category": "recovery",
+      "earned": 0,
+      "experiments": [
+        "the accepted write reaches the projection exactly once",
+        "previous committed data remains readable"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 6
+    },
+    "observed.projection_cache": {
+      "category": "core_behavior",
+      "earned": 0,
+      "experiments": [
+        "the first read comes from Firestore projection",
+        "the second read comes from repopulated Cloud Datastore cache"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 7
+    },
+    "observed.projection_rebuild": {
+      "category": "recovery",
+      "earned": 0,
+      "experiments": [
+        "the projection is reconstructed from Cloud SQL PostgreSQL",
+        "version and timeline match the pre-fault state"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 5
+    },
+    "observed.rds_reboot": {
+      "category": "recovery",
+      "earned": 0,
+      "experiments": [
+        "the instance returns runnable",
+        "API readiness recovers",
+        "pre-restart data remains readable"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 4
+    },
+    "observed.workflow_relations": {
+      "category": "core_behavior",
+      "earned": 0,
+      "experiments": [
+        "every accepted version appears without loss or duplication",
+        "read and timeline relationships match generated values"
+      ],
+      "outcome": "fail",
+      "plane": "observed",
+      "possible": 9
+    },
+    "realized.data_event_graph": {
+      "category": "architecture",
+      "earned": 5,
+      "experiments": [
+        "Cloud SQL, Pub/Sub + DLQ, Cloud Functions, Firestore and Datastore are live",
+        "relay and archiver Cloud Scheduler jobs target the correct functions",
+        "GCS bucket is private"
+      ],
+      "outcome": "pass",
+      "plane": "realized",
+      "possible": 5
+    },
+    "realized.ingress_compute_graph": {
+      "category": "architecture",
+      "earned": 5,
+      "experiments": [
+        "the manifest resolves to the live Load Balancer and Cloud Run service",
+        "at least two warm API instances are configured"
+      ],
+      "outcome": "pass",
+      "plane": "realized",
+      "possible": 5
+    },
+    "realized.security_ops_graph": {
+      "category": "security_operations",
+      "earned": 5,
+      "experiments": [
+        "VPC firewall rules match the contract",
+        "Identity Platform clients expose only their scopes",
+        "distinct service accounts and explicit log buckets exist"
+      ],
+      "outcome": "pass",
+      "plane": "realized",
+      "possible": 5
+    }
+  },
+  "plane_scores": {
+    "declared": {
+      "earned": 10,
+      "possible": 10
+    },
+    "lifecycle": {
+      "earned": 8,
+      "possible": 15
+    },
+    "observed": {
+      "earned": 0,
+      "possible": 60
+    },
+    "realized": {
+      "earned": 15,
+      "possible": 15
+    }
+  },
+  "raw_score": 33,
+  "results": [
+    {
+      "cap_reason": null,
+      "details": {
+        "family_counts": {
+          "audit_bucket": 1,
+          "backend_service": 1,
+          "bigquery": 1,
+          "cloud_functions": 3,
+          "cloud_run": 1,
+          "cloud_sql": 1,
+          "cloud_tasks": 1,
+          "datastore": 1,
+          "firestore": 1,
+          "forwarding_rule": 1,
+          "identity_platform": 1,
+          "kms": 4,
+          "logs": 4,
+          "pubsub_subscription": 2,
+          "pubsub_topic": 2,
+          "scheduler": 2,
+          "secret_manager": 1,
+          "serverless_neg": 1,
+          "subnetwork": 2,
+          "vpc": 1
+        },
+        "managed_resource_count": 67
+      },
+      "duration_seconds": 37.397349183993356,
+      "evidence": [
+        "evidence/declared/configuration.json",
+        "evidence/declared/init.log",
+        "evidence/declared/state.json",
+        "evidence/declared/validate.json",
+        "evidence/obligations/declared.managed_iac.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "declared.managed_iac",
+      "outcome": "pass",
+      "summary": "configuration validates and all required GCP resource families are managed in machine-readable state"
+    },
+    {
+      "cap_reason": null,
+      "details": {
+        "min_instance_count": 2
+      },
+      "duration_seconds": 0.00297191600111546,
+      "evidence": [
+        "evidence/declared/compute_ingress.json",
+        "evidence/obligations/declared.compute_ingress.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "declared.compute_ingress",
+      "outcome": "pass",
+      "summary": "Global Load Balancer, Serverless NEG, and Cloud Run v2 service with min_instance_count >= 2 are declared"
+    },
+    {
+      "cap_reason": null,
+      "details": {
+        "cloud_functions": 3,
+        "pubsub_topics": 2
+      },
+      "duration_seconds": 0.0027435829979367554,
+      "evidence": [
+        "evidence/declared/data_async.json",
+        "evidence/obligations/declared.data_async.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "declared.data_async",
+      "outcome": "pass",
+      "summary": "Cloud SQL PostgreSQL, Pub/Sub + DLQ, Cloud Functions, Firestore, Datastore, and private GCS bucket are declared"
+    },
+    {
+      "cap_reason": null,
+      "details": {
+        "kms_keys": 4,
+        "service_accounts": 9
+      },
+      "duration_seconds": 0.004235083993989974,
+      "evidence": [
+        "evidence/declared/security_ops.json",
+        "evidence/obligations/declared.security_ops.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "declared.security_ops",
+      "outcome": "pass",
+      "summary": "per-component service accounts, ingress/private VPC subnets, 4 CMEK KMS keys, and 14-day log buckets are declared"
+    },
+    {
+      "cap_reason": null,
+      "details": {
+        "min_instance_count": 2,
+        "service_name": "mp-068d02f18a92-api"
+      },
+      "duration_seconds": 0.015765666001243517,
+      "evidence": [
+        "evidence/obligations/realized.ingress_compute_graph.json",
+        "evidence/realized/ingress_compute.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "realized.ingress_compute_graph",
+      "outcome": "pass",
+      "summary": "live Global Load Balancer, Serverless NEG, and Cloud Run v2 API service are active"
+    },
+    {
+      "cap_reason": null,
+      "details": {
+        "bucket": "mp-068d02f18a92-mp-ver-81e2f46d-audit",
+        "topic": "mp-068d02f18a92-events"
+      },
+      "duration_seconds": 0.016441207997559104,
+      "evidence": [
+        "evidence/obligations/realized.data_event_graph.json",
+        "evidence/realized/data_event.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "realized.data_event_graph",
+      "outcome": "pass",
+      "summary": "Cloud SQL, Pub/Sub + DLQ, Cloud Functions, Cloud Scheduler, Firestore, Datastore, and private GCS are live"
+    },
+    {
+      "cap_reason": null,
+      "details": {
+        "distinct_kms_keys": 4,
+        "distinct_service_accounts": 5
+      },
+      "duration_seconds": 0.004548584001895506,
+      "evidence": [
+        "evidence/obligations/realized.security_ops_graph.json",
+        "evidence/realized/security_ops.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "realized.security_ops_graph",
+      "outcome": "pass",
+      "summary": "VPC firewall topology, Identity Platform scopes, 5 IAM service accounts, 4 KMS keys, and Cloud Logging buckets verified"
+    },
+    {
+      "cap_reason": "accepted_write_loss_or_corruption",
+      "details": {
+        "exception": "AcceptedWriteLoss",
+        "message": "POST /v1/media/mp-068d02f18a92-media-00-8250/checkpoints failed at step 1: 201"
+      },
+      "duration_seconds": 0.04630087500117952,
+      "evidence": [
+        "evidence/failures/observed.workflow_relations.json",
+        "evidence/obligations/observed.workflow_relations.json"
+      ],
+      "hard_gate": "observed.no_accepted_write_loss",
+      "obligation_id": "observed.workflow_relations",
+      "outcome": "fail",
+      "summary": "POST /v1/media/mp-068d02f18a92-media-00-8250/checkpoints failed at step 1: 201"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.projection_cache.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.projection_cache",
+      "outcome": "fail",
+      "summary": "no committed randomized workflow is available"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.idempotency_concurrency.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.idempotency_concurrency",
+      "outcome": "fail",
+      "summary": "no committed randomized workflow is available"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.backlog_recovery.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.backlog_recovery",
+      "outcome": "fail",
+      "summary": "no committed randomized workflow is available"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.duplicate_dlq.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.duplicate_dlq",
+      "outcome": "fail",
+      "summary": "no committed randomized workflow is available"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.outbox_recovery.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.outbox_recovery",
+      "outcome": "fail",
+      "summary": "no committed randomized workflow is available"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.projection_rebuild.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.projection_rebuild",
+      "outcome": "fail",
+      "summary": "no committed randomized workflow is available"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.ecs_recovery.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.ecs_recovery",
+      "outcome": "fail",
+      "summary": "no committed randomized workflow is available"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.rds_reboot.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.rds_reboot",
+      "outcome": "fail",
+      "summary": "no committed randomized workflow is available"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/obligations/observed.auth_archive_logs.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "observed.auth_archive_logs",
+      "outcome": "fail",
+      "summary": "no committed randomized workflow is available"
+    },
+    {
+      "cap_reason": null,
+      "details": {},
+      "duration_seconds": 0.0,
+      "evidence": [
+        "evidence/lifecycle/deploy.log",
+        "evidence/obligations/lifecycle.reapply_stable.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "lifecycle.reapply_stable",
+      "outcome": "fail",
+      "summary": "no deployed state and committed workflow exist"
+    },
+    {
+      "cap_reason": null,
+      "details": {
+        "leaked_count": 0
+      },
+      "duration_seconds": 26.694636304004234,
+      "evidence": [
+        "evidence/lifecycle/destroy.json",
+        "evidence/lifecycle/destroy.log",
+        "evidence/obligations/lifecycle.destroy_clean.json"
+      ],
+      "hard_gate": null,
+      "obligation_id": "lifecycle.destroy_clean",
+      "outcome": "pass",
+      "summary": "destroy.sh removed all trial-prefixed GCP resources while preserving baseline resources"
+    }
+  ],
+  "reward": 0.33,
+  "score": 33,
+  "threshold": 100,
+  "total": 100,
+  "trial_valid": true
+}

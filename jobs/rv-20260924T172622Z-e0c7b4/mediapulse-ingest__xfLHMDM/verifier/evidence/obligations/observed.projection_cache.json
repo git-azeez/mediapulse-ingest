@@ -1,0 +1,7 @@
+{
+  "associated_artifacts": [],
+  "details": {},
+  "obligation_id": "observed.projection_cache",
+  "outcome": "fail",
+  "summary": "no committed randomized workflow is available"
+}

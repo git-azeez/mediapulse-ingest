@@ -15,7 +15,7 @@ COPY audit-archiver ./audit-archiver
 RUN --mount=type=cache,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,target=/usr/local/cargo/git,sharing=locked \
     --mount=type=cache,target=/build/target,sharing=locked \
-    cargo build --jobs 1 --locked --release --workspace --bins \
+    cargo build --jobs 1 --release --workspace --bins \
     && mkdir -p /out \
     && cp target/release/api /out/api \
     && cp target/release/projector /out/projector \

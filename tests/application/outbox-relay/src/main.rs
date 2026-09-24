@@ -1,31 +1,38 @@
 mod relay;
 
-use aws_sdk_sqs::Client as SqsClient;
+use axum::{routing::post, Router};
 use cinderroute::{cloud, config, telemetry};
-use lambda_runtime::{Error as LambdaError, service_fn};
 use relay::Relay;
 use sqlx::postgres::PgPoolOptions;
-use std::time::Duration;
+use std::{net::SocketAddr, time::Duration};
 
 #[tokio::main]
-async fn main() -> Result<(), LambdaError> {
+async fn main() -> anyhow::Result<()> {
     telemetry::init("cinderroute-outbox-relay");
 
-    let endpoint = config::aws_endpoint()?;
-    let region = config::aws_region();
-    let queue_url = config::required("QUEUE_URL")?;
     let database_url = config::required("DATABASE_URL")?;
-    let sdk = cloud::sdk_config(&endpoint, &region).await;
+    let gcp_endpoint = config::gcp_endpoint()?;
+    let project_id = config::gcp_project_id();
+    let pubsub_topic = config::required("PUBSUB_TOPIC")?;
+    
     let db = PgPoolOptions::new()
         .max_connections(3)
         .acquire_timeout(Duration::from_secs(5))
         .connect(&database_url)
         .await?;
-    let relay = Relay::new(db, SqsClient::new(&sdk), queue_url);
+        
+    let relay = Relay::new(db, cloud::http_client()?, gcp_endpoint, project_id, pubsub_topic);
 
-    lambda_runtime::run(service_fn(move |event| {
-        let relay = relay.clone();
-        async move { relay.handle(event).await }
-    }))
-    .await
+    let app = Router::new()
+        .route("/", post(relay::handle_trigger))
+        .with_state(relay);
+
+    let port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
+    let addr: SocketAddr = format!("0.0.0.0:{}", port).parse()?;
+    
+    tracing::info!("listening on {}", addr);
+    let listener = tokio::net::TcpListener::bind(addr).await?;
+    axum::serve(listener, app).await?;
+    
+    Ok(())
 }

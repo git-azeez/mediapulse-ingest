@@ -22,7 +22,7 @@ region_pool="us-central1 us-east1 us-west1 europe-west1"
 region_index=$(( $(od -An -N1 -tu1 /dev/urandom | tr -d ' \n') % 4 + 1 ))
 gcp_region="${GCP_REGION:-$(echo "$region_pool" | cut -d' ' -f"$region_index")}"
 gcp_endpoint="${GCP_ENDPOINT_URL:-http://gcp:4588}"
-image_ns="${IMAGE_NAMESPACE:-cinderrouter}"
+image_ns="${IMAGE_NAMESPACE:-mediapulse}"
 image_tag="${IMAGE_TAG:-1.0.0}"
 
 api_ref="${image_ns}/api:${image_tag}"
@@ -59,4 +59,11 @@ EOF
 
 chmod 0444 "$config_tmp"
 mv "$config_tmp" "$CONFIG_DIR/config.json"
+
+# Seed pre-existing baseline decoy resources in the shared GCP project
+if command -v wget >/dev/null 2>&1; then
+  wget -q -O /dev/null --header="Content-Type: application/json" --post-data='{"name":"decoy-shared-vpc","autoCreateSubnetworks":false}' "$gcp_endpoint/compute/v1/projects/$gcp_project_id/global/networks" 2>/dev/null || true
+  wget -q -O /dev/null --header="Content-Type: application/json" --post-data="{\"name\":\"decoy-$gcp_project_id-shared-bucket\",\"location\":\"$gcp_region\"}" "$gcp_endpoint/storage/v1/b?project=$gcp_project_id" 2>/dev/null || true
+fi
+
 echo "MediaPulse Ingest verifier dynamic configuration generated."

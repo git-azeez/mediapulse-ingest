@@ -2,12 +2,10 @@ use crate::{
     error::{ApiError, ApiResult},
     state::AppState,
 };
-use aws_sdk_dynamodb::types::AttributeValue;
 use chrono::Utc;
 use cinderroute::model::{EventEnvelope, ShipmentProjection};
 use redis::AsyncCommands;
 use serde_json::Value;
-use std::collections::HashMap;
 use uuid::Uuid;
 
 pub(super) async fn load_shipment(
@@ -24,20 +22,29 @@ pub(super) async fn load_shipment(
         }
     }
 
-    let output = state
-        .dynamo
-        .get_item()
-        .table_name(&state.projection_table)
-        .key("PK", AttributeValue::S(format!("SHIPMENT#{shipment_id}")))
-        .key("SK", AttributeValue::S("STATE".to_owned()))
-        .consistent_read(true)
+    let firestore_url = format!(
+        "{}/v1/projects/{}/databases/{}/documents/shipments/SHIPMENT_{}_STATE",
+        state.gcp_endpoint, state.project_id, state.firestore_database, shipment_id
+    );
+
+    let resp = state
+        .http
+        .get(&firestore_url)
         .send()
         .await
         .map_err(|error| ApiError::unavailable(format!("projection read failed: {error}")))?;
-    let item = output
-        .item()
-        .ok_or_else(|| ApiError::not_found("shipment projection is not ready"))?;
-    let projection = projection_from_item(item)?;
+        
+    if resp.status().as_u16() == 404 {
+        return Err(ApiError::not_found("shipment projection is not ready"));
+    }
+
+    let body: Value = resp
+        .json()
+        .await
+        .map_err(|error| ApiError::unavailable(format!("projection read invalid json: {error}")))?;
+
+    let fields = body.get("fields").ok_or_else(|| ApiError::internal("missing fields in firestore document"))?;
+    let projection = projection_from_fields(fields)?;
 
     if let Ok(mut connection) = state.valkey.get_multiplexed_async_connection().await
         && let Ok(value) = serde_json::to_string(&projection)
@@ -53,24 +60,45 @@ pub(super) async fn load_timeline(
     state: &AppState,
     shipment_id: Uuid,
 ) -> ApiResult<Vec<EventEnvelope>> {
-    let output = state
-        .dynamo
-        .query()
-        .table_name(&state.projection_table)
-        .key_condition_expression("#pk = :pk AND begins_with(#sk, :event)")
-        .expression_attribute_names("#pk", "PK")
-        .expression_attribute_names("#sk", "SK")
-        .expression_attribute_values(":pk", AttributeValue::S(format!("SHIPMENT#{shipment_id}")))
-        .expression_attribute_values(":event", AttributeValue::S("EVENT#".to_owned()))
-        .consistent_read(true)
+    // Queries firestore collections/events using REST
+    let query_url = format!(
+        "{}/v1/projects/{}/databases/{}/documents:runQuery",
+        state.gcp_endpoint, state.project_id, state.firestore_database
+    );
+    let query_payload = serde_json::json!({
+        "structuredQuery": {
+            "from": [{"collectionId": "events"}],
+            "where": {
+                "fieldFilter": {
+                    "field": {"fieldPath": "shipment_id"},
+                    "op": "EQUAL",
+                    "value": {"stringValue": shipment_id.to_string()}
+                }
+            }
+        }
+    });
+
+    let resp = state
+        .http
+        .post(&query_url)
+        .json(&query_payload)
         .send()
         .await
         .map_err(|error| ApiError::unavailable(format!("timeline read failed: {error}")))?;
 
+    let docs: Vec<Value> = resp
+        .json()
+        .await
+        .map_err(|error| ApiError::unavailable(format!("timeline read invalid json: {error}")))?;
+
     let mut events = Vec::new();
-    for item in output.items() {
-        let raw = string_attribute(item, "event_json")?;
-        events.push(serde_json::from_str::<EventEnvelope>(raw).map_err(ApiError::internal)?);
+    for doc in docs {
+        if let Some(document) = doc.get("document") {
+            if let Some(fields) = document.get("fields") {
+                let raw = string_attribute(fields, "event_json")?;
+                events.push(serde_json::from_str::<EventEnvelope>(raw).map_err(ApiError::internal)?);
+            }
+        }
     }
     if events.is_empty() {
         return Err(ApiError::not_found("shipment timeline is not ready"));
@@ -93,38 +121,38 @@ fn cache_key(shipment_id: Uuid) -> String {
     format!("cinderroute:shipment:{shipment_id}")
 }
 
-fn projection_from_item(item: &HashMap<String, AttributeValue>) -> ApiResult<ShipmentProjection> {
+fn projection_from_fields(fields: &Value) -> ApiResult<ShipmentProjection> {
     Ok(ShipmentProjection {
-        shipment_id: string_attribute(item, "shipment_id")?
+        shipment_id: string_attribute(fields, "shipment_id")?
             .parse()
             .map_err(ApiError::internal)?,
-        owner_id: string_attribute(item, "owner_id")?.to_owned(),
-        reference: string_attribute(item, "reference")?.to_owned(),
-        origin: string_attribute(item, "origin")?.to_owned(),
-        destination: string_attribute(item, "destination")?.to_owned(),
-        status: serde_json::from_value(Value::String(string_attribute(item, "status")?.to_owned()))
+        owner_id: string_attribute(fields, "owner_id")?.to_owned(),
+        reference: string_attribute(fields, "reference")?.to_owned(),
+        origin: string_attribute(fields, "origin")?.to_owned(),
+        destination: string_attribute(fields, "destination")?.to_owned(),
+        status: serde_json::from_value(Value::String(string_attribute(fields, "status")?.to_owned()))
             .map_err(ApiError::internal)?,
-        version: number_attribute(item, "version")?,
-        updated_at: string_attribute(item, "updated_at")?
+        version: number_attribute(fields, "version")?,
+        updated_at: string_attribute(fields, "updated_at")?
             .parse::<chrono::DateTime<Utc>>()
             .map_err(ApiError::internal)?,
     })
 }
 
 fn string_attribute<'a>(
-    item: &'a HashMap<String, AttributeValue>,
+    fields: &'a Value,
     name: &str,
 ) -> ApiResult<&'a str> {
-    item.get(name)
-        .and_then(|value| value.as_s().ok())
-        .map(String::as_str)
+    fields.get(name)
+        .and_then(|val| val.get("stringValue"))
+        .and_then(|val| val.as_str())
         .ok_or_else(|| ApiError::internal(format!("projection attribute {name} is missing")))
 }
 
-fn number_attribute(item: &HashMap<String, AttributeValue>, name: &str) -> ApiResult<i64> {
-    item.get(name)
-        .and_then(|value| value.as_n().ok())
-        .map(String::as_str)
+fn number_attribute(fields: &Value, name: &str) -> ApiResult<i64> {
+    fields.get(name)
+        .and_then(|val| val.get("integerValue"))
+        .and_then(|val| val.as_str())
         .ok_or_else(|| ApiError::internal(format!("projection attribute {name} is not numeric")))?
         .parse::<i64>()
         .map_err(ApiError::internal)

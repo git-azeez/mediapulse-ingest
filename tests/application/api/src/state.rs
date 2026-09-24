@@ -1,5 +1,4 @@
-use aws_sdk_dynamodb::Client as DynamoClient;
-use aws_sdk_sqs::Client as SqsClient;
+use reqwest::Client as HttpClient;
 use cinderroute::{
     auth::{AuthState, JwtVerifier},
     cloud,
@@ -12,11 +11,12 @@ use uuid::Uuid;
 #[derive(Clone)]
 pub(crate) struct AppState {
     pub(crate) db: PgPool,
-    pub(crate) sqs: SqsClient,
-    pub(crate) dynamo: DynamoClient,
+    pub(crate) http: HttpClient,
     pub(crate) valkey: redis::Client,
-    pub(crate) queue_url: String,
-    pub(crate) projection_table: String,
+    pub(crate) project_id: String,
+    pub(crate) pubsub_topic: String,
+    pub(crate) firestore_database: String,
+    pub(crate) gcp_endpoint: String,
     pub(crate) cache_ttl_seconds: u64,
     pub(crate) instance: String,
 }
@@ -30,22 +30,25 @@ pub(crate) struct ApplicationContext {
 impl ApplicationContext {
     pub(crate) async fn load() -> anyhow::Result<Self> {
         let database_url = config::required("DATABASE_URL")?;
-        let queue_url = config::required("QUEUE_URL")?;
-        let projection_table = config::required("PROJECTION_TABLE")?;
-        let valkey_endpoint = config::required("VALKEY_ENDPOINT")?;
-        let endpoint = config::aws_endpoint()?;
-        let region = config::aws_region();
-        let issuer = config::required("COGNITO_ISSUER")?;
-        let audiences = config::required("COGNITO_AUDIENCES")?
+        let pubsub_topic = config::optional("PUBSUB_TOPIC").unwrap_or_else(|| "mediapulse-events".to_owned());
+        let firestore_database = config::optional("FIRESTORE_DATABASE").unwrap_or_else(|| "default".to_owned());
+        let valkey_endpoint = config::optional("VALKEY_ENDPOINT")
+            .or_else(|| config::optional("DATASTORE_NAMESPACE"))
+            .unwrap_or_else(|| "redis://127.0.0.1:6379".to_owned());
+        let gcp_endpoint = config::gcp_endpoint()?;
+        let project_id = config::gcp_project_id();
+        let issuer = config::optional("COGNITO_ISSUER")
+            .or_else(|| config::optional("FIREBASE_AUTH_JWKS_URL"))
+            .unwrap_or_else(|| "https://securetoken.google.com/mediapulse".to_owned());
+        let audiences = config::optional("COGNITO_AUDIENCES")
+            .unwrap_or_else(|| "mediapulse".to_owned())
             .split(',')
             .map(str::trim)
             .filter(|value| !value.is_empty())
             .map(str::to_owned)
             .collect::<Vec<_>>();
-        if audiences.is_empty() {
-            anyhow::bail!("COGNITO_AUDIENCES must contain at least one client ID");
-        }
-        let jwks_url = config::optional("COGNITO_JWKS_URL");
+        let jwks_url = config::optional("FIREBASE_AUTH_JWKS_URL")
+            .or_else(|| config::optional("COGNITO_JWKS_URL"));
         let cache_ttl_seconds = config::parse_u64("CACHE_TTL_SECONDS", 60)?;
         let instance = config::optional("INSTANCE_ID")
             .or_else(|| config::optional("HOSTNAME"))
@@ -61,15 +64,15 @@ impl ApplicationContext {
             .await?;
         run_migrations(&db).await?;
 
-        let sdk = cloud::sdk_config(&endpoint, &region).await;
         Ok(Self {
             state: AppState {
                 db,
-                sqs: SqsClient::new(&sdk),
-                dynamo: DynamoClient::new(&sdk),
+                http: cloud::http_client()?,
                 valkey: redis::Client::open(normalize_valkey_url(&valkey_endpoint))?,
-                queue_url,
-                projection_table,
+                project_id,
+                pubsub_topic,
+                firestore_database,
+                gcp_endpoint,
                 cache_ttl_seconds,
                 instance,
             },

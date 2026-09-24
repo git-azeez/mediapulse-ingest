@@ -820,8 +820,6 @@ name = "cinderroute"
 version = "1.0.0"
 dependencies = [
  "anyhow",
- "aws-config",
- "aws-credential-types",
  "axum",
  "chrono",
  "jsonwebtoken",
@@ -840,12 +838,12 @@ name = "cinderroute-api"
 version = "1.0.0"
 dependencies = [
  "anyhow",
- "aws-sdk-dynamodb",
- "aws-sdk-sqs",
  "axum",
+ "base64",
  "chrono",
  "cinderroute",
  "redis",
+ "reqwest",
  "serde_json",
  "sqlx",
  "tokio",
@@ -859,14 +857,15 @@ name = "cinderroute-audit-archiver"
 version = "1.0.0"
 dependencies = [
  "anyhow",
- "aws-sdk-s3",
+ "axum",
  "cinderroute",
- "lambda_runtime",
+ "reqwest",
  "serde_json",
  "sha2",
  "sqlx",
  "tokio",
  "tracing",
+ "urlencoding",
  "uuid",
 ]
 
@@ -875,9 +874,10 @@ name = "cinderroute-outbox-relay"
 version = "1.0.0"
 dependencies = [
  "anyhow",
- "aws-sdk-sqs",
+ "axum",
+ "base64",
  "cinderroute",
- "lambda_runtime",
+ "reqwest",
  "serde_json",
  "sqlx",
  "tokio",
@@ -890,10 +890,11 @@ name = "cinderroute-projector"
 version = "1.0.0"
 dependencies = [
  "anyhow",
- "aws-sdk-dynamodb",
+ "axum",
+ "base64",
  "cinderroute",
- "lambda_runtime",
  "redis",
+ "reqwest",
  "serde_json",
  "tokio",
  "tracing",

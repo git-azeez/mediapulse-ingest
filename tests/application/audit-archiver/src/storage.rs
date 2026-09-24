@@ -1,19 +1,26 @@
 use crate::batch::AuditBatch;
-use aws_sdk_s3::{Client as S3Client, primitives::ByteStream};
-use lambda_runtime::Error as LambdaError;
+use crate::handler::Archiver;
 
 pub(crate) async fn upload(
-    s3: &S3Client,
-    bucket: &str,
+    archiver: &Archiver,
     batch: &AuditBatch,
-) -> Result<(), LambdaError> {
-    s3.put_object()
-        .bucket(bucket)
-        .key(&batch.object_key)
-        .content_type("application/x-ndjson")
-        .metadata("sha256", &batch.checksum)
-        .body(ByteStream::from(batch.ndjson.clone()))
+) -> anyhow::Result<()> {
+    let url = format!(
+        "{}/upload/storage/v1/b/{}/o?uploadType=media&name={}",
+        archiver.gcp_endpoint, archiver.bucket, urlencoding::encode(&batch.object_key)
+    );
+
+    let resp = archiver.http
+        .post(&url)
+        .header("Content-Type", "application/x-ndjson")
+        .header("x-goog-meta-sha256", &batch.checksum)
+        .body(batch.ndjson.clone())
         .send()
         .await?;
+
+    if !resp.status().is_success() {
+        return Err(anyhow::anyhow!("GCS upload failed: HTTP {}", resp.status()));
+    }
+
     Ok(())
 }

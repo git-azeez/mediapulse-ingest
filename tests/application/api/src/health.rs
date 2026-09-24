@@ -31,31 +31,40 @@ pub(crate) async fn ready(State(state): State<AppState>) -> Response {
         checks.insert("postgres", "DOWN");
         critical_healthy = false;
     }
+
+    let pubsub_url = format!(
+        "{}/v1/projects/{}/topics/{}",
+        state.gcp_endpoint, state.project_id, state.pubsub_topic
+    );
     if state
-        .sqs
-        .get_queue_attributes()
-        .queue_url(&state.queue_url)
+        .http
+        .get(&pubsub_url)
         .send()
         .await
         .is_ok()
     {
-        checks.insert("sqs", "UP");
+        checks.insert("pubsub", "UP");
     } else {
-        checks.insert("sqs", "DOWN");
+        checks.insert("pubsub", "DOWN");
     }
+
+    let firestore_url = format!(
+        "{}/v1/projects/{}/databases/{}/documents",
+        state.gcp_endpoint, state.project_id, state.firestore_database
+    );
     if state
-        .dynamo
-        .describe_table()
-        .table_name(&state.projection_table)
+        .http
+        .get(&firestore_url)
         .send()
         .await
         .is_ok()
     {
-        checks.insert("dynamodb", "UP");
+        checks.insert("firestore", "UP");
     } else {
-        checks.insert("dynamodb", "DOWN");
+        checks.insert("firestore", "DOWN");
         critical_healthy = false;
     }
+
     let valkey_healthy = match state.valkey.get_multiplexed_async_connection().await {
         Ok(mut connection) => redis::cmd("PING")
             .query_async::<String>(&mut connection)

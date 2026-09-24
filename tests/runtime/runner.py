@@ -121,6 +121,9 @@ class ExecutionRunner:
         entries = 0
         total_bytes = 0
         for path in self.source.rglob("*"):
+            rel_parts = path.relative_to(self.source).parts
+            if ".terraform" in rel_parts or path.name == ".terraform.lock.hcl":
+                continue
             try:
                 metadata = path.lstat()
             except OSError as exc:
@@ -130,7 +133,7 @@ class ExecutionRunner:
                 raise RequestError(HTTPStatus.UNPROCESSABLE_ENTITY, "submission contains a symlink")
             if not (stat.S_ISREG(mode) or stat.S_ISDIR(mode)):
                 raise RequestError(HTTPStatus.UNPROCESSABLE_ENTITY, "submission contains a special file")
-            if len(path.relative_to(self.source).parts) > MAX_SUBMISSION_DEPTH:
+            if len(rel_parts) > MAX_SUBMISSION_DEPTH:
                 raise RequestError(HTTPStatus.UNPROCESSABLE_ENTITY, "submission exceeds directory depth 32")
             entries += 1
             if entries > MAX_SUBMISSION_ENTRIES:
@@ -145,6 +148,8 @@ class ExecutionRunner:
     def _digest(self, root: Path) -> str:
         digest = hashlib.sha256()
         for path in sorted(root.rglob("*"), key=lambda item: item.relative_to(root).as_posix()):
+            if ".terraform" in path.relative_to(root).parts:
+                continue
             relative = path.relative_to(root).as_posix().encode()
             kind = b"F" if path.is_file() else b"D"
             digest.update(kind)
@@ -162,7 +167,12 @@ class ExecutionRunner:
         try:
             if self.work.exists():
                 shutil.rmtree(self.work)
-            shutil.copytree(self.source, self.work, symlinks=False)
+            shutil.copytree(
+                self.source,
+                self.work,
+                symlinks=False,
+                ignore=shutil.ignore_patterns(".terraform", ".terraform.lock.hcl"),
+            )
             self._chown_executor_tree(self.work)
         except OSError as exc:
             if self.work.exists():

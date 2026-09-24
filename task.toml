@@ -1,8 +1,13 @@
 schema_version = "1.1"
 artifacts = [
   { source = "/workspace/submission", destination = "submission", exclude = [
+    ".terraform",
     "*/.terraform",
     "*/.terraform/**",
+    "**/.terraform",
+    "**/.terraform/**",
+    "infra/.terraform",
+    "infra/.terraform/**",
     "*/terraform.tfstate",
     "*/terraform.tfstate.*",
     "*/config.auto.tfvars.json",

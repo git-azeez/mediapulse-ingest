@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cinderrouter.invalid/contracts/schemas/events.schema.json",
-  "title": "CinderRouter Dispatch event envelope",
+  "$id": "https://mediapulse.invalid/contracts/schemas/events.schema.json",
+  "title": "MediaPulse Ingest event envelope",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -17,27 +17,27 @@
   ],
   "properties": {
     "schemaVersion": { "const": "1.0" },
-    "eventId": { "type": "string", "format": "uuid" },
-    "eventType": { "enum": ["ShipmentCreated", "CheckpointRecorded"] },
-    "aggregateId": { "type": "string", "format": "uuid" },
+    "eventId": { "type": "string" },
+    "eventType": { "enum": ["MediaRegistered", "CheckpointRecorded"] },
+    "aggregateId": { "type": "string" },
     "aggregateVersion": { "type": "integer", "minimum": 1 },
     "ownerId": { "type": "string", "minLength": 1, "maxLength": 128 },
     "occurredAt": { "type": "string", "format": "date-time" },
     "correlationId": { "type": "string", "minLength": 1, "maxLength": 200 },
     "data": {
       "oneOf": [
-        { "$ref": "#/$defs/shipmentCreated" },
+        { "$ref": "#/$defs/mediaRegistered" },
         { "$ref": "#/$defs/checkpointRecorded" }
       ]
     }
   },
   "allOf": [
     {
-      "if": { "properties": { "eventType": { "const": "ShipmentCreated" } } },
+      "if": { "properties": { "eventType": { "const": "MediaRegistered" } } },
       "then": {
         "properties": {
           "aggregateVersion": { "const": 1 },
-          "data": { "$ref": "#/$defs/shipmentCreated" }
+          "data": { "$ref": "#/$defs/mediaRegistered" }
         }
       }
     },
@@ -52,12 +52,12 @@
     }
   ],
   "$defs": {
-    "shipmentCreated": {
+    "mediaRegistered": {
       "type": "object",
       "additionalProperties": false,
       "required": ["kind", "reference", "origin", "destination"],
       "properties": {
-        "kind": { "const": "shipmentCreated" },
+        "kind": { "const": "mediaRegistered" },
         "reference": { "type": "string", "minLength": 1, "maxLength": 128 },
         "origin": { "type": "string", "minLength": 1, "maxLength": 256 },
         "destination": { "type": "string", "minLength": 1, "maxLength": 256 }
@@ -69,7 +69,7 @@
       "required": ["kind", "checkpointId", "status", "location"],
       "properties": {
         "kind": { "const": "checkpointRecorded" },
-        "checkpointId": { "type": "string", "format": "uuid" },
+        "checkpointId": { "type": "string" },
         "status": { "$ref": "#/$defs/checkpointStatus" },
         "location": { "type": "string", "minLength": 1, "maxLength": 256 },
         "note": { "type": "string", "maxLength": 1000 }
@@ -77,11 +77,11 @@
     },
     "checkpointStatus": {
       "enum": [
-        "PICKED_UP",
-        "IN_TRANSIT",
-        "AT_HUB",
-        "OUT_FOR_DELIVERY",
-        "DELIVERED",
+        "INGESTED",
+        "TRANSCODING",
+        "PACKAGED",
+        "QC_PASSED",
+        "PUBLISHED",
         "EXCEPTION"
       ]
     }

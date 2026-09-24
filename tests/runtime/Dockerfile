@@ -55,7 +55,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PATH=/opt/venv/bin:/usr/local/bin:${PATH} \
-    TF_CLI_CONFIG_FILE=/etc/terraformrc \
+    TF_CLI_CONFIG_FILE=/etc/terraformrc.offline \
     GCP_ENDPOINT_URL=http://gcp:4588
 
 RUN apt-get update \
@@ -152,7 +152,7 @@ COPY application/audit-archiver ./audit-archiver
 RUN --mount=type=cache,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,target=/usr/local/cargo/git,sharing=locked \
     --mount=type=cache,target=/build/target,sharing=locked \
-    cargo build --jobs 1 --locked --release --workspace --bins \
+    cargo build --jobs 1 --release --workspace --bins \
  && mkdir -p /out \
  && cp target/release/api /out/api \
  && cp target/release/projector /out/projector \

@@ -14,8 +14,6 @@ pub fn required(name: &str) -> Result<String> {
         "COGNITO_ISSUER" => Some("AUTH_ISSUER"),
         "COGNITO_AUDIENCES" => Some("AUTH_AUDIENCES"),
         "COGNITO_JWKS_URL" => Some("AUTH_JWKS_URL"),
-        "AWS_ENDPOINT_URL" => Some("GCP_ENDPOINT_URL"),
-        "AWS_REGION" | "AWS_DEFAULT_REGION" => Some("GCP_REGION"),
         _ => None,
     };
     if let Some(alias) = gcp_alias {
@@ -42,17 +40,19 @@ pub fn parse_u64(name: &str, default: u64) -> Result<u64> {
         .unwrap_or(Ok(default))
 }
 
-pub fn aws_region() -> String {
+pub fn gcp_region() -> String {
     optional("GCP_REGION")
-        .or_else(|| optional("AWS_REGION"))
-        .or_else(|| optional("AWS_DEFAULT_REGION"))
         .unwrap_or_else(|| "us-central1".to_owned())
 }
 
-pub fn aws_endpoint() -> Result<String> {
+pub fn gcp_endpoint() -> Result<String> {
     optional("GCP_ENDPOINT_URL")
-        .or_else(|| optional("AWS_ENDPOINT_URL"))
         .ok_or_else(|| anyhow::anyhow!("required environment variable GCP_ENDPOINT_URL is missing or empty"))
+}
+
+pub fn gcp_project_id() -> String {
+    optional("GOOGLE_CLOUD_PROJECT")
+        .unwrap_or_else(|| "cinderroute-test".to_owned())
 }
 
 pub fn normalize_valkey_url(raw: &str) -> String {

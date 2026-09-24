@@ -1,18 +1,19 @@
 openapi: 3.1.0
 info:
-  title: CinderRouter Dispatch API
+  title: MediaPulse Ingest API
   version: 1.0.0
   description: >-
-    The supplied API image implements this contract and must be deployed without modification.
-    All data paths are intentionally asynchronous after command commit.
+    The supplied API image implements this contract for MediaPulse Ingest on Google Cloud Platform
+    and must be deployed without modification. All projection and audit paths are asynchronous
+    after Cloud SQL PostgreSQL command and transactional outbox commit.
 servers:
-  - url: http://{albEndpoint}
+  - url: http://{loadBalancerEndpoint}
     variables:
-      albEndpoint:
+      loadBalancerEndpoint:
         default: localhost
 tags:
   - name: health
-  - name: shipments
+  - name: media
   - name: admin
 paths:
   /health/live:
@@ -35,8 +36,9 @@ paths:
       responses:
         "200":
           description: >-
-            Critical PostgreSQL and DynamoDB stores are reachable. SQS and Valkey status is also
-            reported, but their documented fallback paths keep the API ready during an outage.
+            Critical Cloud SQL for PostgreSQL and Cloud Firestore stores are reachable. Cloud Pub/Sub
+            and Cloud Datastore status is also reported, while documented outbox and cache fallback
+            paths keep the API ready during transient broker or cache disruptions.
           content:
             application/json:
               schema:
@@ -47,12 +49,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Health"
-  /v1/shipments:
+  /v1/media:
     post:
-      tags: [shipments]
-      operationId: createShipment
+      tags: [media]
+      operationId: createMedia
       security:
-        - cognito: [cinderroute/write]
+        - identityPlatform: [mediapulse/write]
       parameters:
         - $ref: "#/components/parameters/IdempotencyKey"
         - $ref: "#/components/parameters/CorrelationId"
@@ -61,10 +63,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateShipment"
+              $ref: "#/components/schemas/CreateMedia"
       responses:
         "201":
-          description: New shipment command committed durably.
+          description: New media ingestion command committed durably.
           headers:
             X-Correlation-Id:
               $ref: "#/components/headers/CorrelationId"
@@ -86,14 +88,14 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "409":
           $ref: "#/components/responses/Conflict"
-  /v1/shipments/{id}/checkpoints:
+  /v1/media/{id}/checkpoints:
     post:
-      tags: [shipments]
+      tags: [media]
       operationId: recordCheckpoint
       security:
-        - cognito: [cinderroute/write]
+        - identityPlatform: [mediapulse/write]
       parameters:
-        - $ref: "#/components/parameters/ShipmentId"
+        - $ref: "#/components/parameters/MediaId"
         - $ref: "#/components/parameters/IdempotencyKey"
         - $ref: "#/components/parameters/CorrelationId"
       requestBody:
@@ -104,7 +106,7 @@ paths:
               $ref: "#/components/schemas/RecordCheckpoint"
       responses:
         "202":
-          description: Checkpoint command committed; projection is asynchronous.
+          description: Checkpoint command committed; Firestore projection is asynchronous.
           content:
             application/json:
               schema:
@@ -125,28 +127,34 @@ paths:
           $ref: "#/components/responses/NotFound"
         "409":
           $ref: "#/components/responses/Conflict"
-  /v1/shipments/{id}:
+  /v1/media/{id}:
     get:
-      tags: [shipments]
-      operationId: getShipment
+      tags: [media]
+      operationId: getMedia
       security:
-        - cognito: [cinderroute/read]
+        - identityPlatform: [mediapulse/read]
       parameters:
-        - $ref: "#/components/parameters/ShipmentId"
+        - $ref: "#/components/parameters/MediaId"
       responses:
         "200":
-          description: Current projected state.
+          description: Current projected media state from Cloud Firestore or Cloud Datastore cache.
           headers:
-            X-CinderRoute-Source:
+            ETag:
+              $ref: "#/components/headers/ETag"
+            X-Cache:
+              $ref: "#/components/headers/CacheStatus"
+            X-MediaPulse-Source:
               $ref: "#/components/headers/DataSource"
-            X-CinderRoute-Version:
+            X-MediaPulse-Version:
               $ref: "#/components/headers/ProjectionVersion"
-            X-CinderRoute-Instance:
+            X-MediaPulse-Instance:
               $ref: "#/components/headers/Instance"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ShipmentProjection"
+                $ref: "#/components/schemas/MediaProjection"
+        "304":
+          description: Entity state has not changed for the supplied If-None-Match ETag.
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":
@@ -155,23 +163,27 @@ paths:
           $ref: "#/components/responses/NotFound"
         "503":
           $ref: "#/components/responses/Unavailable"
-  /v1/shipments/{id}/timeline:
+  /v1/media/{id}/timeline:
     get:
-      tags: [shipments]
-      operationId: getShipmentTimeline
+      tags: [media]
+      operationId: getMediaTimeline
       security:
-        - cognito: [cinderroute/read]
+        - identityPlatform: [mediapulse/read]
       parameters:
-        - $ref: "#/components/parameters/ShipmentId"
+        - $ref: "#/components/parameters/MediaId"
       responses:
         "200":
           description: Projected events sorted by aggregateVersion.
           headers:
-            X-CinderRoute-Source:
+            ETag:
+              $ref: "#/components/headers/ETag"
+            X-Cache:
+              $ref: "#/components/headers/CacheStatus"
+            X-MediaPulse-Source:
               $ref: "#/components/headers/DataSource"
-            X-CinderRoute-Version:
+            X-MediaPulse-Version:
               $ref: "#/components/headers/ProjectionVersion"
-            X-CinderRoute-Instance:
+            X-MediaPulse-Instance:
               $ref: "#/components/headers/Instance"
           content:
             application/json:
@@ -190,12 +202,12 @@ paths:
       tags: [admin]
       operationId: rebuildProjection
       security:
-        - cognito: [cinderroute/admin]
+        - identityPlatform: [mediapulse/admin]
       parameters:
-        - $ref: "#/components/parameters/ShipmentId"
+        - $ref: "#/components/parameters/MediaId"
       responses:
         "202":
-          description: All persisted aggregate events were requeued in version order.
+          description: All persisted aggregate events were requeued in version order via Cloud Tasks.
           content:
             application/json:
               schema:
@@ -210,26 +222,25 @@ paths:
           $ref: "#/components/responses/Unavailable"
 components:
   securitySchemes:
-    cognito:
+    identityPlatform:
       type: oauth2
       description: >-
-        Client credentials are issued by the Cognito user pool created for this deployment. The concrete endpoint
-        and clients are discovered from live infrastructure.
+        JWT tokens are issued by the Google Cloud Identity Platform tenant created for this deployment.
+        Scoped service identities enforce read, write, and admin permissions.
       flows:
         clientCredentials:
-          tokenUrl: /cognito-idp/oauth2/token
+          tokenUrl: /identitytoolkit/v3/token
           scopes:
-            cinderroute/read: Read projections and timelines.
-            cinderroute/write: Create shipments and checkpoints.
-            cinderroute/admin: Requeue persisted events for projection rebuild.
+            mediapulse/read: Read Firestore projections and media timelines.
+            mediapulse/write: Register media assets and record processing checkpoints.
+            mediapulse/admin: Requeue persisted events for projection rebuild via Cloud Tasks.
   parameters:
-    ShipmentId:
+    MediaId:
       name: id
       in: path
       required: true
       schema:
         type: string
-        format: uuid
     IdempotencyKey:
       name: Idempotency-Key
       in: header
@@ -251,6 +262,14 @@ components:
       description: Caller-provided or generated correlation identifier.
       schema:
         type: string
+    ETag:
+      description: Version-aware entity tag for conditional GET caching.
+      schema:
+        type: string
+    CacheStatus:
+      description: Whether the read hit Cloud Datastore entity cache or missed to Cloud Firestore.
+      schema:
+        enum: [HIT, MISS]
     DataSource:
       description: System that satisfied this read.
       schema:
@@ -261,7 +280,7 @@ components:
         type: integer
         minimum: 1
     Instance:
-      description: ECS container instance identifier that handled this request.
+      description: Cloud Run revision instance identifier that handled this request.
       schema:
         type: string
   responses:
@@ -272,13 +291,13 @@ components:
           schema:
             $ref: "#/components/schemas/Error"
     Unauthorized:
-      description: Bearer token is absent, malformed, expired, untrusted or for another client.
+      description: Bearer token is absent, malformed, expired, or untrusted.
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/Error"
     Forbidden:
-      description: Authenticated token lacks the exact route scope.
+      description: Authenticated token lacks the required route scope.
       content:
         application/json:
           schema:
@@ -302,14 +321,12 @@ components:
           schema:
             $ref: "#/components/schemas/Error"
   schemas:
-    CreateShipment:
+    CreateMedia:
       type: object
-      additionalProperties: false
-      required: [shipmentId, ownerId, reference, origin, destination, expectedVersion]
+      required: [mediaId, ownerId, reference, origin, destination, expectedVersion]
       properties:
-        shipmentId:
+        mediaId:
           type: string
-          format: uuid
         ownerId:
           type: string
           minLength: 1
@@ -330,12 +347,10 @@ components:
           const: 0
     RecordCheckpoint:
       type: object
-      additionalProperties: false
       required: [checkpointId, status, location, occurredAt, expectedVersion]
       properties:
         checkpointId:
           type: string
-          format: uuid
         status:
           $ref: "#/components/schemas/CheckpointStatus"
         location:
@@ -353,15 +368,12 @@ components:
           minimum: 1
     MutationResult:
       type: object
-      additionalProperties: false
-      required: [shipmentId, eventId, version, accepted, idempotentReplay]
+      required: [mediaId, eventId, version, accepted, idempotentReplay]
       properties:
-        shipmentId:
+        mediaId:
           type: string
-          format: uuid
         eventId:
           type: string
-          format: uuid
         version:
           type: integer
           minimum: 1
@@ -369,14 +381,12 @@ components:
           const: true
         idempotentReplay:
           type: boolean
-    ShipmentProjection:
+    MediaProjection:
       type: object
-      additionalProperties: false
-      required: [shipmentId, ownerId, reference, origin, destination, status, version, updatedAt]
+      required: [mediaId, ownerId, reference, origin, destination, status, version, updatedAt]
       properties:
-        shipmentId:
+        mediaId:
           type: string
-          format: uuid
         ownerId:
           type: string
         reference:
@@ -386,7 +396,7 @@ components:
         destination:
           type: string
         status:
-          $ref: "#/components/schemas/ShipmentStatus"
+          $ref: "#/components/schemas/MediaStatus"
         version:
           type: integer
           minimum: 1
@@ -395,12 +405,10 @@ components:
           format: date-time
     Timeline:
       type: object
-      additionalProperties: false
-      required: [shipmentId, version, events]
+      required: [mediaId, version, events]
       properties:
-        shipmentId:
+        mediaId:
           type: string
-          format: uuid
         version:
           type: integer
           minimum: 1
@@ -411,7 +419,6 @@ components:
             $ref: "#/components/schemas/EventEnvelope"
     EventEnvelope:
       type: object
-      additionalProperties: false
       required:
         [schemaVersion, eventId, eventType, aggregateId, aggregateVersion, ownerId, occurredAt, correlationId, data]
       properties:
@@ -419,12 +426,10 @@ components:
           const: "1.0"
         eventId:
           type: string
-          format: uuid
         eventType:
-          enum: [ShipmentCreated, CheckpointRecorded]
+          enum: [MediaRegistered, CheckpointRecorded]
         aggregateId:
           type: string
-          format: uuid
         aggregateVersion:
           type: integer
           minimum: 1
@@ -437,15 +442,14 @@ components:
           type: string
         data:
           oneOf:
-            - $ref: "#/components/schemas/ShipmentCreatedData"
+            - $ref: "#/components/schemas/MediaRegisteredData"
             - $ref: "#/components/schemas/CheckpointRecordedData"
-    ShipmentCreatedData:
+    MediaRegisteredData:
       type: object
-      additionalProperties: false
       required: [kind, reference, origin, destination]
       properties:
         kind:
-          const: shipmentCreated
+          const: mediaRegistered
         reference:
           type: string
         origin:
@@ -454,14 +458,12 @@ components:
           type: string
     CheckpointRecordedData:
       type: object
-      additionalProperties: false
       required: [kind, checkpointId, status, location]
       properties:
         kind:
           const: checkpointRecorded
         checkpointId:
           type: string
-          format: uuid
         status:
           $ref: "#/components/schemas/CheckpointStatus"
         location:
@@ -469,29 +471,26 @@ components:
         note:
           type: string
     CheckpointStatus:
-      enum: [PICKED_UP, IN_TRANSIT, AT_HUB, OUT_FOR_DELIVERY, DELIVERED, EXCEPTION]
-    ShipmentStatus:
-      enum: [CREATED, PICKED_UP, IN_TRANSIT, AT_HUB, OUT_FOR_DELIVERY, DELIVERED, EXCEPTION]
+      enum: [INGESTED, TRANSCODING, PACKAGED, QC_PASSED, PUBLISHED, EXCEPTION]
+    MediaStatus:
+      enum: [REGISTERED, INGESTED, TRANSCODING, PACKAGED, QC_PASSED, PUBLISHED, EXCEPTION]
     RebuildResult:
       type: object
-      additionalProperties: false
-      required: [shipmentId, requeued]
+      required: [mediaId, requeued]
       properties:
-        shipmentId:
+        mediaId:
           type: string
-          format: uuid
         requeued:
           type: integer
           minimum: 1
     Health:
       type: object
-      additionalProperties: false
       required: [status, service, instance, checks]
       properties:
         status:
           enum: [UP, DOWN]
         service:
-          const: cinderroute-api
+          const: mediapulse-api
         instance:
           type: string
         checks:
@@ -500,7 +499,6 @@ components:
             enum: [UP, DOWN]
     Error:
       type: object
-      additionalProperties: false
       required: [error, message]
       properties:
         error:

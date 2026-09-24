@@ -13,7 +13,9 @@ async fn main() -> anyhow::Result<()> {
     let endpoint = config::gcp_endpoint()?;
     let project_id = config::gcp_project_id();
     let database = config::required("FIRESTORE_DATABASE")?;
-    let valkey_endpoint = config::required("VALKEY_ENDPOINT")?;
+    let valkey_endpoint = config::optional("VALKEY_ENDPOINT")
+        .or_else(|| config::optional("DATASTORE_NAMESPACE"))
+        .unwrap_or_else(|| "redis://127.0.0.1:6379".to_owned());
     
     let projector = Projector::new(
         cloud::http_client()?,

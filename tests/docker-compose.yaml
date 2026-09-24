@@ -17,6 +17,8 @@ services:
         condition: service_healthy
       floci-gcp:
         condition: service_started
+      gcp-gateway:
+        condition: service_started
     environment:
       GCP_ENDPOINT_URL: http://gcp:4588
       PUBSUB_EMULATOR_HOST: gcp:4588
@@ -84,6 +86,9 @@ services:
       dockerfile: runtime/Dockerfile
       target: runtime-setup
     command: ["/bin/sh", "/runtime.sh"]
+    depends_on:
+      gcp-gateway:
+        condition: service_started
     environment:
       DOCKER_BUILDKIT: "1"
     networks:
@@ -97,10 +102,14 @@ services:
     image: floci/floci-gcp:latest@sha256:ea29a53b34d04ba05240cdc6833608e43ae2b0a67849e5b97f01a7224e1138ea
     pull_policy: missing
     environment:
+      FLOCI_GCP_PORT: "4589"
       FLOCI_GCP_HOSTNAME: gcp
       FLOCI_GCP_BASE_URL: http://gcp:4588
       FLOCI_GCP_STORAGE_MODE: persistent
       FLOCI_GCP_STORAGE_PERSISTENT_PATH: /app/data
+      FLOCI_GCP_SERVICES_CLOUDRUN_MOCK: "true"
+      FLOCI_GCP_SERVICES_CLOUDSQL_MOCK: "true"
+      FLOCI_GCP_DNS_CONTAINER_FALLBACK_ENABLED: "false"
       FLOCI_DOCKER_DOCKER_HOST: unix:///var/run/docker.sock
       FLOCI_DOCKER_RESOURCE_NAMESPACE: ${COMPOSE_PROJECT_NAME}
       FLOCI_SERVICES_DOCKER_NETWORK: ${COMPOSE_PROJECT_NAME}_workload
@@ -115,6 +124,24 @@ services:
     volumes:
       - floci-data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
+
+  gcp-gateway:
+    image: mirror.gcr.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7
+    pull_policy: missing
+    network_mode: "service:floci-gcp"
+    depends_on:
+      floci-gcp:
+        condition: service_started
+    command: ["python3", "/gcp_gateway.py"]
+    environment:
+      FLOCI_BACKEND_URL: http://127.0.0.1:4589
+      GATEWAY_PORT: "4588"
+      PG_PORT: "5432"
+      GATEWAY_DATA_DIR: /app/data
+    restart: unless-stopped
+    volumes:
+      - floci-data:/app/data
+      - ./gcp_gateway.py:/gcp_gateway.py:ro
 
   runner:
     build:

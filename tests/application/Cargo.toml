@@ -16,16 +16,11 @@ publish = false
 
 [workspace.dependencies]
 anyhow = "=1.0.98"
-aws-config = "=1.8.1"
-aws-credential-types = "=1.2.3"
-aws-sdk-dynamodb = "=1.82.0"
-aws-sdk-s3 = "=1.96.0"
-aws-sdk-sqs = "=1.74.0"
 axum = { version = "=0.8.4", features = ["json", "macros"] }
+base64 = "=0.22.1"
 chrono = { version = "=0.4.41", features = ["serde"] }
 cinderroute = { path = "library" }
 jsonwebtoken = "=9.3.1"
-lambda_runtime = "=0.13.0"
 redis = { version = "=0.32.2", default-features = false, features = ["tokio-rustls-comp", "connection-manager"] }
 reqwest = { version = "=0.12.22", default-features = false, features = ["json", "rustls-tls"] }
 serde = { version = "=1.0.219", features = ["derive"] }

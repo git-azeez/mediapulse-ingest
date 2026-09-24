@@ -15,7 +15,9 @@ async fn main() -> anyhow::Result<()> {
 
     let database_url = config::required("DATABASE_URL")?;
     let gcp_endpoint = config::gcp_endpoint()?;
-    let bucket = config::required("AUDIT_BUCKET")?;
+    let bucket = config::optional("GCS_BUCKET")
+        .or_else(|| config::optional("AUDIT_BUCKET"))
+        .ok_or_else(|| anyhow::anyhow!("missing GCS_BUCKET or AUDIT_BUCKET"))?;
     let prefix = config::optional("AUDIT_PREFIX").unwrap_or_else(|| "events/".to_owned());
 
     let db = PgPoolOptions::new()

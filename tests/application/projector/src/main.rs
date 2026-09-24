@@ -1,29 +1,40 @@
 mod handler;
 mod projection;
 
-use aws_sdk_dynamodb::Client as DynamoClient;
+use axum::{routing::post, Router};
 use cinderroute::{cloud, config, telemetry};
 use handler::Projector;
-use lambda_runtime::{Error as LambdaError, service_fn};
+use std::net::SocketAddr;
 
 #[tokio::main]
-async fn main() -> Result<(), LambdaError> {
+async fn main() -> anyhow::Result<()> {
     telemetry::init("cinderroute-projector");
 
-    let endpoint = config::aws_endpoint()?;
-    let region = config::aws_region();
-    let table = config::required("PROJECTION_TABLE")?;
-    let valkey_endpoint = config::required("VALKEY_ENDPOINT")?;
-    let sdk = cloud::sdk_config(&endpoint, &region).await;
+    let endpoint = config::gcp_endpoint()?;
+    let project_id = config::gcp_project_id();
+    let database = config::required("FIRESTORE_DATABASE")?;
+    let valkey_endpoint = config::optional("VALKEY_ENDPOINT")
+        .or_else(|| config::optional("DATASTORE_NAMESPACE"))
+        .unwrap_or_else(|| "redis://127.0.0.1:6379".to_owned());
+    
     let projector = Projector::new(
-        DynamoClient::new(&sdk),
-        table,
+        cloud::http_client()?,
+        endpoint,
+        project_id,
+        database,
         redis::Client::open(config::normalize_valkey_url(&valkey_endpoint))?,
     );
 
-    lambda_runtime::run(service_fn(move |event| {
-        let projector = projector.clone();
-        async move { projector.handle(event).await }
-    }))
-    .await
+    let app = Router::new()
+        .route("/", post(handler::handle_pubsub))
+        .with_state(projector);
+
+    let port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
+    let addr: SocketAddr = format!("0.0.0.0:{}", port).parse()?;
+    
+    tracing::info!("listening on {}", addr);
+    let listener = tokio::net::TcpListener::bind(addr).await?;
+    axum::serve(listener, app).await?;
+    
+    Ok(())
 }

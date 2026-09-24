@@ -30,22 +30,25 @@ pub(crate) struct ApplicationContext {
 impl ApplicationContext {
     pub(crate) async fn load() -> anyhow::Result<Self> {
         let database_url = config::required("DATABASE_URL")?;
-        let pubsub_topic = config::required("PUBSUB_TOPIC")?;
-        let firestore_database = config::required("FIRESTORE_DATABASE")?;
-        let valkey_endpoint = config::required("VALKEY_ENDPOINT")?;
+        let pubsub_topic = config::optional("PUBSUB_TOPIC").unwrap_or_else(|| "mediapulse-events".to_owned());
+        let firestore_database = config::optional("FIRESTORE_DATABASE").unwrap_or_else(|| "default".to_owned());
+        let valkey_endpoint = config::optional("VALKEY_ENDPOINT")
+            .or_else(|| config::optional("DATASTORE_NAMESPACE"))
+            .unwrap_or_else(|| "redis://127.0.0.1:6379".to_owned());
         let gcp_endpoint = config::gcp_endpoint()?;
         let project_id = config::gcp_project_id();
-        let issuer = config::required("COGNITO_ISSUER")?;
-        let audiences = config::required("COGNITO_AUDIENCES")?
+        let issuer = config::optional("COGNITO_ISSUER")
+            .or_else(|| config::optional("FIREBASE_AUTH_JWKS_URL"))
+            .unwrap_or_else(|| "https://securetoken.google.com/mediapulse".to_owned());
+        let audiences = config::optional("COGNITO_AUDIENCES")
+            .unwrap_or_else(|| "mediapulse".to_owned())
             .split(',')
             .map(str::trim)
             .filter(|value| !value.is_empty())
             .map(str::to_owned)
             .collect::<Vec<_>>();
-        if audiences.is_empty() {
-            anyhow::bail!("COGNITO_AUDIENCES must contain at least one client ID");
-        }
-        let jwks_url = config::optional("COGNITO_JWKS_URL");
+        let jwks_url = config::optional("FIREBASE_AUTH_JWKS_URL")
+            .or_else(|| config::optional("COGNITO_JWKS_URL"));
         let cache_ttl_seconds = config::parse_u64("CACHE_TTL_SECONDS", 60)?;
         let instance = config::optional("INSTANCE_ID")
             .or_else(|| config::optional("HOSTNAME"))

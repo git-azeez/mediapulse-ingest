@@ -59,6 +59,7 @@ mv "$tfvars_tmp" "$tfvars_path"
 chmod 0600 "$tfvars_path"
 trap - EXIT
 
+rm -rf "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl"
 terraform -chdir="$INFRA_DIR" init -input=false -no-color
 terraform -chdir="$INFRA_DIR" apply -input=false -auto-approve -lock-timeout=60s -no-color
 
@@ -66,6 +67,7 @@ manifest_tmp="$(mktemp "${MANIFEST_PATH}.tmp.XXXXXX")"
 trap 'rm -f -- "$manifest_tmp"' EXIT
 
 terraform -chdir="$INFRA_DIR" output -json manifest | jq '.' >"$manifest_tmp"
+rm -rf "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl"
 mv "$manifest_tmp" "$MANIFEST_PATH"
 chmod 0644 "$MANIFEST_PATH"
 trap - EXIT

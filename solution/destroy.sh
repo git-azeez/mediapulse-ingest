@@ -25,9 +25,8 @@ export TF_IN_AUTOMATION=1
 export TF_INPUT=0
 unset TF_PLUGIN_CACHE_DIR
 
-if [[ ! -d "$INFRA_DIR/.terraform" ]]; then
-  terraform -chdir="$INFRA_DIR" init -input=false -no-color
-fi
+rm -rf "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl"
+terraform -chdir="$INFRA_DIR" init -input=false -no-color
 
 set +e
 terraform -chdir="$INFRA_DIR" destroy -input=false -auto-approve -lock-timeout=60s -no-color
@@ -41,6 +40,7 @@ if (( first_rc != 0 )); then
 fi
 
 remaining="$(terraform -chdir="$INFRA_DIR" state list 2>/dev/null | wc -l | tr -d ' ')"
+rm -rf "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl"
 if [[ "$remaining" != "0" ]]; then
   echo "Destroy left $remaining Terraform resources in state" >&2
   exit 1

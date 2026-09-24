@@ -13,6 +13,11 @@ pub(crate) async fn run() -> anyhow::Result<()> {
     let auth_state = context.auth_state;
 
     let write_routes = Router::new()
+        .route("/v1/media", post(shipments::create))
+        .route(
+            "/v1/media/{id}/checkpoints",
+            post(shipments::record_checkpoint),
+        )
         .route("/v1/shipments", post(shipments::create))
         .route(
             "/v1/shipments/{id}/checkpoints",
@@ -23,6 +28,8 @@ pub(crate) async fn run() -> anyhow::Result<()> {
             auth::require_write,
         ));
     let read_routes = Router::new()
+        .route("/v1/media/{id}", get(shipments::get))
+        .route("/v1/media/{id}/timeline", get(shipments::timeline))
         .route("/v1/shipments/{id}", get(shipments::get))
         .route("/v1/shipments/{id}/timeline", get(shipments::timeline))
         .layer(middleware::from_fn_with_state(

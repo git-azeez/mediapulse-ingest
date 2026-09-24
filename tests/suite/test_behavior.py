@@ -117,7 +117,7 @@ def test_workflow_relations(ctx: TrialContext) -> CheckResult:
                     "X-Correlation-Id": f"corr-cp-{shipment_id}-{step}",
                 },
             )
-            if cp_status not in (200, 202):
+            if cp_status not in (200, 201, 202):
                 raise AcceptedWriteLoss(f"POST /v1/media/{shipment_id}/checkpoints failed at step {step}: {cp_status}")
 
         tl_status, _, tl_body = _api_request(

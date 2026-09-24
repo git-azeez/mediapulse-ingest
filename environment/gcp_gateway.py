@@ -417,7 +417,6 @@ def _flush_outbox_and_archive() -> dict[str, int]:
                         published_count += 1
 
             if buckets:
-                bucket_name = buckets[0]
                 cur.execute(
                     "SELECT event_id, media_id, event_type, version, payload_json, created_at, published_at "
                     "FROM outbox_events WHERE published_at IS NOT NULL AND archived_at IS NULL LIMIT 100"
@@ -442,13 +441,17 @@ def _flush_outbox_and_archive() -> dict[str, int]:
                         + "\n"
                     )
                     encoded_name = urllib.parse.quote(object_name, safe="")
-                    status, _, _ = _backend_request(
-                        "POST",
-                        f"upload/storage/v1/b/{bucket_name}/o?uploadType=media&name={encoded_name}",
-                        body=ndjson_line.encode("utf-8"),
-                        headers={"Content-Type": "application/x-ndjson"},
-                    )
-                    if status in (200, 201):
+                    uploaded_any = False
+                    for bucket_name in buckets:
+                        status, _, _ = _backend_request(
+                            "POST",
+                            f"upload/storage/v1/b/{bucket_name}/o?uploadType=media&name={encoded_name}",
+                            body=ndjson_line.encode("utf-8"),
+                            headers={"Content-Type": "application/x-ndjson"},
+                        )
+                        if status in (200, 201):
+                            uploaded_any = True
+                    if uploaded_any:
                         cur.execute("UPDATE outbox_events SET archived_at = ? WHERE event_id = ?", (_now_iso(), event_id))
                         archived_count += 1
 
@@ -1010,7 +1013,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
                     )
                     if idem_key:
                         cur.execute(
-                            "INSERT INTO idempotency_keys (scope_key, request_hash, status_code, response_json, created_at) VALUES (?, ?, 201, ?, ?)",
+                            "INSERT INTO idempotency_keys (scope_key, request_hash, status_code, response_json, created_at) VALUES (?, ?, 200, ?, ?)",
                             (f"cp:{media_id}:{idem_key}", req_hash, json.dumps(resp_doc), now),
                         )
                     conn.commit()
@@ -1018,7 +1021,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
                     conn.close()
 
             _flush_outbox_and_archive()
-            self._send_json(201, resp_doc, {"ETag": f'W/"{media_id}-v{new_version}"'})
+            self._send_json(200, resp_doc, {"ETag": f'W/"{media_id}-v{new_version}"'})
             return
 
         m_read = re.match(r"^/v1/(?:media|shipments)/([^/]+)(/timeline)?$", path)
@@ -1054,6 +1057,11 @@ class GatewayHandler(BaseHTTPRequestHandler):
 
                     cur.execute("SELECT etag, state_json, timeline_json FROM projections WHERE media_id = ?", (media_id,))
                     proj = cur.fetchone()
+                    if not proj:
+                        _rebuild_projection_for_media(conn, media_id)
+                        conn.commit()
+                        cur.execute("SELECT etag, state_json, timeline_json FROM projections WHERE media_id = ?", (media_id,))
+                        proj = cur.fetchone()
                     if not proj:
                         self._send_json(404, {"error": "projection_not_found", "mediaId": media_id})
                         return

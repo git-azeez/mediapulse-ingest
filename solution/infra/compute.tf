@@ -1,7 +1,8 @@
 resource "google_cloud_run_v2_service" "api" {
-  name     = "${var.prefix}-api"
-  location = var.gcp_region
-  ingress  = "INGRESS_TRAFFIC_ALL"
+  name                = "${var.prefix}-api"
+  location            = var.gcp_region
+  ingress             = "INGRESS_TRAFFIC_ALL"
+  deletion_protection = false
 
   template {
     service_account = google_service_account.api.email

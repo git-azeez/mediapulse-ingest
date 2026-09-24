@@ -63,7 +63,24 @@
     },
     "auth": {
       "type": "object",
-      "required": ["tenant_id", "resource_server_identifier", "issuer", "jwks_url", "read_client_email", "write_client_email", "admin_client_email"]
+      "required": ["tenant_id", "resource_server_identifier", "issuer", "jwks_url", "read_client_email", "write_client_email", "admin_client_email"],
+      "properties": {
+        "tenant_id": { "type": "string", "minLength": 1 },
+        "resource_server_identifier": { "type": "string", "minLength": 1 },
+        "issuer": { "type": "string", "minLength": 1 },
+        "jwks_url": { "type": "string", "format": "uri" },
+        "jwks_uri": { "type": "string", "format": "uri" },
+        "token_endpoint": { "type": "string", "format": "uri", "description": "OAuth2 token endpoint (<gcp_endpoint_url>/oauth2/v4/token) accepting client_credentials grant." },
+        "read_client_email": { "type": "string", "minLength": 1 },
+        "write_client_email": { "type": "string", "minLength": 1 },
+        "admin_client_email": { "type": "string", "minLength": 1 },
+        "read_client_id": { "type": "string", "minLength": 1, "description": "OAuth2 client_id for mediapulse/read (service account email of google_service_account.client_read)." },
+        "write_client_id": { "type": "string", "minLength": 1, "description": "OAuth2 client_id for mediapulse/write (service account email of google_service_account.client_write)." },
+        "admin_client_id": { "type": "string", "minLength": 1, "description": "OAuth2 client_id for mediapulse/admin (service account email of google_service_account.client_admin)." },
+        "read_client_secret": { "type": "string", "minLength": 1, "description": "OAuth2 client_secret for mediapulse/read (private_key from google_service_account_key.client_read)." },
+        "write_client_secret": { "type": "string", "minLength": 1, "description": "OAuth2 client_secret for mediapulse/write (private_key from google_service_account_key.client_write)." },
+        "admin_client_secret": { "type": "string", "minLength": 1, "description": "OAuth2 client_secret for mediapulse/admin (private_key from google_service_account_key.client_admin)." }
+      }
     },
     "workers": {
       "type": "object",

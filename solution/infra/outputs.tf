@@ -81,9 +81,17 @@ output "manifest" {
       resource_server_identifier = local.auth_resource_server
       issuer                     = local.auth_issuer
       jwks_url                   = local.auth_jwks_url
+      jwks_uri                   = local.auth_jwks_url
+      token_endpoint             = "${var.gcp_endpoint_url}/oauth2/v4/token"
       read_client_email          = google_service_account.client_read.email
       write_client_email         = google_service_account.client_write.email
       admin_client_email         = google_service_account.client_admin.email
+      read_client_id             = google_service_account.client_read.email
+      write_client_id            = google_service_account.client_write.email
+      admin_client_id            = google_service_account.client_admin.email
+      read_client_secret         = google_service_account_key.client_read.private_key
+      write_client_secret        = google_service_account_key.client_write.private_key
+      admin_client_secret        = google_service_account_key.client_admin.private_key
     }
 
     workers = {

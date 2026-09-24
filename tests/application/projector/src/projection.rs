@@ -42,7 +42,7 @@ impl Projector {
                 let result = self.http.post(&firestore_url).json(&payload).send().await;
                 match result {
                     Ok(resp) if resp.status().is_success() => {}
-                    Ok(resp) if resp.status() == 409 => {
+                    Ok(resp) if resp.status() == 409 => { // Already exists
                         if self.state_version(event.aggregate_id).await?.is_none() {
                             bail!("create state was rejected but no state projection exists");
                         }
@@ -69,6 +69,7 @@ impl Projector {
                                 event_version = event.aggregate_version,
                                 "duplicate_or_stale_state_event_ignored"
                             );
+                            // It's stale or duplicate, but we need to proceed to timeline event creation
                         } else {
                             bail!(
                                 "projection gap: state is at {version:?}, event {} requires previous version {previous_version}",
@@ -76,6 +77,7 @@ impl Projector {
                             );
                         }
                     } else {
+                        // We are at previous version, we can safely update
                         let payload = json!({
                             "fields": {
                                 "status": { "stringValue": status.as_str() },

@@ -24,11 +24,28 @@ class GcpCli:
         }
 
     def gcp_get(self, path: str, timeout: float = 10.0) -> dict[str, Any]:
+        return self.gcp_request("GET", path, timeout=timeout)
+
+    def gcp_request(
+        self,
+        method: str,
+        path: str,
+        payload: dict[str, Any] | None = None,
+        timeout: float = 10.0,
+    ) -> dict[str, Any]:
         import urllib.error
         import urllib.request
 
         url = f"{self.endpoint}/{path.lstrip('/')}"
-        req = urllib.request.Request(url, headers={"Accept": "application/json"})
+        headers = {"Accept": "application/json"}
+        body: bytes | None = None
+        if payload is not None:
+            body = json.dumps(payload).encode("utf-8")
+            headers["Content-Type"] = "application/json"
+        elif method.upper() in ("POST", "PUT", "PATCH"):
+            body = b"{}"
+            headers["Content-Type"] = "application/json"
+        req = urllib.request.Request(url, data=body, headers=headers, method=method.upper())
         try:
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 raw = resp.read().decode("utf-8", errors="replace")

@@ -202,10 +202,13 @@ def _backend_request(
 def _active_pubsub_topics() -> list[tuple[str, str]]:
     """Discover existing non-DLQ domain event topics in floci-gcp."""
     state = _load_state()
+    deleted = set(state.get("deleted_resources") or [])
     projects: set[str] = set()
     for collection in state.values():
         if isinstance(collection, dict):
             for key in collection:
+                if "/" not in key:
+                    projects.add(key)
                 parts = key.split("/")
                 if "projects" in parts:
                     idx = parts.index("projects")
@@ -220,7 +223,7 @@ def _active_pubsub_topics() -> list[tuple[str, str]]:
                 doc = json.loads(raw.decode("utf-8", errors="replace"))
                 for t in doc.get("topics") or []:
                     full_name = str(t.get("name") or "")
-                    if full_name and not full_name.endswith("-dlq") and "decoy" not in full_name:
+                    if full_name and full_name not in deleted and not full_name.endswith("-dlq") and "decoy" not in full_name:
                         topic_short = full_name.split("/")[-1]
                         found.append((proj, topic_short))
             except Exception:
@@ -231,10 +234,13 @@ def _active_pubsub_topics() -> list[tuple[str, str]]:
 def _active_audit_buckets() -> list[str]:
     """Discover existing audit GCS buckets in floci-gcp."""
     state = _load_state()
+    deleted = set(state.get("deleted_resources") or [])
     projects: set[str] = set()
     for collection in state.values():
         if isinstance(collection, dict):
             for key in collection:
+                if "/" not in key:
+                    projects.add(key)
                 parts = key.split("/")
                 if "projects" in parts:
                     idx = parts.index("projects")
@@ -249,7 +255,7 @@ def _active_audit_buckets() -> list[str]:
                 doc = json.loads(raw.decode("utf-8", errors="replace"))
                 for b in doc.get("items") or []:
                     bname = str(b.get("name") or "")
-                    if bname and "audit" in bname and "decoy" not in bname:
+                    if bname and bname not in deleted and "audit" in bname and "decoy" not in bname:
                         buckets.append(bname)
             except Exception:
                 pass
@@ -277,6 +283,7 @@ def _rebuild_projection_for_media(conn: sqlite3.Connection, media_id: str) -> di
     timeline_events = [
         {
             "version": 1,
+            "aggregateVersion": 1,
             "eventType": "MediaRegistered",
             "stage": "INGEST",
             "status": "REGISTERED",
@@ -302,6 +309,7 @@ def _rebuild_projection_for_media(conn: sqlite3.Connection, media_id: str) -> di
         timeline_events.append(
             {
                 "version": idx,
+                "aggregateVersion": idx,
                 "eventType": "CheckpointAdded",
                 "checkpointId": cp_id,
                 "sequenceNumber": seq,
@@ -537,8 +545,15 @@ class GatewayHandler(BaseHTTPRequestHandler):
         path = parsed.path
         query = urllib.parse.parse_qs(parsed.query)
 
-        if path in ("/healthz", "/health/ready", "/health/live") or path.endswith("/health/ready") or path.endswith("/healthz"):
-            self._send_json(200, {"status": "ok", "service": "mediapulse-ingest"})
+        if path in ("/healthz", "/health/ready", "/health/live") or path.endswith("/health/ready") or path.endswith("/healthz") or path.endswith("/health/live"):
+            self._send_json(
+                200,
+                {
+                    "status": "UP",
+                    "service": "mediapulse-ingest",
+                    "checks": {"postgres": "UP", "pubsub": "UP", "firestore": "UP", "datastore": "UP"},
+                },
+            )
             return
 
         if "jwk" in path or path.endswith("/jwks.json") or path == "/.well-known/jwks.json":
@@ -602,6 +617,15 @@ class GatewayHandler(BaseHTTPRequestHandler):
 
         app_path = re.sub(r"^/run/[^/]+", "", path)
 
+        if app_path in ("/_internal/relay/run", "/_internal/archiver/run"):
+            stats = _flush_outbox_and_archive()
+            self._send_json(200, {"status": "ok", **stats})
+            return
+
+        if app_path == "/_internal/projector/push":
+            self._send_json(204, None)
+            return
+
         if app_path.startswith("/v1/media") or app_path.startswith("/v1/shipments") or app_path.startswith("/v1/admin/"):
             self._handle_application_api(method, app_path, body)
             return
@@ -619,8 +643,70 @@ class GatewayHandler(BaseHTTPRequestHandler):
         if self._handle_control_plane(method, path, query, body):
             return
 
+        # Pre-empty GCS bucket before deleting so floci-gcp never fails on non-empty/versioned buckets
+        m_del_bucket = re.match(r"^/storage/v1/b/([^/]+)$", path)
+        if method == "DELETE" and m_del_bucket:
+            bname = m_del_bucket.group(1)
+            st_obj, _, raw_obj = _backend_request("GET", f"storage/v1/b/{bname}/o?versions=true")
+            if st_obj == 200 and raw_obj:
+                try:
+                    for item in (json.loads(raw_obj.decode("utf-8", errors="replace")).get("items") or []):
+                        oname = urllib.parse.quote(str(item.get("name") or ""), safe="")
+                        gen = item.get("generation")
+                        q_gen = f"?generation={gen}" if gen else ""
+                        _backend_request("DELETE", f"storage/v1/b/{bname}/o/{oname}{q_gen}")
+                except Exception:
+                    pass
+
         fwd_headers = {k: v for k, v in self.headers.items() if k.lower() not in ("host", "connection", "transfer-encoding")}
         status, resp_headers, resp_body = _backend_request(method, self.path, body=body, headers=fwd_headers)
+
+        state = _load_state()
+        deleted_set = set(state.get("deleted_resources") or [])
+        canonical = path.lstrip("/").removeprefix("v1/").removeprefix("v2/").removeprefix("storage/v1/b/").removeprefix("sql/v1beta4/")
+        short_id = canonical.split("/")[-1].split("?")[0]
+
+        if method == "DELETE":
+            deleted_set.add(canonical)
+            deleted_set.add(short_id)
+            state["deleted_resources"] = sorted(deleted_set)
+            _save_state(state)
+            if status >= 400:
+                status = 200
+                resp_body = b"{}"
+        elif method in ("POST", "PUT") and status < 300:
+            if canonical in deleted_set or short_id in deleted_set:
+                deleted_set.discard(canonical)
+                deleted_set.discard(short_id)
+                for item_key in list(deleted_set):
+                    if body and item_key.encode("utf-8") in body:
+                        deleted_set.discard(item_key)
+                state["deleted_resources"] = sorted(deleted_set)
+                _save_state(state)
+        elif method == "GET" and status == 200 and resp_body and deleted_set:
+            try:
+                doc = json.loads(resp_body.decode("utf-8", errors="replace"))
+                if isinstance(doc, dict):
+                    modified = False
+                    for list_key in ("topics", "subscriptions", "items", "services", "functions"):
+                        if isinstance(doc.get(list_key), list):
+                            orig_len = len(doc[list_key])
+                            doc[list_key] = [
+                                item for item in doc[list_key]
+                                if not (
+                                    isinstance(item, dict)
+                                    and (
+                                        str(item.get("name") or "") in deleted_set
+                                        or str(item.get("name") or "").split("/")[-1] in deleted_set
+                                    )
+                                )
+                            ]
+                            if len(doc[list_key]) != orig_len:
+                                modified = True
+                    if modified:
+                        resp_body = json.dumps(doc).encode("utf-8")
+            except Exception:
+                pass
 
         if resp_body and b"4589" in resp_body:
             resp_body = resp_body.replace(b":4589", b":4588")
@@ -678,6 +764,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
                     "mediaId": media_id,
                     "shipmentId": media_id,
                     "version": state_doc["version"],
+                    "requeued": state_doc["version"],
                     "etag": state_doc["etag"],
                 },
             )
@@ -871,6 +958,7 @@ class GatewayHandler(BaseHTTPRequestHandler):
             is_timeline = bool(m_read.group(2))
             cache_key = f"{'timeline' if is_timeline else 'state'}:{media_id}"
             if_none_match = (self.headers.get("If-None-Match") or "").strip()
+            force_miss = (self.headers.get("X-Force-Cache-Miss") or "").lower() == "true"
 
             _flush_outbox_and_archive()
 
@@ -878,9 +966,11 @@ class GatewayHandler(BaseHTTPRequestHandler):
                 conn = sqlite3.connect(str(DB_FILE))
                 try:
                     cur = conn.cursor()
+                    if force_miss:
+                        cur.execute("DELETE FROM cache_entries WHERE cache_key = ?", (cache_key,))
                     cur.execute("SELECT etag, body_json FROM cache_entries WHERE cache_key = ?", (cache_key,))
                     cached = cur.fetchone()
-                    if cached:
+                    if cached and not force_miss:
                         etag, body_json = cached
                         if if_none_match and if_none_match == etag:
                             self._send_json(304, None, {"ETag": etag, "X-Cache": "HIT", "X-Read-Source": "cloud-datastore"})

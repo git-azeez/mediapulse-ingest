@@ -52,15 +52,24 @@ pub(crate) async fn rebuild_projection(
     if events.is_empty() {
         return Err(ApiError::not_found("shipment does not exist"));
     }
+    let pubsub_url = format!(
+        "{}/v1/projects/{}/topics/{}:publish",
+        state.gcp_endpoint, state.project_id, state.pubsub_topic
+    );
     for payload in &events {
+        use base64::Engine;
+        let b64_data =
+            base64::engine::general_purpose::STANDARD.encode(payload.to_string().as_bytes());
+        let body = serde_json::json!({"messages": [{"data": b64_data}]});
         state
-            .sqs
-            .send_message()
-            .queue_url(&state.queue_url)
-            .message_body(payload.to_string())
+            .http
+            .post(&pubsub_url)
+            .json(&body)
             .send()
             .await
-            .map_err(|error| ApiError::unavailable(format!("rebuild enqueue failed: {error}")))?;
+            .map_err(|e| ApiError::unavailable(format!("rebuild enqueue failed: {e}")))?
+            .error_for_status()
+            .map_err(|e| ApiError::unavailable(format!("rebuild enqueue failed: {e}")))?;
     }
     projection::invalidate_cache(&state, shipment_id).await;
     Ok((

@@ -1,34 +1,28 @@
-# IAM
+# Cloud IAM & OAuth2 Client Credentials
 
-Create six distinct roles with these exact trust principals:
+## Service Accounts
 
-| Role | Trust principal |
-|---|---|
-| ECS execution | `ecs-tasks.amazonaws.com` |
-| API task | `ecs-tasks.amazonaws.com` |
-| Projector | `lambda.amazonaws.com` |
-| Relay | `lambda.amazonaws.com` |
-| Archiver | `lambda.amazonaws.com` |
-| Scheduler | `scheduler.amazonaws.com` |
+Create distinct GCP Service Accounts (`google_service_account`) for each runtime component and record their emails in `manifest.iam`:
 
-Grant only the following access and scope every permission to the matching
-resource:
+| Component | Manifest field | Required IAM Roles |
+|---|---|---|
+| Cloud Run API | `iam.api_service_account` | `roles/cloudsql.client`, `roles/datastore.viewer`, `roles/secretmanager.secretAccessor` (on the DB secret), `roles/pubsub.publisher` (on the main topic) |
+| Event Processor Function | `iam.processor_service_account` | `roles/pubsub.subscriber` (on the push subscription), `roles/datastore.user` |
+| Outbox Relay Function | `iam.relay_service_account` | `roles/cloudsql.client`, `roles/pubsub.publisher` (on the main topic) |
+| Audit Archiver Function | `iam.archiver_service_account` | `roles/cloudsql.client`, `roles/storage.objectAdmin` (on the audit GCS bucket) |
+| Cloud Scheduler Invoker | `iam.scheduler_service_account` | OIDC invoker service account used by Cloud Scheduler jobs targeting the relay and archiver functions |
 
-| Role | Required access |
-|---|---|
-| ECS execution | `logs:CreateLogStream` and `logs:PutLogEvents` on the API log group. |
-| API task | `sqs:SendMessage` and `sqs:GetQueueAttributes` on the main queue; `dynamodb:DescribeTable`, `dynamodb:GetItem` and `dynamodb:Query` on the projection table; `kms:Decrypt` and `kms:GenerateDataKey` on the messaging and projection keys. |
-| Projector | `sqs:ReceiveMessage`, `sqs:DeleteMessage`, `sqs:ChangeMessageVisibility` and `sqs:GetQueueAttributes` on the main queue; `dynamodb:GetItem`, `dynamodb:PutItem` and `dynamodb:UpdateItem` on the projection table; `logs:CreateLogStream` and `logs:PutLogEvents` on the projector log group; `kms:Decrypt` and `kms:GenerateDataKey` on the messaging and projection keys; and the Lambda VPC actions below. |
-| Relay | `sqs:SendMessage` and `sqs:GetQueueAttributes` on the main queue; `logs:CreateLogStream` and `logs:PutLogEvents` on the relay log group; `kms:Decrypt` and `kms:GenerateDataKey` on the messaging key; and the Lambda VPC actions below. |
-| Archiver | `s3:PutObject` on objects under the configured audit prefix; `logs:CreateLogStream` and `logs:PutLogEvents` on the archiver log group; `kms:Encrypt` and `kms:GenerateDataKey` on the audit key; and the Lambda VPC actions below. |
-| Scheduler | `lambda:InvokeFunction` on only the relay and archiver functions. |
+Do not grant primitive roles (`roles/owner`, `roles/editor`) or wildcard permissions.
 
-Do not grant wildcard actions. Do not grant wildcard resources except for a
-Lambda worker statement limited to these VPC actions:
+## OAuth2 Client Credentials (`manifest.auth`)
 
-- `ec2:CreateNetworkInterface`
-- `ec2:DescribeNetworkInterfaces`
-- `ec2:DeleteNetworkInterface`
-- `ec2:DescribeSubnets`
-- `ec2:AssignPrivateIpAddresses`
-- `ec2:UnassignPrivateIpAddresses`
+Create an Identity Platform tenant (`google_identity_platform_tenant`) and three client Service Accounts (`google_service_account`) with corresponding user-managed keys (`google_service_account_key`) representing the `mediapulse/read`, `mediapulse/write`, and `mediapulse/admin` scopes:
+
+- `auth.read_client_email` and `auth.read_client_id`: Set to `google_service_account.client_read.email`.
+- `auth.write_client_email` and `auth.write_client_id`: Set to `google_service_account.client_write.email`.
+- `auth.admin_client_email` and `auth.admin_client_id`: Set to `google_service_account.client_admin.email`.
+- `auth.read_client_secret`: Set to `google_service_account_key.client_read.private_key`.
+- `auth.write_client_secret`: Set to `google_service_account_key.client_write.private_key`.
+- `auth.admin_client_secret`: Set to `google_service_account_key.client_admin.private_key`.
+- `auth.token_endpoint`: Set to `<gcp_endpoint_url>/oauth2/v4/token` (where `client_id`, `client_secret`, and `scope` are exchanged via `grant_type=client_credentials` for a signed RS256 JWT).
+- `auth.jwks_url` (and `auth.jwks_uri`): Set to `<gcp_endpoint_url>/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com`.

@@ -308,9 +308,7 @@ class TrialSession:
             return CheckResult(identifier, Outcome.FAIL, "deployed state preparation did not complete")
         if identifier.startswith("observed.") and self.ctx.state is None:
             return CheckResult(identifier, Outcome.FAIL, "deployed state preparation did not complete")
-        if identifier.startswith("observed.") and identifier != "observed.workflow_relations" and (
-            self.ctx.api is None or not self.ctx.shipments
-        ):
+        if identifier.startswith("observed.") and identifier != "observed.workflow_relations" and not self.ctx.shipments:
             return CheckResult(identifier, Outcome.FAIL, "no committed randomized workflow is available")
         if identifier == "lifecycle.reapply_stable" and (
             self.ctx.state is None or not self.ctx.shipments

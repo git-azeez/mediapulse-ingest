@@ -80,11 +80,11 @@ class MediaPulseApi:
             or manifest.get("load_balancer", {}).get("base_url")
             or default_endpoint
         ).rstrip("/")
-        if "localhost" in base_url or "127.0.0.1" in base_url:
+        if any(h in base_url for h in ("localhost", "127.0.0.1", ".run.app", "googleapis.com")):
             base_url = default_endpoint.rstrip("/")
         auth = manifest.get("auth") if isinstance(manifest.get("auth"), dict) else {}
         token_url = str(auth.get("token_endpoint") or f"{default_endpoint.rstrip('/')}/oauth2/v4/token")
-        if "localhost" in token_url or "127.0.0.1" in token_url:
+        if any(h in token_url for h in ("localhost", "127.0.0.1", "googleapis.com")):
             token_url = f"{default_endpoint.rstrip('/')}/oauth2/v4/token"
         return cls(base_url=base_url, token_url=token_url, auth=auth)
 
@@ -94,8 +94,16 @@ class MediaPulseApi:
             role = "admin"
         elif "write" in scope:
             role = "write"
-        client_id = str(self.auth.get(f"{role}_client_id") or f"mediapulse-{role}-client")
-        client_secret = str(self.auth.get(f"{role}_client_secret") or "mediapulse-secret")
+        client_id = str(
+            self.auth.get(f"{role}_client_id")
+            or self.auth.get(f"{role}_client_email")
+            or f"mediapulse-{role}-client"
+        )
+        client_secret = str(
+            self.auth.get(f"{role}_client_secret")
+            or self.auth.get(f"{role}_private_key")
+            or "mediapulse-secret"
+        )
         response = self.token_http.request(
             "POST",
             self.token_url,

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import json
 import urllib.error
 import urllib.request
@@ -24,6 +25,7 @@ def _api_request(
 ) -> tuple[int, dict[str, str], dict[str, Any]]:
     manifest = ctx.manifest or ctx.refresh_manifest()
     api = MediaPulseApi.from_manifest(manifest, ctx.gcp.endpoint)
+    ctx.api = api
     token = api.token(scope) if scope else None
     try:
         resp = api.http.request(

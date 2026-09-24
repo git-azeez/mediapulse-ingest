@@ -1,5 +1,6 @@
-# Memorystore for Redis Contract
+# Cloud Datastore Cache Contract
 
-- Tier: BASIC or STANDARD_HA.
-- Network: Attached via Private Service Access to the VPC network.
-- Purpose: Transient caching of media state read models.
+- Engine (`cache.engine`): `"cloud-datastore"`.
+- Namespace (`cache.datastore_namespace`): `<resource_prefix>-cache`.
+- Emulator/Endpoint Host (`cache.emulator_host`): Host/port of the Floci-GCP Datastore endpoint (`gcp:4588`).
+- Purpose: Low-latency read-through cache in front of Cloud Firestore projections (`X-Projection-Cache: HIT` / `MISS`).

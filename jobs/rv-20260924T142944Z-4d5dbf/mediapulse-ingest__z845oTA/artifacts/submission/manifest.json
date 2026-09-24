@@ -1,0 +1,121 @@
+{
+  "approved_images": {
+    "api": {
+      "image_id": "sha256:d0ce8632b9a3b798fccd5bca72cb6756d71a643573feef781cc5578cf723eedb",
+      "reference": "mediapulse/api:1.0.0"
+    },
+    "archiver": {
+      "image_id": "sha256:3cff9b285f3c449c87c4666311341c360069b1b3f3930d91230bf74454228700",
+      "reference": "mediapulse/archiver:1.0.0"
+    },
+    "processor": {
+      "image_id": "sha256:1d5e6d8b7301123a7f718789745da27087fd33ff9f741c2940466ae79235f452",
+      "reference": "mediapulse/projector:1.0.0"
+    },
+    "relay": {
+      "image_id": "sha256:ed5ebf8a9d8a775579350caef4ae0ada171f3fc833d6c2d712d0a76cb00607f1",
+      "reference": "mediapulse/relay:1.0.0"
+    }
+  },
+  "audit": {
+    "bucket": "mp-6f9aa06a3c53-mp-proj-e623fc83-audit",
+    "prefix": "events/"
+  },
+  "auth": {
+    "admin_client_email": "mp-6f9aa06a3c53-client-admin@mp-proj-e623fc83.iam.gserviceaccount.com",
+    "admin_client_id": "mp-6f9aa06a3c53-client-admin@mp-proj-e623fc83.iam.gserviceaccount.com",
+    "admin_client_secret": "eyJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsICJwcm9qZWN0X2lkIjogIm1wLXByb2otZTYyM2ZjODMiLCAicHJpdmF0ZV9rZXlfaWQiOiAiY2E4ZGJjMmY4MmE1NDNlZSIsICJwcml2YXRlX2tleSI6ICItLS0tLUJFR0lOIFBSSVZBVEUgS0VZLS0tLS1cbk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRQzdcbi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS1cbiIsICJjbGllbnRfZW1haWwiOiAibXAtNmY5YWEwNmEzYzUzLWNsaWVudC1hZG1pbkBtcC1wcm9qLWU2MjNmYzgzLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwgImNsaWVudF9pZCI6ICIxMjM0NTY3ODkwIiwgImF1dGhfdXJpIjogImh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbS9vL29hdXRoMi9hdXRoIiwgInRva2VuX3VyaSI6ICJodHRwOi8vMTI3LjAuMC4xOjQ1ODkvb2F1dGgyL3Y0L3Rva2VuIn0=",
+    "issuer": "http://gcp:4588/identitytoolkit.googleapis.com/v1/projects/mp-proj-e623fc83",
+    "jwks_uri": "http://gcp:4588/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com",
+    "jwks_url": "http://gcp:4588/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com",
+    "read_client_email": "mp-6f9aa06a3c53-client-read@mp-proj-e623fc83.iam.gserviceaccount.com",
+    "read_client_id": "mp-6f9aa06a3c53-client-read@mp-proj-e623fc83.iam.gserviceaccount.com",
+    "read_client_secret": "eyJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsICJwcm9qZWN0X2lkIjogIm1wLXByb2otZTYyM2ZjODMiLCAicHJpdmF0ZV9rZXlfaWQiOiAiNDgzNDYyZDIzOGZjNDRkNSIsICJwcml2YXRlX2tleSI6ICItLS0tLUJFR0lOIFBSSVZBVEUgS0VZLS0tLS1cbk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRQzdcbi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS1cbiIsICJjbGllbnRfZW1haWwiOiAibXAtNmY5YWEwNmEzYzUzLWNsaWVudC1yZWFkQG1wLXByb2otZTYyM2ZjODMuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCAiY2xpZW50X2lkIjogIjEyMzQ1Njc4OTAiLCAiYXV0aF91cmkiOiAiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vb2F1dGgyL2F1dGgiLCAidG9rZW5fdXJpIjogImh0dHA6Ly8xMjcuMC4wLjE6NDU4OS9vYXV0aDIvdjQvdG9rZW4ifQ==",
+    "resource_server_identifier": "mediapulse",
+    "tenant_id": "tenant-80981bf5",
+    "token_endpoint": "http://gcp:4588/oauth2/v4/token",
+    "write_client_email": "mp-6f9aa06a3c53-client-write@mp-proj-e623fc83.iam.gserviceaccount.com",
+    "write_client_id": "mp-6f9aa06a3c53-client-write@mp-proj-e623fc83.iam.gserviceaccount.com",
+    "write_client_secret": "eyJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsICJwcm9qZWN0X2lkIjogIm1wLXByb2otZTYyM2ZjODMiLCAicHJpdmF0ZV9rZXlfaWQiOiAiMTIwYjNkNDU0Y2Y3NGEwMiIsICJwcml2YXRlX2tleSI6ICItLS0tLUJFR0lOIFBSSVZBVEUgS0VZLS0tLS1cbk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRQzdcbi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS1cbiIsICJjbGllbnRfZW1haWwiOiAibXAtNmY5YWEwNmEzYzUzLWNsaWVudC13cml0ZUBtcC1wcm9qLWU2MjNmYzgzLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwgImNsaWVudF9pZCI6ICIxMjM0NTY3ODkwIiwgImF1dGhfdXJpIjogImh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbS9vL29hdXRoMi9hdXRoIiwgInRva2VuX3VyaSI6ICJodHRwOi8vMTI3LjAuMC4xOjQ1ODkvb2F1dGgyL3Y0L3Rva2VuIn0="
+  },
+  "cache": {
+    "datastore_namespace": "mp-6f9aa06a3c53-cache",
+    "emulator_host": "gcp:4588",
+    "engine": "cloud-datastore"
+  },
+  "cloud_run": {
+    "max_instance_count": 6,
+    "min_instance_count": 2,
+    "service_id": "projects/mp-proj-e623fc83/locations/us-east1/services/mp-6f9aa06a3c53-api",
+    "service_name": "mp-6f9aa06a3c53-api",
+    "service_uri": "https://mp-6f9aa06a3c53-api-89b5546f.a.run.app"
+  },
+  "database": {
+    "instance_name": "mp-6f9aa06a3c53-events-pg",
+    "name": "mp_86f98c",
+    "port": 5432,
+    "private_ip": "gcp",
+    "secret_id": "mp-6f9aa06a3c53-db-credentials"
+  },
+  "gcp_endpoint_url": "http://gcp:4588",
+  "iam": {
+    "api_service_account": "mp-6f9aa06a3c53-api-sa@mp-proj-e623fc83.iam.gserviceaccount.com",
+    "archiver_service_account": "mp-6f9aa06a3c53-archiver-sa@mp-proj-e623fc83.iam.gserviceaccount.com",
+    "processor_service_account": "mp-6f9aa06a3c53-processor-sa@mp-proj-e623fc83.iam.gserviceaccount.com",
+    "relay_service_account": "mp-6f9aa06a3c53-relay-sa@mp-proj-e623fc83.iam.gserviceaccount.com",
+    "scheduler_service_account": "mp-6f9aa06a3c53-scheduler-sa@mp-proj-e623fc83.iam.gserviceaccount.com"
+  },
+  "kms": {
+    "audit_key_id": "projects/mp-proj-e623fc83/locations/us-east1/keyRings/mp-6f9aa06a3c53-keyring/cryptoKeys/mp-6f9aa06a3c53-audit-cmek",
+    "database_key_id": "projects/mp-proj-e623fc83/locations/us-east1/keyRings/mp-6f9aa06a3c53-keyring/cryptoKeys/mp-6f9aa06a3c53-database-cmek",
+    "keyring_id": "projects/mp-proj-e623fc83/locations/us-east1/keyRings/mp-6f9aa06a3c53-keyring",
+    "messaging_key_id": "projects/mp-proj-e623fc83/locations/us-east1/keyRings/mp-6f9aa06a3c53-keyring/cryptoKeys/mp-6f9aa06a3c53-messaging-cmek",
+    "projection_key_id": "projects/mp-proj-e623fc83/locations/us-east1/keyRings/mp-6f9aa06a3c53-keyring/cryptoKeys/mp-6f9aa06a3c53-projection-cmek"
+  },
+  "load_balancer": {
+    "backend_service_id": "projects/mp-proj-e623fc83/global/backendServices/mp-6f9aa06a3c53-api-backend",
+    "connect_url": "https://mp-6f9aa06a3c53-api-89b5546f.a.run.app",
+    "forwarding_rule_id": "projects/mp-proj-e623fc83/global/forwardingRules/mp-6f9aa06a3c53-api-http-fwd",
+    "ip_address": "gcp",
+    "serverless_neg_id": "projects/mp-proj-e623fc83/regions/us-east1/networkEndpointGroups/mp-6f9aa06a3c53-api-neg",
+    "url": "http://gcp"
+  },
+  "logs": {
+    "api": "mp-6f9aa06a3c53-api-logs",
+    "archiver": "mp-6f9aa06a3c53-archiver-logs",
+    "processor": "mp-6f9aa06a3c53-processor-logs",
+    "relay": "mp-6f9aa06a3c53-relay-logs"
+  },
+  "messaging": {
+    "dlq_subscription_id": "projects/mp-proj-e623fc83/subscriptions/mp-6f9aa06a3c53-events-dlq-sub",
+    "dlq_topic_id": "projects/mp-proj-e623fc83/topics/mp-6f9aa06a3c53-events-dlq",
+    "max_delivery_attempts": 5,
+    "rebuild_tasks_queue": "mp-6f9aa06a3c53-projection-rebuild-q",
+    "subscription_id": "projects/mp-proj-e623fc83/subscriptions/mp-6f9aa06a3c53-events-processor-sub",
+    "topic_id": "projects/mp-proj-e623fc83/topics/mp-6f9aa06a3c53-events",
+    "topic_name": "mp-6f9aa06a3c53-events"
+  },
+  "network": {
+    "ingress_subnet_id": "projects/mp-proj-e623fc83/regions/us-east1/subnetworks/mp-6f9aa06a3c53-subnet-ingress",
+    "private_subnet_id": "projects/mp-proj-e623fc83/regions/us-east1/subnetworks/mp-6f9aa06a3c53-subnet-private",
+    "vpc_id": "projects/mp-proj-e623fc83/global/networks/mp-6f9aa06a3c53-vpc"
+  },
+  "prefix": "mp-6f9aa06a3c53",
+  "project_id": "mp-proj-e623fc83",
+  "projections": {
+    "bigquery_dataset": "mp_6f9aa06a3c53_audit_analytics",
+    "collection": "media_timeline",
+    "firestore_database": "mp-6f9aa06a3c53-projections"
+  },
+  "region": "us-east1",
+  "schedules": {
+    "archiver_job_name": "mp-6f9aa06a3c53-archiver-schedule",
+    "relay_job_name": "mp-6f9aa06a3c53-relay-schedule"
+  },
+  "schema_version": 1,
+  "workers": {
+    "archiver_id": "projects/mp-proj-e623fc83/locations/us-east1/functions/mp-6f9aa06a3c53-audit-archiver",
+    "processor_id": "projects/mp-proj-e623fc83/locations/us-east1/functions/mp-6f9aa06a3c53-processor",
+    "relay_id": "projects/mp-proj-e623fc83/locations/us-east1/functions/mp-6f9aa06a3c53-outbox-relay"
+  }
+}

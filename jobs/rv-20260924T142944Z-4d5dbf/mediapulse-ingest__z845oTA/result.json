@@ -1,0 +1,118 @@
+{
+    "id": "85e12736-075e-48d7-8017-693b1b257744",
+    "task_name": "devcloud/mediapulse-ingest",
+    "trial_name": "mediapulse-ingest__z845oTA",
+    "trial_uri": "file:///Users/azeez/Azeez/microai/mediapulse-ingest/jobs/rv-20260924T142944Z-4d5dbf/mediapulse-ingest__z845oTA",
+    "task_id": {
+        "path": "/Users/azeez/Azeez/microai/mediapulse-ingest"
+    },
+    "source": null,
+    "task_checksum": "b3ef32a3685a3bc3dcd253e84e278d731b0a3e1c48e04b265d97f0b921fe0d7a",
+    "config": {
+        "task": {
+            "path": "/Users/azeez/Azeez/microai/mediapulse-ingest",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "mediapulse-ingest__z845oTA",
+        "trials_dir": "/Users/azeez/Azeez/microai/mediapulse-ingest/jobs/rv-20260924T142944Z-4d5dbf",
+        "install_only": false,
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "oracle",
+            "import_path": null,
+            "model_name": null,
+            "n_concurrent": null,
+            "concurrency_group": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "resume_trajectory": false,
+            "load_trajectory": null,
+            "extra_allowed_hosts": [],
+            "kwargs": {},
+            "env": {
+                "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+            },
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "kwargs": {},
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {
+                "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}",
+                "REWARDKIT_JUDGE": "${REWARDKIT_JUDGE}"
+            },
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "624cef11-9133-402d-88bd-b66454355605"
+    },
+    "agent_info": {
+        "name": "oracle",
+        "version": "1.0.0",
+        "model_info": null
+    },
+    "agent_result": {
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0,
+            "score": 0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-09-24T14:29:45.074832Z",
+    "finished_at": "2026-09-24T15:23:41.454036Z",
+    "environment_setup": {
+        "started_at": "2026-09-24T14:29:45.348135Z",
+        "finished_at": "2026-09-24T14:43:54.740882Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-09-24T14:43:54.741179Z",
+        "finished_at": "2026-09-24T14:43:54.741347Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-09-24T14:43:54.741681Z",
+        "finished_at": "2026-09-24T14:44:46.311940Z"
+    },
+    "verifier": {
+        "started_at": "2026-09-24T14:44:57.554242Z",
+        "finished_at": "2026-09-24T15:23:41.453485Z"
+    },
+    "step_results": null
+}

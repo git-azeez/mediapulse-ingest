@@ -53,6 +53,7 @@ DB_FILE = DATA_DIR / "mediapulse_pg.sqlite"
 
 STATE_LOCK = threading.RLock()
 DB_LOCK = threading.RLock()
+_MEMORY_STATE: dict[str, Any] | None = None
 
 # Deterministic HS256/RS256 shared test signing secret for local JWKS verification
 JWKS_KID = "mediapulse-local-key-1"
@@ -63,34 +64,49 @@ def _now_iso() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
 
+def _default_state() -> dict[str, Any]:
+    return {
+        "compute": {},
+        "firestore_dbs": {},
+        "firestore_indexes": {},
+        "tasks_queues": {},
+        "logging_buckets": {},
+        "logging_sinks": {},
+        "monitoring_channels": {},
+        "monitoring_policies": {},
+        "identity_tenants": {},
+        "iam_policies": {},
+        "storage_notifications": {},
+        "generic": {},
+    }
+
+
 def _load_state() -> dict[str, Any]:
+    global _MEMORY_STATE
     with STATE_LOCK:
+        if _MEMORY_STATE is not None:
+            return _MEMORY_STATE
         if STATE_FILE.is_file():
             try:
-                return json.loads(STATE_FILE.read_text(encoding="utf-8"))
+                loaded = json.loads(STATE_FILE.read_text(encoding="utf-8"))
+                if isinstance(loaded, dict):
+                    base = _default_state()
+                    base.update(loaded)
+                    _MEMORY_STATE = base
+                    return _MEMORY_STATE
             except Exception:
                 pass
-        return {
-            "compute": {},
-            "firestore_dbs": {},
-            "firestore_indexes": {},
-            "tasks_queues": {},
-            "logging_buckets": {},
-            "logging_sinks": {},
-            "monitoring_channels": {},
-            "monitoring_policies": {},
-            "identity_tenants": {},
-            "iam_policies": {},
-            "storage_notifications": {},
-            "generic": {},
-        }
+        _MEMORY_STATE = _default_state()
+        return _MEMORY_STATE
 
 
 def _save_state(state: dict[str, Any]) -> None:
+    global _MEMORY_STATE
     with STATE_LOCK:
+        _MEMORY_STATE = state
         DATA_DIR.mkdir(parents=True, exist_ok=True)
-        tmp = STATE_FILE.with_suffix(".tmp")
-        tmp.write_text(json.dumps(state, indent=2, sort_keys=True), encoding="utf-8")
+        tmp = STATE_FILE.with_name(f"gateway_state.{threading.get_ident()}.tmp")
+        tmp.write_text(json.dumps(_MEMORY_STATE, indent=2, sort_keys=True), encoding="utf-8")
         tmp.replace(STATE_FILE)
 
 
@@ -641,8 +657,9 @@ class GatewayHandler(BaseHTTPRequestHandler):
             except Exception:
                 pass
 
-        if self._handle_control_plane(method, path, query, body):
-            return
+        with STATE_LOCK:
+            if self._handle_control_plane(method, path, query, body):
+                return
 
         # Pre-empty GCS bucket before deleting so floci-gcp never fails on non-empty/versioned buckets
         m_del_bucket = re.match(r"^/storage/v1/b/([^/]+)$", path)
@@ -662,8 +679,9 @@ class GatewayHandler(BaseHTTPRequestHandler):
         fwd_headers = {k: v for k, v in self.headers.items() if k.lower() not in ("host", "connection", "transfer-encoding")}
         status, resp_headers, resp_body = _backend_request(method, self.path, body=body, headers=fwd_headers)
 
-        state = _load_state()
-        deleted_set = set(state.get("deleted_resources") or [])
+        with STATE_LOCK:
+            state = _load_state()
+            deleted_set = set(state.get("deleted_resources") or [])
         canonical = path.lstrip("/").removeprefix("v1/").removeprefix("v2/").removeprefix("storage/v1/b/").removeprefix("sql/v1beta4/")
         short_id = canonical.split("/")[-1].split("?")[0]
         collection_plurals = {

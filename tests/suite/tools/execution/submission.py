@@ -23,6 +23,9 @@ def _validate_regular_tree(root: Path) -> str:
     paths: list[Path] = []
     total_bytes = 0
     for path in root.rglob("*"):
+        rel_parts = path.relative_to(root).parts
+        if ".terraform" in rel_parts or path.name == ".terraform.lock.hcl":
+            continue
         mode = path.lstat().st_mode
         if stat.S_ISLNK(mode):
             raise SubmissionFailure(f"submission snapshot contains a symlink: {path.relative_to(root)}")

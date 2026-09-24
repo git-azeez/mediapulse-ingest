@@ -41,7 +41,7 @@ export GOOGLE_MONITORING_CUSTOM_ENDPOINT="${GCP_EP%/}/v3/"
 umask 077
 tfvars_path="$INFRA_DIR/config.auto.tfvars.json"
 tfvars_tmp="$(mktemp "${tfvars_path}.tmp.XXXXXX")"
-trap 'rm -f -- "$tfvars_tmp"' EXIT
+trap 'rm -rf -- "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl" "${tfvars_tmp:-}" "${manifest_tmp:-}"' EXIT
 
 jq '{
   prefix: .resource_prefix,
@@ -63,7 +63,6 @@ jq '{
 
 mv "$tfvars_tmp" "$tfvars_path"
 chmod 0600 "$tfvars_path"
-trap - EXIT
 
 CURRENT_PREFIX="$(jq -r '.resource_prefix' "$CONFIG_FILE")"
 CURRENT_PROJECT="$(jq -r '.gcp_project_id' "$CONFIG_FILE")"
@@ -78,7 +77,6 @@ terraform -chdir="$INFRA_DIR" init -input=false -no-color
 terraform -chdir="$INFRA_DIR" apply -input=false -auto-approve -lock-timeout=60s -no-color
 
 manifest_tmp="$(mktemp "${MANIFEST_PATH}.tmp.XXXXXX")"
-trap 'rm -f -- "$manifest_tmp"' EXIT
 
 terraform -chdir="$INFRA_DIR" output -json manifest | jq '.' >"$manifest_tmp"
 rm -rf "$INFRA_DIR/.terraform" "$INFRA_DIR/.terraform.lock.hcl"

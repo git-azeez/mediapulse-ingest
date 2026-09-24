@@ -148,7 +148,7 @@ class ExecutionRunner:
     def _digest(self, root: Path) -> str:
         digest = hashlib.sha256()
         for path in sorted(root.rglob("*"), key=lambda item: item.relative_to(root).as_posix()):
-            if ".terraform" in path.relative_to(root).parts:
+            if ".terraform" in path.relative_to(root).parts or path.name == ".terraform.lock.hcl":
                 continue
             relative = path.relative_to(root).as_posix().encode()
             kind = b"F" if path.is_file() else b"D"

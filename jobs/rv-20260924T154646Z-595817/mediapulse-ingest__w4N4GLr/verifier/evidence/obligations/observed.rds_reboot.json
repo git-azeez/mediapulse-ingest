@@ -1,0 +1,7 @@
+{
+  "associated_artifacts": [],
+  "details": {},
+  "obligation_id": "observed.rds_reboot",
+  "outcome": "invalid",
+  "summary": "benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission"
+}

@@ -1,0 +1,73 @@
+MediaPulse verifier: starting pytest oracle
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+collected 19 items
+
+suite/test_declared.py FFFF                                              [ 21%]
+suite/test_live.py FFF                                                   [ 36%]
+suite/test_behavior.py FFFFFFFFFF                                        [ 89%]
+suite/test_lifecycle.py FF                                               [100%]
+
+=================================== FAILURES ===================================
+_______________________________ test_managed_iac _______________________________
+invalid: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+_____________________________ test_compute_ingress _____________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+_______________________________ test_data_async ________________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+______________________________ test_security_ops _______________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+__________________________ test_ingress_compute_graph __________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+____________________________ test_data_event_graph _____________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+___________________________ test_security_ops_graph ____________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+___________________________ test_workflow_relations ____________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+____________________________ test_projection_cache _____________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+_________________________ test_idempotency_concurrency _________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+____________________________ test_backlog_recovery _____________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+______________________________ test_duplicate_dlq ______________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+_____________________________ test_outbox_recovery _____________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+___________________________ test_projection_rebuild ____________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+______________________________ test_ecs_recovery _______________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+_______________________________ test_rds_reboot ________________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+____________________________ test_auth_archive_logs ____________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+_____________________________ test_reapply_stable ______________________________
+invalid: benchmark substrate invalid during setup: HarnessError: benchmark substrate invalid during setup: HarnessError: isolated runner clone does not match the collected submission
+______________________________ test_destroy_clean ______________________________
+fail: clean destroy could not be attempted
+--------------------------- Captured stdout teardown ---------------------------
+{"seed": 1467162376372848637, "valid": false}
+=========================== short test summary info ============================
+FAILED suite/test_declared.py::test_managed_iac - Failed: invalid: benchmark ...
+FAILED suite/test_declared.py::test_compute_ingress - Failed: invalid: benchm...
+FAILED suite/test_declared.py::test_data_async - Failed: invalid: benchmark s...
+FAILED suite/test_declared.py::test_security_ops - Failed: invalid: benchmark...
+FAILED suite/test_live.py::test_ingress_compute_graph - Failed: invalid: benc...
+FAILED suite/test_live.py::test_data_event_graph - Failed: invalid: benchmark...
+FAILED suite/test_live.py::test_security_ops_graph - Failed: invalid: benchma...
+FAILED suite/test_behavior.py::test_workflow_relations - Failed: invalid: ben...
+FAILED suite/test_behavior.py::test_projection_cache - Failed: invalid: bench...
+FAILED suite/test_behavior.py::test_idempotency_concurrency - Failed: invalid...
+FAILED suite/test_behavior.py::test_backlog_recovery - Failed: invalid: bench...
+FAILED suite/test_behavior.py::test_duplicate_dlq - Failed: invalid: benchmar...
+FAILED suite/test_behavior.py::test_outbox_recovery - Failed: invalid: benchm...
+FAILED suite/test_behavior.py::test_projection_rebuild - Failed: invalid: ben...
+FAILED suite/test_behavior.py::test_ecs_recovery - Failed: invalid: benchmark...
+FAILED suite/test_behavior.py::test_rds_reboot - Failed: invalid: benchmark s...
+FAILED suite/test_behavior.py::test_auth_archive_logs - Failed: invalid: benc...
+FAILED suite/test_lifecycle.py::test_reapply_stable - Failed: invalid: benchm...
+FAILED suite/test_lifecycle.py::test_destroy_clean - Failed: fail: clean dest...
+============================== 19 failed in 0.15s ==============================

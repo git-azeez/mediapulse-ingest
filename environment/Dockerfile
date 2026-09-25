@@ -65,6 +65,25 @@ RUN python3 -m venv /opt/venv \
  && /opt/venv/bin/pip install --no-cache-dir \
       google-cloud-storage google-cloud-pubsub google-cloud-firestore google-cloud-datastore google-cloud-secret-manager \
       "psycopg[binary]" redis requests PyJWT cryptography jsonschema pyyaml pytest \
+      "litellm[proxy]<1.92" mini-swe-agent \
+ && mv /opt/venv/bin/mini-swe-agent /opt/venv/bin/mini-swe-agent.real \
+ && printf '%s\n' \
+      '#!/usr/bin/env bash' \
+      'if ! nc -z -w 1 172.20.0.1 18080 >/dev/null 2>&1; then' \
+      '  unset HTTP_PROXY http_proxy HTTPS_PROXY https_proxy' \
+      'fi' \
+      'if [[ ! -f "${SSL_CERT_FILE:-/etc/daytona-netleash-ca.crt}" ]] || [[ ! -s "${SSL_CERT_FILE:-/etc/daytona-netleash-ca.crt}" ]]; then' \
+      '  export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt' \
+      '  export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt' \
+      '  export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt' \
+      '  unset NODE_EXTRA_CA_CERTS' \
+      'fi' \
+      'exec /opt/venv/bin/mini-swe-agent.real "$@"' > /opt/venv/bin/mini-swe-agent \
+ && printf '%s\n' \
+      '#!/usr/bin/env bash' \
+      'mkdir -p "${HOME:-/home/agent}/.local/bin"' \
+      'ln -sf /opt/venv/bin/mini-swe-agent "${HOME:-/home/agent}/.local/bin/mini-swe-agent"' \
+      'exit 0' > /opt/venv/bin/uv \
  && printf '%s\n' \
       '#!/usr/bin/env bash' \
       'if ! nc -z -w 1 172.20.0.1 18080 >/dev/null 2>&1; then' \
@@ -140,7 +159,7 @@ RUN python3 -m venv /opt/venv \
       '  unset HTTP_PROXY http_proxy HTTPS_PROXY https_proxy' \
       'fi' \
       'exec /usr/local/bin/tofu "$@"' > /opt/venv/bin/tofu \
- && chmod +x /opt/venv/bin/opencode /opt/venv/bin/curl /opt/venv/bin/npm /opt/venv/bin/apt-get /opt/venv/bin/terraform /opt/venv/bin/tofu
+ && chmod +x /opt/venv/bin/opencode /opt/venv/bin/mini-swe-agent /opt/venv/bin/uv /opt/venv/bin/curl /opt/venv/bin/npm /opt/venv/bin/apt-get /opt/venv/bin/terraform /opt/venv/bin/tofu
 
 RUN curl -fsSLo "/tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \
       "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \

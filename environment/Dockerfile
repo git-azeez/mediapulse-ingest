@@ -106,7 +106,41 @@ RUN python3 -m venv /opt/venv \
       '  exit 0' \
       'fi' \
       'exec /usr/bin/apt-get "$@"' > /opt/venv/bin/apt-get \
- && chmod +x /opt/venv/bin/opencode /opt/venv/bin/curl /opt/venv/bin/npm /opt/venv/bin/apt-get
+ && printf '%s\n' \
+      '#!/usr/bin/env bash' \
+      'unset TF_PLUGIN_CACHE_DIR' \
+      'export GCE_METADATA_HOST="127.0.0.1:1"' \
+      'export GCE_METADATA_ROOT="127.0.0.1:1"' \
+      'export NO_GCE_CHECK="true"' \
+      'if [[ "$*" != *"init"* ]]; then' \
+      '  export HTTP_PROXY="${GCP_ENDPOINT_URL:-http://gcp:4588}"' \
+      '  export HTTPS_PROXY="${GCP_ENDPOINT_URL:-http://gcp:4588}"' \
+      '  export http_proxy="${GCP_ENDPOINT_URL:-http://gcp:4588}"' \
+      '  export https_proxy="${GCP_ENDPOINT_URL:-http://gcp:4588}"' \
+      '  export NO_PROXY="localhost,127.0.0.1,::1,runtime-setup,floci-gcp,gcp-gateway,gcp,floci"' \
+      '  export no_proxy="localhost,127.0.0.1,::1,runtime-setup,floci-gcp,gcp-gateway,gcp,floci"' \
+      'elif ! nc -z -w 1 172.20.0.1 18080 >/dev/null 2>&1; then' \
+      '  unset HTTP_PROXY http_proxy HTTPS_PROXY https_proxy' \
+      'fi' \
+      'exec /usr/local/bin/terraform "$@"' > /opt/venv/bin/terraform \
+ && printf '%s\n' \
+      '#!/usr/bin/env bash' \
+      'unset TF_PLUGIN_CACHE_DIR' \
+      'export GCE_METADATA_HOST="127.0.0.1:1"' \
+      'export GCE_METADATA_ROOT="127.0.0.1:1"' \
+      'export NO_GCE_CHECK="true"' \
+      'if [[ "$*" != *"init"* ]]; then' \
+      '  export HTTP_PROXY="${GCP_ENDPOINT_URL:-http://gcp:4588}"' \
+      '  export HTTPS_PROXY="${GCP_ENDPOINT_URL:-http://gcp:4588}"' \
+      '  export http_proxy="${GCP_ENDPOINT_URL:-http://gcp:4588}"' \
+      '  export https_proxy="${GCP_ENDPOINT_URL:-http://gcp:4588}"' \
+      '  export NO_PROXY="localhost,127.0.0.1,::1,runtime-setup,floci-gcp,gcp-gateway,gcp,floci"' \
+      '  export no_proxy="localhost,127.0.0.1,::1,runtime-setup,floci-gcp,gcp-gateway,gcp,floci"' \
+      'elif ! nc -z -w 1 172.20.0.1 18080 >/dev/null 2>&1; then' \
+      '  unset HTTP_PROXY http_proxy HTTPS_PROXY https_proxy' \
+      'fi' \
+      'exec /usr/local/bin/tofu "$@"' > /opt/venv/bin/tofu \
+ && chmod +x /opt/venv/bin/opencode /opt/venv/bin/curl /opt/venv/bin/npm /opt/venv/bin/apt-get /opt/venv/bin/terraform /opt/venv/bin/tofu
 
 RUN curl -fsSLo "/tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \
       "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" \
@@ -138,9 +172,14 @@ RUN mkdir -p /opt/terraform-plugin-cache /tmp/provider-seed \
       '      source = "hashicorp/google-beta"' \
       "      version = \">=${GOOGLE_PROVIDER_VERSION}\"" \
       '    }' \
+      '    archive = { source = "hashicorp/archive" }' \
+      '    null    = { source = "hashicorp/null" }' \
+      '    random  = { source = "hashicorp/random" }' \
+      '    local   = { source = "hashicorp/local" }' \
+      '    time    = { source = "hashicorp/time" }' \
       '  }' \
       '}' > /tmp/provider-seed/main.tf \
- && TF_PLUGIN_CACHE_DIR=/opt/terraform-plugin-cache terraform -chdir=/tmp/provider-seed init -backend=false -input=false \
+ && TF_PLUGIN_CACHE_DIR=/opt/terraform-plugin-cache /usr/local/bin/terraform -chdir=/tmp/provider-seed init -backend=false -input=false \
  && rm -rf /tmp/provider-seed \
  && printf '%s\n' \
       'plugin_cache_dir = "/opt/terraform-plugin-cache"' \
@@ -150,10 +189,10 @@ RUN mkdir -p /opt/terraform-plugin-cache /tmp/provider-seed \
       'provider_installation {' \
       '  filesystem_mirror {' \
       '    path    = "/opt/terraform-plugin-cache"' \
-      '    include = ["registry.terraform.io/hashicorp/google", "registry.terraform.io/hashicorp/google-beta"]' \
+      '    include = ["registry.terraform.io/hashicorp/*"]' \
       '  }' \
       '  direct {' \
-      '    exclude = ["registry.terraform.io/hashicorp/google", "registry.terraform.io/hashicorp/google-beta"]' \
+      '    exclude = ["registry.terraform.io/hashicorp/*"]' \
       '  }' \
       '}' > /etc/terraformrc.offline
 

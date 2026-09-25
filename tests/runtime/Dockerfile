@@ -1,4 +1,4 @@
-FROM mirror.gcr.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7 AS verifier-base
+FROM --platform=linux/amd64 mirror.gcr.io/library/node:24-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d AS verifier-base
 
 ARG JSONSCHEMA_VERSION=4.25.1
 ARG PYTEST_VERSION=8.4.1
@@ -17,7 +17,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     FIREBASE_AUTH_EMULATOR_HOST=gcp:4588
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends bash ca-certificates curl jq \
+ && apt-get install -y --no-install-recommends bash ca-certificates curl jq python3 python3-venv python3-pip \
  && rm -rf /var/lib/apt/lists/* \
  && python3 -m venv /opt/venv \
  && /opt/venv/bin/pip install --no-cache-dir \

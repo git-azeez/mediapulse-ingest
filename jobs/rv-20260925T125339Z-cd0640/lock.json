@@ -1,0 +1,68 @@
+{
+    "schema_version": 2,
+    "created_at": "2026-09-25T12:53:40.005610Z",
+    "harbor": {
+        "version": "0.20.0",
+        "is_editable": false
+    },
+    "n_concurrent_trials": 4,
+    "retry": {
+        "max_retries": 0,
+        "exclude_exceptions": [
+            "AgentAuthenticationError",
+            "VerifierTimeoutError",
+            "RewardFileNotFoundError",
+            "AgentTimeoutError",
+            "RewardFileEmptyError",
+            "ModelNotFoundError",
+            "ApiUsageLimitError",
+            "AgentSafetyRefusalError",
+            "VerifierOutputParseError"
+        ],
+        "wait_multiplier": 1.0,
+        "min_wait_sec": 1.0,
+        "max_wait_sec": 60.0
+    },
+    "trials": [
+        {
+            "schema_version": 1,
+            "task": {
+                "name": "mediapulse-ingest",
+                "type": "local",
+                "digest": "sha256:aa4ed1b4aadde9fd3547616b6b9bd4b7c20a2b327bbad25da657fef322b3eeab",
+                "path": "/Users/azeez/Azeez/microai/mediapulse-ingest"
+            },
+            "install_only": false,
+            "timeout_multiplier": 1.0,
+            "agent": {
+                "name": "oracle",
+                "skills": [],
+                "resume_trajectory": false,
+                "extra_allowed_hosts": [],
+                "kwargs": {},
+                "env": {
+                    "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+                },
+                "mcp_servers": []
+            },
+            "skills": [],
+            "environment": {
+                "type": "docker",
+                "force_build": false,
+                "delete": true,
+                "cpu_enforcement_policy": "auto",
+                "memory_enforcement_policy": "auto",
+                "extra_docker_compose": [],
+                "kwargs": {},
+                "extra_allowed_hosts": []
+            },
+            "verifier": {
+                "env": {
+                    "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}",
+                    "REWARDKIT_JUDGE": "${REWARDKIT_JUDGE}"
+                },
+                "disable": false
+            }
+        }
+    ]
+}

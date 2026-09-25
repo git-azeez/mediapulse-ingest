@@ -1,0 +1,6 @@
+{
+  "fault_media_id": "mp-47dc2435e3ff-outbox-4514",
+  "outbox_repaired": true,
+  "relay_function": "projects/mp-ver-49133075/locations/us-west1/functions/mp-47dc2435e3ff-outbox-relay",
+  "relay_scheduler_job": "mp-47dc2435e3ff-relay-schedule"
+}

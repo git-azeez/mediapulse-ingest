@@ -1,0 +1,48 @@
+{
+    "task": {
+        "path": "/Users/azeez/Azeez/microai/mediapulse-ingest"
+    },
+    "trial_name": "mediapulse-ingest__pwuWgTC",
+    "trials_dir": "/Users/azeez/Azeez/microai/mediapulse-ingest/jobs/rv-20260924T202239Z-8b6e02",
+    "agent": {
+        "import_path": "opencode_subscription_agent:SubscriptionOpenCode",
+        "model_name": "openrouter/z-ai/glm-5.2",
+        "kwargs": {
+            "opencode_config": {
+                "permission": {
+                    "external_directory": {
+                        "/*": "allow"
+                    }
+                },
+                "provider": {
+                    "openrouter": {
+                        "models": {
+                            "z-ai/glm-5.2": {
+                                "options": {
+                                    "provider": {
+                                        "sort": "throughput",
+                                        "max_price": {
+                                            "prompt": 2.0,
+                                            "completion": 5.0
+                                        },
+                                        "allow_fallbacks": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+        }
+    },
+    "verifier": {
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}",
+            "REWARDKIT_JUDGE": "${REWARDKIT_JUDGE}"
+        }
+    },
+    "job_id": "c6847249-d91f-482c-96eb-4aafd31b0932"
+}

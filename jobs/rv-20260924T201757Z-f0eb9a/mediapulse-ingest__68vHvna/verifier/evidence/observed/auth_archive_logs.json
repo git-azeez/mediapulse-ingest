@@ -1,0 +1,20 @@
+{
+  "archived_objects_count": 48,
+  "audit_bucket": "mp-47dc2435e3ff-mp-ver-49133075-audit",
+  "audit_prefix": "events/",
+  "auth_scopes_enforced": [
+    "read",
+    "write",
+    "admin"
+  ],
+  "forbidden_admin_status": 403,
+  "forbidden_write_status": 403,
+  "log_buckets": {
+    "api": "mp-47dc2435e3ff-api-logs",
+    "archiver": "mp-47dc2435e3ff-archiver-logs",
+    "processor": "mp-47dc2435e3ff-processor-logs",
+    "relay": "mp-47dc2435e3ff-relay-logs"
+  },
+  "secrets_redacted": true,
+  "unauth_status": 401
+}

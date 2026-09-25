@@ -1,0 +1,29 @@
+{
+  "kms_keys": [
+    "mp-47dc2435e3ff-audit-cmek",
+    "mp-47dc2435e3ff-database-cmek",
+    "mp-47dc2435e3ff-messaging-cmek",
+    "mp-47dc2435e3ff-projection-cmek"
+  ],
+  "log_buckets": [
+    "mp-47dc2435e3ff-api-logs",
+    "mp-47dc2435e3ff-archiver-logs",
+    "mp-47dc2435e3ff-processor-logs",
+    "mp-47dc2435e3ff-relay-logs"
+  ],
+  "service_accounts": [
+    "mp-47dc2435e3ff-api-sa@mp-ver-49133075.iam.gserviceaccount.com",
+    "mp-47dc2435e3ff-archiver-sa@mp-ver-49133075.iam.gserviceaccount.com",
+    "mp-47dc2435e3ff-client-admin@mp-ver-49133075.iam.gserviceaccount.com",
+    "mp-47dc2435e3ff-client-read@mp-ver-49133075.iam.gserviceaccount.com",
+    "mp-47dc2435e3ff-client-write@mp-ver-49133075.iam.gserviceaccount.com",
+    "mp-47dc2435e3ff-processor-sa@mp-ver-49133075.iam.gserviceaccount.com",
+    "mp-47dc2435e3ff-pubsub-push-sa@mp-ver-49133075.iam.gserviceaccount.com",
+    "mp-47dc2435e3ff-relay-sa@mp-ver-49133075.iam.gserviceaccount.com",
+    "mp-47dc2435e3ff-scheduler-sa@mp-ver-49133075.iam.gserviceaccount.com"
+  ],
+  "subnetworks": [
+    "mp-47dc2435e3ff-subnet-ingress",
+    "mp-47dc2435e3ff-subnet-private"
+  ]
+}

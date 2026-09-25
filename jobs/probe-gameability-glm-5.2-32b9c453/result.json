@@ -1,0 +1,37 @@
+{
+    "id": "7ddbb38b-16d7-44c5-bbdd-c8dbd0444ae8",
+    "started_at": "2026-09-25T09:51:57.466081",
+    "updated_at": "2026-09-25T04:25:21.021044Z",
+    "finished_at": null,
+    "n_total_trials": 1,
+    "stats": {
+        "n_completed_trials": 1,
+        "n_errored_trials": 1,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "mini-swe-agent__z-ai/glm-5.2__adhoc": {
+                "n_trials": 0,
+                "n_errors": 1,
+                "metrics": [
+                    {
+                        "mean": 0.0
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {},
+                "exception_stats": {
+                    "NonZeroAgentExitCodeError": [
+                        "mediapulse-ingest--gameability__3Cz2Aqp"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null
+    }
+}

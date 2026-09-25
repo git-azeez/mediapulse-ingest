@@ -1,0 +1,35 @@
+{
+  "auth": {
+    "admin_client_email": "mp-47dc2435e3ff-client-admin@mp-ver-49133075.iam.gserviceaccount.com",
+    "issuer": "http://gcp:4588/identitytoolkit.googleapis.com/v1/projects/mp-ver-49133075",
+    "read_client_email": "mp-47dc2435e3ff-client-read@mp-ver-49133075.iam.gserviceaccount.com",
+    "tenant_id": "tenant-c1d32c43",
+    "write_client_email": "mp-47dc2435e3ff-client-write@mp-ver-49133075.iam.gserviceaccount.com"
+  },
+  "iam": {
+    "api_service_account": "mp-47dc2435e3ff-api-sa@mp-ver-49133075.iam.gserviceaccount.com",
+    "archiver_service_account": "mp-47dc2435e3ff-archiver-sa@mp-ver-49133075.iam.gserviceaccount.com",
+    "processor_service_account": "mp-47dc2435e3ff-processor-sa@mp-ver-49133075.iam.gserviceaccount.com",
+    "relay_service_account": "mp-47dc2435e3ff-relay-sa@mp-ver-49133075.iam.gserviceaccount.com",
+    "scheduler_service_account": "mp-47dc2435e3ff-scheduler-sa@mp-ver-49133075.iam.gserviceaccount.com"
+  },
+  "kms": {
+    "audit_key_id": "projects/mp-ver-49133075/locations/us-west1/keyRings/mp-47dc2435e3ff-keyring/cryptoKeys/mp-47dc2435e3ff-audit-cmek",
+    "database_key_id": "projects/mp-ver-49133075/locations/us-west1/keyRings/mp-47dc2435e3ff-keyring/cryptoKeys/mp-47dc2435e3ff-database-cmek",
+    "keyring_id": "projects/mp-ver-49133075/locations/us-west1/keyRings/mp-47dc2435e3ff-keyring",
+    "messaging_key_id": "projects/mp-ver-49133075/locations/us-west1/keyRings/mp-47dc2435e3ff-keyring/cryptoKeys/mp-47dc2435e3ff-messaging-cmek",
+    "projection_key_id": "projects/mp-ver-49133075/locations/us-west1/keyRings/mp-47dc2435e3ff-keyring/cryptoKeys/mp-47dc2435e3ff-projection-cmek"
+  },
+  "logs": {
+    "api": "mp-47dc2435e3ff-api-logs",
+    "archiver": "mp-47dc2435e3ff-archiver-logs",
+    "processor": "mp-47dc2435e3ff-processor-logs",
+    "relay": "mp-47dc2435e3ff-relay-logs"
+  },
+  "network": {
+    "ingress_subnet_id": "projects/mp-ver-49133075/regions/us-west1/subnetworks/mp-47dc2435e3ff-subnet-ingress",
+    "private_subnet_id": "projects/mp-ver-49133075/regions/us-west1/subnetworks/mp-47dc2435e3ff-subnet-private",
+    "vpc_id": "projects/mp-ver-49133075/global/networks/mp-47dc2435e3ff-vpc"
+  },
+  "state_resource_count": 67
+}

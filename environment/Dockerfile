@@ -244,86 +244,80 @@ RUN groupadd --gid 10001 agent \
       '    exclude = ["registry.terraform.io/hashicorp/*", "registry.opentofu.org/hashicorp/*"]' \
       '  }' \
       '}' > /etc/terraformrc.offline \
- && cat <<'EOF' > /opt/venv/bin/opencode
-#!/usr/bin/env bash
-if [[ "${1:-}" == "--version" || "${1:-}" == "-v" || "${1:-}" == "version" ]]; then
-  exec /usr/local/bin/opencode "$@"
-fi
-
-export AWS_EC2_METADATA_DISABLED=true
-export GCE_METADATA_HOST="127.0.0.1:1"
-export GCE_METADATA_ROOT="127.0.0.1:1"
-export NO_GCE_CHECK="true"
-
-cleanup_children() {
-  pkill -9 -f "opencode-linux|opencode-ai|/usr/local/bin/opencode|terraform-provider" >/dev/null 2>&1 || true
-  sleep 1
-  pkill -TERM -f "tee /logs/agent/opencode.txt" >/dev/null 2>&1 || true
-}
-trap cleanup_children EXIT
-
-DEADLINE=$(( $(date +%s) + 1800 ))
-MODEL_ARG="openrouter/z-ai/glm-5.2"
-for arg in "$@"; do
-  case "$arg" in
-    --model=*) MODEL_ARG="${arg#--model=}" ;;
-  esac
-done
-
-run_with_idle_watchdog() {
-  local rem=$(( DEADLINE - $(date +%s) ))
-  if (( rem <= 15 )); then
-    return 0
-  fi
-  timeout -k 10 "$rem" /usr/local/bin/opencode "$@" &
-  local pid=$!
-  local last_size=-1
-  local idle_secs=0
-  while kill -0 "$pid" 2>/dev/null; do
-    sleep 5
-    if (( $(date +%s) >= DEADLINE )); then
-      kill -TERM "$pid" 2>/dev/null || true
-      sleep 2
-      kill -9 "$pid" 2>/dev/null || true
-      pkill -9 -f "opencode-linux|opencode-ai|/usr/local/bin/opencode" >/dev/null 2>&1 || true
-      return 124
-    fi
-    local cur_size=0
-    if [[ -f /logs/agent/opencode.txt ]]; then
-      cur_size=$(stat -c%s /logs/agent/opencode.txt 2>/dev/null || echo 0)
-    fi
-    if [[ "$cur_size" == "$last_size" ]]; then
-      idle_secs=$(( idle_secs + 5 ))
-    else
-      last_size="$cur_size"
-      idle_secs=0
-    fi
-    if (( idle_secs >= 210 )); then
-      kill -TERM "$pid" 2>/dev/null || true
-      sleep 2
-      kill -9 "$pid" 2>/dev/null || true
-      pkill -9 -f "opencode-linux|opencode-ai|/usr/local/bin/opencode" >/dev/null 2>&1 || true
-      wait "$pid" 2>/dev/null || true
-      return 125
-    fi
-  done
-  wait "$pid" 2>/dev/null || return $?
-  return 0
-}
-
-run_with_idle_watchdog "$@"
-rc=$?
-for attempt in 1 2; do
-  if (( rc == 125 && $(date +%s) + 60 < DEADLINE )); then
-    run_with_idle_watchdog --model="$MODEL_ARG" run --format=json --continue \
-      "The previous stream stalled. Check current workspace/submission state and finish any remaining verification steps."
-    rc=$?
-  else
-    break
-  fi
-done
-exit 0
-EOF
+ && printf '%s\n' \
+      '#!/usr/bin/env bash' \
+      'if [[ "${1:-}" == "--version" || "${1:-}" == "-v" || "${1:-}" == "version" ]]; then' \
+      '  exec /usr/local/bin/opencode "$@"' \
+      'fi' \
+      'export AWS_EC2_METADATA_DISABLED=true' \
+      'export GCE_METADATA_HOST="127.0.0.1:1"' \
+      'export GCE_METADATA_ROOT="127.0.0.1:1"' \
+      'export NO_GCE_CHECK="true"' \
+      'cleanup_children() {' \
+      '  pkill -9 -f "opencode-linux|/usr/local/bin/opencode|terraform-provider" >/dev/null 2>&1 || true' \
+      '  sleep 1' \
+      '  pkill -TERM -f "tee /logs/agent/opencode.txt" >/dev/null 2>&1 || true' \
+      '}' \
+      'trap cleanup_children EXIT' \
+      'DEADLINE=$(( $(date +%s) + 1800 ))' \
+      'MODEL_ARG="openrouter/z-ai/glm-5.2"' \
+      'for arg in "$@"; do' \
+      '  case "$arg" in' \
+      '    --model=*) MODEL_ARG="${arg#--model=}" ;;' \
+      '  esac' \
+      'done' \
+      'run_with_idle_watchdog() {' \
+      '  local rem=$(( DEADLINE - $(date +%s) ))' \
+      '  if (( rem <= 15 )); then' \
+      '    return 0' \
+      '  fi' \
+      '  timeout -k 10 "$rem" /usr/local/bin/opencode "$@" &' \
+      '  local pid=$!' \
+      '  local last_size=-1' \
+      '  local idle_secs=0' \
+      '  while kill -0 "$pid" 2>/dev/null; do' \
+      '    sleep 5' \
+      '    if (( $(date +%s) >= DEADLINE )); then' \
+      '      kill -TERM "$pid" 2>/dev/null || true' \
+      '      sleep 2' \
+      '      kill -9 "$pid" 2>/dev/null || true' \
+      '      pkill -9 -f "opencode-linux|/usr/local/bin/opencode" >/dev/null 2>&1 || true' \
+      '      return 124' \
+      '    fi' \
+      '    local cur_size=0' \
+      '    if [[ -f /logs/agent/opencode.txt ]]; then' \
+      '      cur_size=$(stat -c%s /logs/agent/opencode.txt 2>/dev/null || echo 0)' \
+      '    fi' \
+      '    if [[ "$cur_size" == "$last_size" ]]; then' \
+      '      idle_secs=$(( idle_secs + 5 ))' \
+      '    else' \
+      '      last_size="$cur_size"' \
+      '      idle_secs=0' \
+      '    fi' \
+      '    if (( idle_secs >= 210 )); then' \
+      '      kill -TERM "$pid" 2>/dev/null || true' \
+      '      sleep 2' \
+      '      kill -9 "$pid" 2>/dev/null || true' \
+      '      pkill -9 -f "opencode-linux|/usr/local/bin/opencode" >/dev/null 2>&1 || true' \
+      '      wait "$pid" 2>/dev/null || true' \
+      '      return 125' \
+      '    fi' \
+      '  done' \
+      '  wait "$pid" 2>/dev/null || return $?' \
+      '  return 0' \
+      '}' \
+      'run_with_idle_watchdog "$@"' \
+      'rc=$?' \
+      'for attempt in 1 2; do' \
+      '  if (( rc == 125 && $(date +%s) + 60 < DEADLINE )); then' \
+      '    run_with_idle_watchdog --model="$MODEL_ARG" run --format=json --continue \' \
+      '      "The previous stream stalled. Check current workspace/submission state and finish any remaining verification steps."' \
+      '    rc=$?' \
+      '  else' \
+      '    break' \
+      '  fi' \
+      'done' \
+      'exit 0' > /opt/venv/bin/opencode \
  && chmod +x /opt/venv/bin/opencode \
  && chown -R agent:agent /workspace/submission /workspace/evidence /artifacts /home/agent \
  && chmod 0755 /workspace /workspace/config \

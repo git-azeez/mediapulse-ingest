@@ -1,0 +1,11 @@
+{
+  "associated_artifacts": [
+    "evidence/observed/duplicate_dlq.json"
+  ],
+  "details": {
+    "max_delivery_attempts": 5
+  },
+  "obligation_id": "observed.duplicate_dlq",
+  "outcome": "pass",
+  "summary": "duplicate delivery remained idempotent and poison message routed to DLQ (mp-b51c9242755f-events-dlq) within 5 attempts"
+}

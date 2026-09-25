@@ -1,0 +1,29 @@
+{
+  "kms_keys": [
+    "mp-b51c9242755f-audit-cmek",
+    "mp-b51c9242755f-database-cmek",
+    "mp-b51c9242755f-messaging-cmek",
+    "mp-b51c9242755f-projection-cmek"
+  ],
+  "log_buckets": [
+    "mp-b51c9242755f-api-logs",
+    "mp-b51c9242755f-archiver-logs",
+    "mp-b51c9242755f-processor-logs",
+    "mp-b51c9242755f-relay-logs"
+  ],
+  "service_accounts": [
+    "mp-b51c9242755f-api-sa@mp-ver-40ce6f22.iam.gserviceaccount.com",
+    "mp-b51c9242755f-archiver-sa@mp-ver-40ce6f22.iam.gserviceaccount.com",
+    "mp-b51c9242755f-client-admin@mp-ver-40ce6f22.iam.gserviceaccount.com",
+    "mp-b51c9242755f-client-read@mp-ver-40ce6f22.iam.gserviceaccount.com",
+    "mp-b51c9242755f-client-write@mp-ver-40ce6f22.iam.gserviceaccount.com",
+    "mp-b51c9242755f-processor-sa@mp-ver-40ce6f22.iam.gserviceaccount.com",
+    "mp-b51c9242755f-pubsub-push-sa@mp-ver-40ce6f22.iam.gserviceaccount.com",
+    "mp-b51c9242755f-relay-sa@mp-ver-40ce6f22.iam.gserviceaccount.com",
+    "mp-b51c9242755f-scheduler-sa@mp-ver-40ce6f22.iam.gserviceaccount.com"
+  ],
+  "subnetworks": [
+    "mp-b51c9242755f-subnet-ingress",
+    "mp-b51c9242755f-subnet-private"
+  ]
+}

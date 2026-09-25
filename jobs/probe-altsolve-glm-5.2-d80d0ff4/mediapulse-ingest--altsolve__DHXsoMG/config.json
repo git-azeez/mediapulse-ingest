@@ -1,0 +1,31 @@
+{
+    "task": {
+        "path": "/var/folders/cx/31vj2yzs6xv5qzw7hx0tvjp40000gn/T/rv-probe-altsolve-gvmopjur/mediapulse-ingest--altsolve"
+    },
+    "trial_name": "mediapulse-ingest--altsolve__DHXsoMG",
+    "trials_dir": "/Users/azeez/Azeez/microai/mediapulse-ingest/jobs/probe-altsolve-glm-5.2-d80d0ff4",
+    "agent": {
+        "import_path": "mini_swe_pinned_agent:PinnedMiniSweAgent",
+        "model_name": "openrouter/z-ai/glm-5.2",
+        "kwargs": {
+            "provider_routing": {
+                "sort": "throughput",
+                "max_price": {
+                    "prompt": 2.0,
+                    "completion": 5.0
+                },
+                "allow_fallbacks": true
+            },
+            "config_file": "/Users/azeez/.local/share/uv/tools/realm-verifier/lib/python3.14/site-packages/rv/probe/mini_redteam.yaml"
+        },
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+        }
+    },
+    "verifier": {
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+        }
+    },
+    "job_id": "0fc30f3c-6e47-4ddb-966e-40b2491ba0cc"
+}

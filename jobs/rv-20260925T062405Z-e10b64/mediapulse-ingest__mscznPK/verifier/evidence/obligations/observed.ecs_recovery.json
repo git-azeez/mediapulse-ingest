@@ -1,0 +1,12 @@
+{
+  "associated_artifacts": [
+    "evidence/observed/ecs_recovery.json"
+  ],
+  "details": {
+    "min_instance_count": 2,
+    "service_name": "mp-b51c9242755f-api"
+  },
+  "obligation_id": "observed.ecs_recovery",
+  "outcome": "pass",
+  "summary": "Cloud Run service mp-b51c9242755f-api maintained 2 warm instances across instance termination"
+}

@@ -1,0 +1,71 @@
+Skipping image OS validation for hb__c0ed8671d1a60bb4ff81b311b9ac40f9: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl
+Command outputs captured
+Running command: set -euo pipefail; curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash && export NVM_DIR="$HOME/.nvm" && \. "$NVM_DIR/nvm.sh" || true && command -v nvm &>/dev/null || { echo 'Error: NVM failed to load' >&2; exit 1; } && nvm install 22 && npm -v && npm i -g opencode-ai@latest && opencode --version
+Command outputs captured
+Running command: mkdir -p ~/.config/opencode && echo '{
+  "provider": {
+    "openrouter": {
+      "models": {
+        "z-ai/glm-5.2": {
+          "options": {
+            "provider": {
+              "sort": "throughput",
+              "max_price": {
+                "prompt": 2.0,
+                "completion": 5.0
+              },
+              "allow_fallbacks": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "permission": {
+    "external_directory": {
+      "/*": "allow"
+    }
+  }
+}' > ~/.config/opencode/opencode.json
+Command outputs captured
+Running command: . ~/.nvm/nvm.sh; opencode --model=openrouter/z-ai/glm-5.2 run --format=json --thinking --dangerously-skip-permissions -- 'We need to stand up the Google Cloud Platform (GCP) environment for **MediaPulse Ingest**, our media intake and processing timeline API, running against the local **Floci-GCP (`http://gcp:4588`)** control plane. Your task is to provision the cloud stack with Terraform or OpenTofu, wire the network, secrets, and IAM permissions together, verify that the service handles live traffic and recovers when resources are removed, and provide a clean teardown script.
+
+The application code is already compiled and packaged into four container images. Do not modify or rebuild the application binaries—your job is strictly to run and connect them on GCP:
+
+1. **API service image (`api_image`)**: Handles client HTTP traffic (`POST /v1/media`, `POST /v1/media/{id}/checkpoints`, `GET /v1/media/{id}`, `GET /v1/media/{id}/timeline`, and `POST /v1/admin/projections/{id}/rebuild`). Run this on **Cloud Run (v2)** with at least two warm instances (`min_instance_count = 2`) fronted by a **Global External Application Load Balancer** and Serverless NEG.
+2. **Processor worker image (`processor_image`)**: Consumes media events delivered from **Cloud Pub/Sub**, updates the read model and versioned timeline in **Cloud Firestore (Native mode)**, and invalidates stale entity cache entries in **Cloud Datastore** (`google_firestore_index` or `google_datastore_index` with `collection = "MediaCache"`). Deploy this as a **Cloud Functions (2nd gen)** worker triggered by a Pub/Sub push subscription with a dead-letter topic attached.
+3. **Outbox relay worker image (`relay_image`)**: Polls **Cloud SQL for PostgreSQL** for committed outbox events that have not yet reached Pub/Sub, publishes them to the main topic, and marks the rows delivered. Deploy this as a **Cloud Functions (2nd gen)** worker invoked on a recurring 1-minute schedule by **Cloud Scheduler**.
+4. **Audit archiver worker image (`archiver_image`)**: Reads published events from PostgreSQL and writes deterministic NDJSON audit batches to a private, versioned **Google Cloud Storage (GCS)** bucket alongside the **BigQuery** audit analytics dataset. Deploy this as a **Cloud Functions (2nd gen)** worker triggered every 5 minutes by **Cloud Scheduler**.
+
+## Workspace Layout and Contracts
+
+Your Linux container already has `terraform`, `tofu`, `gcloud`, `psql`, `jq`, `curl`, and Python 3 installed, and the local **Floci-GCP** endpoint (`http://gcp:4588`) is pre-configured via `GCP_ENDPOINT_URL` and `/workspace/config/config.json`. Docker is intentionally omitted from the workspace; every infrastructure change must go through Terraform or OpenTofu against the `hashicorp/google` and `hashicorp/google-beta` providers pointing at `gcp_endpoint_url`.
+
+All functional and infrastructure contracts live under `/workspace/contracts/`:
+
+- `runtime.md` documents the container startup commands, required environment variables, Cloud SQL connection string stored in **Secret Manager**, Cloud Firestore and Cloud Datastore namespaces, Firebase Auth / Identity Platform JWT scope validation (`read`, `write`, `admin`), and outbox replay rules.
+- `infrastructure.md` and the service specs in `services/` define the required Compute Engine VPC layout, subnets, firewall rules, **Cloud Tasks** projection rebuild queue, service account separation, **Cloud KMS** customer-managed encryption keys (CMEK), and **Cloud Logging** / **Cloud Monitoring** configuration.
+- `openapi.yaml` specifies the HTTP endpoints and payload shapes served by the API container.
+- `schemas/events.schema.json` specifies the JSON envelope published to Cloud Pub/Sub.
+- `schemas/manifest.schema.json` specifies the exact JSON structure your deployment script must write to `/workspace/submission/manifest.json`.
+
+Runtime inputs—including `resource_prefix`, `gcp_project_id`, `gcp_endpoint_url`, `region`, database credentials (`db_name`, `db_username`, `db_password`), and the four container image URIs/digests—are located in `/workspace/config/config.json`. Always load these values dynamically at runtime rather than hardcoding values from the current file, because the verifier runs against a fresh project configuration.
+
+Write your solution inside `/workspace/submission/` with this layout:
+
+```text
+/workspace/submission/
+├── deploy.sh
+├── destroy.sh
+├── manifest.json
+└── infra/
+    └── *.tf
+```
+
+What each file needs to do:
+
+- `deploy.sh` runs Terraform or OpenTofu inside `/workspace/submission/infra` using local state (`infra/terraform.tfstate`), generates `/workspace/submission/manifest.json` (up to 1 MiB) from state outputs, and waits until `GET /health/ready` on the Load Balancer / Cloud Run endpoint returns HTTP 200. Running `deploy.sh` a second time must be a safe no-op that preserves Cloud SQL data, and running it after the verifier deletes a managed resource (like the Pub/Sub topic or a Cloud Function) must recreate and reconnect the missing resource. Time limit: 720 seconds; max combined stdout/stderr: 8 MiB.
+- `destroy.sh` tears down every GCP resource managed by this deployment (`resource_prefix`) without deleting or altering pre-existing baseline resources in the project. Time limit: 900 seconds; max combined stdout/stderr: 8 MiB.
+- `infra/` holds your `.tf` files. Every required cloud resource must be managed in `infra/terraform.tfstate`; creating scored resources out-of-band with CLI commands in shell scripts will fail verification.
+' 2>&1 </dev/null | stdbuf -oL tee /logs/agent/opencode.txt

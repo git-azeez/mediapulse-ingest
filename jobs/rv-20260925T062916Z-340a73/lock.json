@@ -1,0 +1,95 @@
+{
+    "schema_version": 2,
+    "created_at": "2026-09-25T06:29:17.459693Z",
+    "harbor": {
+        "version": "0.20.0",
+        "is_editable": false
+    },
+    "n_concurrent_trials": 5,
+    "retry": {
+        "max_retries": 0,
+        "exclude_exceptions": [
+            "ModelNotFoundError",
+            "ApiUsageLimitError",
+            "AgentTimeoutError",
+            "AgentAuthenticationError",
+            "VerifierTimeoutError",
+            "VerifierOutputParseError",
+            "RewardFileEmptyError",
+            "RewardFileNotFoundError",
+            "AgentSafetyRefusalError"
+        ],
+        "wait_multiplier": 1.0,
+        "min_wait_sec": 1.0,
+        "max_wait_sec": 60.0
+    },
+    "trials": [
+        {
+            "schema_version": 1,
+            "task": {
+                "name": "mediapulse-ingest",
+                "type": "local",
+                "digest": "sha256:0cb35f770c50befcdda4b44b8efb4d305e9b8f2787516c1600a3005e61031433",
+                "path": "/Users/azeez/Azeez/microai/mediapulse-ingest"
+            },
+            "install_only": false,
+            "timeout_multiplier": 1.0,
+            "agent": {
+                "import_path": "opencode_subscription_agent:SubscriptionOpenCode",
+                "model_name": "openrouter/z-ai/glm-5.2",
+                "skills": [],
+                "resume_trajectory": false,
+                "extra_allowed_hosts": [],
+                "kwargs": {
+                    "opencode_config": {
+                        "permission": {
+                            "external_directory": {
+                                "/*": "allow"
+                            }
+                        },
+                        "provider": {
+                            "openrouter": {
+                                "models": {
+                                    "z-ai/glm-5.2": {
+                                        "options": {
+                                            "provider": {
+                                                "sort": "throughput",
+                                                "max_price": {
+                                                    "prompt": 2.0,
+                                                    "completion": 5.0
+                                                },
+                                                "allow_fallbacks": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "env": {
+                    "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+                },
+                "mcp_servers": []
+            },
+            "skills": [],
+            "environment": {
+                "type": "docker",
+                "force_build": false,
+                "delete": true,
+                "cpu_enforcement_policy": "auto",
+                "memory_enforcement_policy": "auto",
+                "extra_docker_compose": [],
+                "kwargs": {},
+                "extra_allowed_hosts": []
+            },
+            "verifier": {
+                "env": {
+                    "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}",
+                    "REWARDKIT_JUDGE": "${REWARDKIT_JUDGE}"
+                },
+                "disable": false
+            }
+        }
+    ]
+}

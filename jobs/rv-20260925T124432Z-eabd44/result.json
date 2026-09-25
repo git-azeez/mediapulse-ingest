@@ -1,18 +1,18 @@
 {
-    "id": "16c23d9f-166e-4587-b7e9-bf3f09896986",
-    "started_at": "2026-09-25T12:50:57.777618",
-    "updated_at": "2026-09-25T12:43:16.486402Z",
-    "finished_at": null,
+    "id": "636727ee-3a51-4b30-b008-7b475629b403",
+    "started_at": "2026-09-25T18:14:32.880881",
+    "updated_at": "2026-09-25T18:14:35.793578",
+    "finished_at": "2026-09-25T18:14:35.793578",
     "n_total_trials": 1,
     "stats": {
         "n_completed_trials": 1,
         "n_errored_trials": 1,
         "n_running_trials": 0,
         "n_pending_trials": 0,
-        "n_cancelled_trials": 1,
+        "n_cancelled_trials": 0,
         "n_retries": 0,
         "evals": {
-            "opencode__z-ai/glm-5.2__adhoc": {
+            "oracle__adhoc": {
                 "n_trials": 0,
                 "n_errors": 1,
                 "metrics": [
@@ -23,15 +23,15 @@
                 "pass_at_k": {},
                 "reward_stats": {},
                 "exception_stats": {
-                    "CancelledError": [
-                        "mediapulse-ingest__WHqd5Xs"
+                    "RuntimeError": [
+                        "mediapulse-ingest__JTELPa6"
                     ]
                 }
             }
         },
-        "n_input_tokens": 3833762,
-        "n_cache_tokens": 3680352,
-        "n_output_tokens": 17273,
-        "cost_usd": 0.6268806668800001
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null
     }
 }

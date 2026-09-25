@@ -246,6 +246,15 @@ RUN groupadd --gid 10001 agent \
       '}' > /etc/terraformrc.offline \
  && printf '%s\n' \
       '#!/usr/bin/env bash' \
+      'if ! nc -z -w 1 172.20.0.1 18080 >/dev/null 2>&1; then' \
+      '  unset HTTP_PROXY http_proxy HTTPS_PROXY https_proxy' \
+      'fi' \
+      'if [[ ! -f "${SSL_CERT_FILE:-/etc/daytona-netleash-ca.crt}" ]] || [[ ! -s "${SSL_CERT_FILE:-/etc/daytona-netleash-ca.crt}" ]]; then' \
+      '  export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt' \
+      '  export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt' \
+      '  export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt' \
+      '  unset NODE_EXTRA_CA_CERTS' \
+      'fi' \
       'if [[ "${1:-}" == "--version" || "${1:-}" == "-v" || "${1:-}" == "version" ]]; then' \
       '  exec /usr/local/bin/opencode "$@"' \
       'fi' \
@@ -255,8 +264,7 @@ RUN groupadd --gid 10001 agent \
       'export NO_GCE_CHECK="true"' \
       'cleanup_children() {' \
       '  pkill -9 -f "opencode-linux|/usr/local/bin/opencode|terraform-provider" >/dev/null 2>&1 || true' \
-      '  sleep 1' \
-      '  pkill -TERM -f "tee /logs/agent/opencode.txt" >/dev/null 2>&1 || true' \
+      '  exec >/dev/null 2>&1' \
       '}' \
       'trap cleanup_children EXIT' \
       'DEADLINE=$(( $(date +%s) + 1800 ))' \
@@ -317,6 +325,9 @@ RUN groupadd --gid 10001 agent \
       '    break' \
       '  fi' \
       'done' \
+      'if [[ -f /workspace/submission/deploy.sh ]] && [[ ! -s /workspace/submission/manifest.json ]]; then' \
+      '  timeout -k 10 300 bash /workspace/submission/deploy.sh >/dev/null 2>&1 || true' \
+      'fi' \
       'exit 0' > /opt/venv/bin/opencode \
  && chmod +x /opt/venv/bin/opencode \
  && chown -R agent:agent /workspace/submission /workspace/evidence /artifacts /home/agent \

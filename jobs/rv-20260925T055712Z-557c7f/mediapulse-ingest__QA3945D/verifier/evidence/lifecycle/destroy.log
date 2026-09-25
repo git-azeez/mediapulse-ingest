@@ -1,0 +1,890 @@
+google_identity_platform_tenant.mediapulse: Refreshing state... [id=projects/mp-ver-1a787de8/tenants/tenant-a94aa459]
+google_service_account.api: Refreshing state... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_service_account.client_read: Refreshing state... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_service_account.client_admin: Refreshing state... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_service_account.relay: Refreshing state... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_service_account.processor: Refreshing state... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_service_account.archiver: Refreshing state... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_compute_global_address.api_ip: Refreshing state... [id=projects/mp-ver-1a787de8/global/addresses/mp-537460406109-api-lb-ip]
+google_logging_project_bucket_config.processor: Refreshing state... [id=projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-processor-logs]
+google_cloud_tasks_queue.projection_rebuild: Refreshing state... [id=projects/mp-ver-1a787de8/locations/us-west1/queues/mp-537460406109-projection-rebuild-q]
+google_logging_project_bucket_config.archiver: Refreshing state... [id=projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-archiver-logs]
+google_secret_manager_secret.db_credentials: Refreshing state... [id=projects/mp-ver-1a787de8/secrets/mp-537460406109-db-credentials]
+google_compute_network.ingest: Refreshing state... [id=projects/mp-ver-1a787de8/global/networks/mp-537460406109-vpc]
+google_service_account.client_write: Refreshing state... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_kms_key_ring.mediapulse: Refreshing state... [id=projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring]
+google_logging_project_bucket_config.api: Refreshing state... [id=projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-api-logs]
+google_service_account.pubsub_invoker: Refreshing state... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_logging_project_bucket_config.relay: Refreshing state... [id=projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-relay-logs]
+google_monitoring_notification_channel.ops_email: Refreshing state... [id=projects/mp-ver-1a787de8/notificationChannels/notificationChannel-ca15a2c1]
+google_service_account.scheduler: Refreshing state... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_service_account_key.client_read: Refreshing state... [id=v1/projects/-/serviceAccounts/v1/projects/mp-ver-1a787de8/serviceAccounts@mp-ver-1a787de8.iam.gserviceaccount.com/keys]
+google_service_account_key.client_admin: Refreshing state... [id=v1/projects/-/serviceAccounts/v1/projects/mp-ver-1a787de8/serviceAccounts@mp-ver-1a787de8.iam.gserviceaccount.com/keys]
+google_compute_subnetwork.private: Refreshing state... [id=projects/mp-ver-1a787de8/regions/us-west1/subnetworks/mp-537460406109-subnet-private]
+google_compute_firewall.deny_external_ingress: Refreshing state... [id=projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-deny-external-ingress]
+google_compute_firewall.allow_workloads_to_postgres: Refreshing state... [id=projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-allow-workloads-pg]
+google_compute_subnetwork.ingress: Refreshing state... [id=projects/mp-ver-1a787de8/regions/us-west1/subnetworks/mp-537460406109-subnet-ingress]
+google_compute_firewall.allow_lb_to_api: Refreshing state... [id=projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-allow-lb-to-api]
+google_kms_crypto_key.audit: Refreshing state... [id=projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-audit-cmek]
+google_kms_crypto_key.projection: Refreshing state... [id=projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-projection-cmek]
+google_kms_crypto_key.messaging: Refreshing state... [id=projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-messaging-cmek]
+google_kms_crypto_key.database: Refreshing state... [id=projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-database-cmek]
+google_service_account_key.client_write: Refreshing state... [id=v1/projects/-/serviceAccounts/v1/projects/mp-ver-1a787de8/serviceAccounts@mp-ver-1a787de8.iam.gserviceaccount.com/keys]
+google_bigquery_dataset.audit_analytics: Refreshing state... [id=projects/mp-ver-1a787de8/datasets/mp_537460406109_audit_analytics]
+google_storage_bucket.audit: Refreshing state... [id=mp-537460406109-mp-ver-1a787de8-audit]
+google_firestore_database.projections: Refreshing state... [id=projects/mp-ver-1a787de8/databases/mp-537460406109-projections]
+google_pubsub_topic.events: Refreshing state... [id=projects/mp-ver-1a787de8/topics/mp-537460406109-events]
+google_pubsub_topic.dead_letters: Refreshing state... [id=projects/mp-ver-1a787de8/topics/mp-537460406109-events-dlq]
+google_firestore_index.media_cache: Refreshing state... [id=projects/mp-ver-1a787de8/databases/mp-537460406109-projections/collectionGroups/MediaCache/indexes/idx-f2ffabd9]
+google_bigquery_table.archived_events: Refreshing state... [id=projects/mp-ver-1a787de8/datasets//tables/]
+google_pubsub_subscription.dead_letters: Refreshing state... [id=projects/mp-ver-1a787de8/subscriptions/mp-537460406109-events-dlq-sub]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # google_bigquery_dataset.audit_analytics will be destroyed
+  - resource "google_bigquery_dataset" "audit_analytics" {
+      - creation_time                   = 0 -> null
+      - dataset_id                      = "mp_537460406109_audit_analytics" -> null
+      - default_partition_expiration_ms = 0 -> null
+      - default_table_expiration_ms     = 0 -> null
+      - delete_contents_on_destroy      = true -> null
+      - deletion_policy                 = "DELETE" -> null
+      - effective_labels                = {} -> null
+      - id                              = "projects/mp-ver-1a787de8/datasets/mp_537460406109_audit_analytics" -> null
+      - is_case_insensitive             = false -> null
+      - labels                          = {} -> null
+      - last_modified_time              = 0 -> null
+      - location                        = "US" -> null
+      - project                         = "mp-ver-1a787de8" -> null
+      - resource_tags                   = {} -> null
+      - terraform_labels                = {} -> null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_bigquery_table.archived_events will be destroyed
+  - resource "google_bigquery_table" "archived_events" {
+      - deletion_policy              = "DELETE" -> null
+      - deletion_protection          = false -> null
+      - effective_labels             = {} -> null
+      - id                           = "projects/mp-ver-1a787de8/datasets//tables/" -> null
+      - ignore_auto_generated_schema = false -> null
+      - labels                       = {} -> null
+      - project                      = "mp-ver-1a787de8" -> null
+      - resource_tags                = {} -> null
+      - terraform_labels             = {
+          - "deployment"            = "mp-537460406109"
+          - "managed_by"            = "terraform"
+          - "mediapulse_deployment" = "mp-537460406109"
+          - "project"               = "mediapulse-ingest"
+        } -> null
+        # (9 unchanged attributes hidden)
+    }
+
+  # google_cloud_tasks_queue.projection_rebuild will be destroyed
+  - resource "google_cloud_tasks_queue" "projection_rebuild" {
+      - deletion_policy = "DELETE" -> null
+      - desired_state   = "RUNNING" -> null
+      - id              = "projects/mp-ver-1a787de8/locations/us-west1/queues/mp-537460406109-projection-rebuild-q" -> null
+      - location        = "us-west1" -> null
+      - name            = "mp-537460406109-projection-rebuild-q" -> null
+      - project         = "mp-ver-1a787de8" -> null
+      - state           = "RUNNING" -> null
+
+      - rate_limits {
+          - max_burst_size            = 0 -> null
+          - max_concurrent_dispatches = 10 -> null
+          - max_dispatches_per_second = 25 -> null
+        }
+
+      - retry_config {
+          - max_attempts       = 5 -> null
+          - max_backoff        = "15s" -> null
+          - max_doublings      = 0 -> null
+          - min_backoff        = "1s" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # google_compute_firewall.allow_lb_to_api will be destroyed
+  - resource "google_compute_firewall" "allow_lb_to_api" {
+      - creation_timestamp      = "2026-09-25T06:08:01Z" -> null
+      - deletion_policy         = "DELETE" -> null
+      - destination_ranges      = [] -> null
+      - direction               = "INGRESS" -> null
+      - disabled                = false -> null
+      - id                      = "projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-allow-lb-to-api" -> null
+      - name                    = "mp-537460406109-allow-lb-to-api" -> null
+      - network                 = "projects/mp-ver-1a787de8/global/networks/mp-537460406109-vpc" -> null
+      - priority                = 1000 -> null
+      - project                 = "mp-ver-1a787de8" -> null
+      - self_link               = "https://www.googleapis.com/compute/v1/projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-allow-lb-to-api" -> null
+      - source_ranges           = [
+          - "10.84.0.0/24",
+          - "130.211.0.0/22",
+          - "35.191.0.0/16",
+        ] -> null
+      - source_service_accounts = [] -> null
+      - source_tags             = [] -> null
+      - target_service_accounts = [] -> null
+      - target_tags             = [
+          - "mp-537460406109-api",
+        ] -> null
+        # (1 unchanged attribute hidden)
+
+      - allow {
+          - ports    = [
+              - "8080",
+            ] -> null
+          - protocol = "tcp" -> null
+        }
+    }
+
+  # google_compute_firewall.allow_workloads_to_postgres will be destroyed
+  - resource "google_compute_firewall" "allow_workloads_to_postgres" {
+      - creation_timestamp      = "2026-09-25T06:08:01Z" -> null
+      - deletion_policy         = "DELETE" -> null
+      - destination_ranges      = [] -> null
+      - direction               = "INGRESS" -> null
+      - disabled                = false -> null
+      - id                      = "projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-allow-workloads-pg" -> null
+      - name                    = "mp-537460406109-allow-workloads-pg" -> null
+      - network                 = "projects/mp-ver-1a787de8/global/networks/mp-537460406109-vpc" -> null
+      - priority                = 1010 -> null
+      - project                 = "mp-ver-1a787de8" -> null
+      - self_link               = "https://www.googleapis.com/compute/v1/projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-allow-workloads-pg" -> null
+      - source_ranges           = [
+          - "10.84.10.0/24",
+        ] -> null
+      - source_service_accounts = [] -> null
+      - source_tags             = [] -> null
+      - target_service_accounts = [] -> null
+      - target_tags             = [
+          - "mp-537460406109-database",
+        ] -> null
+        # (1 unchanged attribute hidden)
+
+      - allow {
+          - ports    = [
+              - "5432",
+            ] -> null
+          - protocol = "tcp" -> null
+        }
+    }
+
+  # google_compute_firewall.deny_external_ingress will be destroyed
+  - resource "google_compute_firewall" "deny_external_ingress" {
+      - creation_timestamp      = "2026-09-25T06:08:01Z" -> null
+      - deletion_policy         = "DELETE" -> null
+      - destination_ranges      = [] -> null
+      - direction               = "INGRESS" -> null
+      - disabled                = false -> null
+      - id                      = "projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-deny-external-ingress" -> null
+      - name                    = "mp-537460406109-deny-external-ingress" -> null
+      - network                 = "projects/mp-ver-1a787de8/global/networks/mp-537460406109-vpc" -> null
+      - priority                = 65500 -> null
+      - project                 = "mp-ver-1a787de8" -> null
+      - self_link               = "https://www.googleapis.com/compute/v1/projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-deny-external-ingress" -> null
+      - source_ranges           = [
+          - "0.0.0.0/0",
+        ] -> null
+      - source_service_accounts = [] -> null
+      - source_tags             = [] -> null
+      - target_service_accounts = [] -> null
+      - target_tags             = [] -> null
+        # (1 unchanged attribute hidden)
+
+      - deny {
+          - ports    = [] -> null
+          - protocol = "all" -> null
+        }
+    }
+
+  # google_compute_global_address.api_ip will be destroyed
+  - resource "google_compute_global_address" "api_ip" {
+      - address            = "gcp" -> null
+      - address_type       = "EXTERNAL" -> null
+      - creation_timestamp = "2026-09-25T06:08:01Z" -> null
+      - deletion_policy    = "DELETE" -> null
+      - effective_labels   = {
+          - "deployment"                 = "mp-537460406109"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+          - "mediapulse_deployment"      = "mp-537460406109"
+          - "project"                    = "mediapulse-ingest"
+        } -> null
+      - id                 = "projects/mp-ver-1a787de8/global/addresses/mp-537460406109-api-lb-ip" -> null
+      - label_fingerprint  = "42WmSpB8rSM=" -> null
+      - labels             = {} -> null
+      - name               = "mp-537460406109-api-lb-ip" -> null
+      - prefix_length      = 0 -> null
+      - project            = "mp-ver-1a787de8" -> null
+      - self_link          = "https://www.googleapis.com/compute/v1/projects/mp-ver-1a787de8/global/addresses/mp-537460406109-api-lb-ip" -> null
+      - terraform_labels   = {
+          - "deployment"                 = "mp-537460406109"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+          - "mediapulse_deployment"      = "mp-537460406109"
+          - "project"                    = "mediapulse-ingest"
+        } -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_network.ingest will be destroyed
+  - resource "google_compute_network" "ingest" {
+      - auto_create_subnetworks                   = false -> null
+      - bgp_always_compare_med                    = false -> null
+      - delete_bgp_always_compare_med             = false -> null
+      - delete_default_routes_on_create           = false -> null
+      - deletion_policy                           = "DELETE" -> null
+      - enable_ula_internal_ipv6                  = false -> null
+      - id                                        = "projects/mp-ver-1a787de8/global/networks/mp-537460406109-vpc" -> null
+      - mtu                                       = 0 -> null
+      - name                                      = "mp-537460406109-vpc" -> null
+      - network_firewall_policy_enforcement_order = "AFTER_CLASSIC_FIREWALL" -> null
+      - network_id                                = "798336924014335577" -> null
+      - numeric_id                                = "798336924014335577" -> null
+      - project                                   = "mp-ver-1a787de8" -> null
+      - routing_mode                              = "REGIONAL" -> null
+      - self_link                                 = "https://www.googleapis.com/compute/v1/projects/mp-ver-1a787de8/global/networks/mp-537460406109-vpc" -> null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_compute_subnetwork.ingress will be destroyed
+  - resource "google_compute_subnetwork" "ingress" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-09-25T06:08:01Z" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.84.0.1" -> null
+      - id                               = "projects/mp-ver-1a787de8/regions/us-west1/subnetworks/mp-537460406109-subnet-ingress" -> null
+      - ip_cidr_range                    = "10.84.0.0/24" -> null
+      - name                             = "mp-537460406109-subnet-ingress" -> null
+      - network                          = "projects/mp-ver-1a787de8/global/networks/mp-537460406109-vpc" -> null
+      - private_ip_google_access         = false -> null
+      - project                          = "mp-ver-1a787de8" -> null
+      - region                           = "us-west1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/mp-ver-1a787de8/regions/us-west1/subnetworks/mp-537460406109-subnet-ingress" -> null
+      - state                            = "READY" -> null
+      - subnetwork_id                    = 76353493422170692 -> null
+        # (13 unchanged attributes hidden)
+    }
+
+  # google_compute_subnetwork.private will be destroyed
+  - resource "google_compute_subnetwork" "private" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-09-25T06:08:01Z" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.84.0.1" -> null
+      - id                               = "projects/mp-ver-1a787de8/regions/us-west1/subnetworks/mp-537460406109-subnet-private" -> null
+      - ip_cidr_range                    = "10.84.10.0/24" -> null
+      - name                             = "mp-537460406109-subnet-private" -> null
+      - network                          = "projects/mp-ver-1a787de8/global/networks/mp-537460406109-vpc" -> null
+      - private_ip_google_access         = true -> null
+      - project                          = "mp-ver-1a787de8" -> null
+      - region                           = "us-west1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/mp-ver-1a787de8/regions/us-west1/subnetworks/mp-537460406109-subnet-private" -> null
+      - state                            = "READY" -> null
+      - subnetwork_id                    = 277786992667361488 -> null
+        # (13 unchanged attributes hidden)
+    }
+
+  # google_firestore_database.projections will be destroyed
+  - resource "google_firestore_database" "projections" {
+      - concurrency_mode                    = "OPTIMISTIC" -> null
+      - create_time                         = "2026-09-25T06:08:01Z" -> null
+      - delete_protection_state             = "DELETE_PROTECTION_DISABLED" -> null
+      - deletion_policy                     = "DELETE" -> null
+      - etag                                = "etag-fs-1" -> null
+      - id                                  = "projects/mp-ver-1a787de8/databases/mp-537460406109-projections" -> null
+      - location_id                         = "us-west1" -> null
+      - name                                = "mp-537460406109-projections" -> null
+      - point_in_time_recovery_enablement   = "POINT_IN_TIME_RECOVERY_ENABLED" -> null
+      - project                             = "mp-ver-1a787de8" -> null
+      - type                                = "FIRESTORE_NATIVE" -> null
+      - uid                                 = "c18c9974-05e1-4b77-8b09-1d5a148b6ea3" -> null
+      - update_time                         = "2026-09-25T06:08:01Z" -> null
+        # (8 unchanged attributes hidden)
+
+      - cmek_config {
+          - active_key_version = [] -> null
+          - kms_key_name       = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-projection-cmek" -> null
+        }
+    }
+
+  # google_firestore_index.media_cache will be destroyed
+  - resource "google_firestore_index" "media_cache" {
+      - api_scope       = "ANY_API" -> null
+      - collection      = "MediaCache" -> null
+      - database        = "mp-537460406109-projections" -> null
+      - deletion_policy = "DELETE" -> null
+      - id              = "projects/mp-ver-1a787de8/databases/mp-537460406109-projections/collectionGroups/MediaCache/indexes/idx-f2ffabd9" -> null
+      - multikey        = false -> null
+      - name            = "projects/mp-ver-1a787de8/databases/mp-537460406109-projections/collectionGroups/MediaCache/indexes/idx-f2ffabd9" -> null
+      - project         = "mp-ver-1a787de8" -> null
+      - query_scope     = "COLLECTION" -> null
+      - skip_wait       = false -> null
+      - unique          = false -> null
+        # (1 unchanged attribute hidden)
+
+      - fields {
+          - field_path   = "media_id" -> null
+          - order        = "ASCENDING" -> null
+            # (1 unchanged attribute hidden)
+        }
+      - fields {
+          - field_path   = "expires_at" -> null
+          - order        = "ASCENDING" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # google_identity_platform_tenant.mediapulse will be destroyed
+  - resource "google_identity_platform_tenant" "mediapulse" {
+      - allow_password_signup    = true -> null
+      - deletion_policy          = "DELETE" -> null
+      - disable_auth             = false -> null
+      - display_name             = "mp-537460406109-tenant" -> null
+      - enable_email_link_signin = false -> null
+      - id                       = "projects/mp-ver-1a787de8/tenants/tenant-a94aa459" -> null
+      - name                     = "tenant-a94aa459" -> null
+      - project                  = "mp-ver-1a787de8" -> null
+    }
+
+  # google_kms_crypto_key.audit will be destroyed
+  - resource "google_kms_crypto_key" "audit" {
+      - deletion_policy               = "DELETE" -> null
+      - effective_labels              = {} -> null
+      - id                            = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-audit-cmek" -> null
+      - import_only                   = false -> null
+      - key_ring                      = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring" -> null
+      - labels                        = {} -> null
+      - name                          = "mp-537460406109-audit-cmek" -> null
+      - primary                       = [] -> null
+      - skip_initial_version_creation = false -> null
+      - terraform_labels              = {} -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_kms_crypto_key.database will be destroyed
+  - resource "google_kms_crypto_key" "database" {
+      - deletion_policy               = "DELETE" -> null
+      - effective_labels              = {} -> null
+      - id                            = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-database-cmek" -> null
+      - import_only                   = false -> null
+      - key_ring                      = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring" -> null
+      - labels                        = {} -> null
+      - name                          = "mp-537460406109-database-cmek" -> null
+      - primary                       = [] -> null
+      - skip_initial_version_creation = false -> null
+      - terraform_labels              = {} -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_kms_crypto_key.messaging will be destroyed
+  - resource "google_kms_crypto_key" "messaging" {
+      - deletion_policy               = "DELETE" -> null
+      - effective_labels              = {} -> null
+      - id                            = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-messaging-cmek" -> null
+      - import_only                   = false -> null
+      - key_ring                      = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring" -> null
+      - labels                        = {} -> null
+      - name                          = "mp-537460406109-messaging-cmek" -> null
+      - primary                       = [] -> null
+      - skip_initial_version_creation = false -> null
+      - terraform_labels              = {} -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_kms_crypto_key.projection will be destroyed
+  - resource "google_kms_crypto_key" "projection" {
+      - deletion_policy               = "DELETE" -> null
+      - effective_labels              = {} -> null
+      - id                            = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-projection-cmek" -> null
+      - import_only                   = false -> null
+      - key_ring                      = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring" -> null
+      - labels                        = {} -> null
+      - name                          = "mp-537460406109-projection-cmek" -> null
+      - primary                       = [] -> null
+      - skip_initial_version_creation = false -> null
+      - terraform_labels              = {} -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_kms_key_ring.mediapulse will be destroyed
+  - resource "google_kms_key_ring" "mediapulse" {
+      - id       = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring" -> null
+      - location = "us-west1" -> null
+      - name     = "mp-537460406109-keyring" -> null
+      - project  = "mp-ver-1a787de8" -> null
+    }
+
+  # google_logging_project_bucket_config.api will be destroyed
+  - resource "google_logging_project_bucket_config" "api" {
+      - bucket_id        = "mp-537460406109-api-logs" -> null
+      - description      = "Cloud Run API structured request and audit logs" -> null
+      - enable_analytics = false -> null
+      - id               = "projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-api-logs" -> null
+      - lifecycle_state  = "ACTIVE" -> null
+      - location         = "us-west1" -> null
+      - locked           = false -> null
+      - name             = "projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-api-logs" -> null
+      - project          = "mp-ver-1a787de8" -> null
+      - retention_days   = 14 -> null
+    }
+
+  # google_logging_project_bucket_config.archiver will be destroyed
+  - resource "google_logging_project_bucket_config" "archiver" {
+      - bucket_id        = "mp-537460406109-archiver-logs" -> null
+      - description      = "Cloud Functions audit archiver logs" -> null
+      - enable_analytics = false -> null
+      - id               = "projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-archiver-logs" -> null
+      - lifecycle_state  = "ACTIVE" -> null
+      - location         = "us-west1" -> null
+      - locked           = false -> null
+      - name             = "projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-archiver-logs" -> null
+      - project          = "mp-ver-1a787de8" -> null
+      - retention_days   = 14 -> null
+    }
+
+  # google_logging_project_bucket_config.processor will be destroyed
+  - resource "google_logging_project_bucket_config" "processor" {
+      - bucket_id        = "mp-537460406109-processor-logs" -> null
+      - description      = "Cloud Functions event processor execution logs" -> null
+      - enable_analytics = false -> null
+      - id               = "projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-processor-logs" -> null
+      - lifecycle_state  = "ACTIVE" -> null
+      - location         = "us-west1" -> null
+      - locked           = false -> null
+      - name             = "projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-processor-logs" -> null
+      - project          = "mp-ver-1a787de8" -> null
+      - retention_days   = 14 -> null
+    }
+
+  # google_logging_project_bucket_config.relay will be destroyed
+  - resource "google_logging_project_bucket_config" "relay" {
+      - bucket_id        = "mp-537460406109-relay-logs" -> null
+      - description      = "Cloud Functions outbox relay logs" -> null
+      - enable_analytics = false -> null
+      - id               = "projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-relay-logs" -> null
+      - lifecycle_state  = "ACTIVE" -> null
+      - location         = "us-west1" -> null
+      - locked           = false -> null
+      - name             = "projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-relay-logs" -> null
+      - project          = "mp-ver-1a787de8" -> null
+      - retention_days   = 14 -> null
+    }
+
+  # google_monitoring_notification_channel.ops_email will be destroyed
+  - resource "google_monitoring_notification_channel" "ops_email" {
+      - deletion_policy     = "DELETE" -> null
+      - display_name        = "mp-537460406109-ops-alerts" -> null
+      - enabled             = true -> null
+      - force_delete        = false -> null
+      - id                  = "projects/mp-ver-1a787de8/notificationChannels/notificationChannel-ca15a2c1" -> null
+      - labels              = {
+          - "email_address" = "ops@mediapulse.invalid"
+        } -> null
+      - name                = "projects/mp-ver-1a787de8/notificationChannels/notificationChannel-ca15a2c1" -> null
+      - project             = "mp-ver-1a787de8" -> null
+      - type                = "email" -> null
+      - user_labels         = {} -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # google_pubsub_subscription.dead_letters will be destroyed
+  - resource "google_pubsub_subscription" "dead_letters" {
+      - ack_deadline_seconds         = 60 -> null
+      - deletion_policy              = "DELETE" -> null
+      - effective_labels             = {
+          - "deployment"                 = "mp-537460406109"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+          - "mediapulse_deployment"      = "mp-537460406109"
+          - "project"                    = "mediapulse-ingest"
+          - "role"                       = "dead-letter-archive"
+        } -> null
+      - enable_exactly_once_delivery = false -> null
+      - enable_message_ordering      = false -> null
+      - id                           = "projects/mp-ver-1a787de8/subscriptions/mp-537460406109-events-dlq-sub" -> null
+      - labels                       = {
+          - "deployment"            = "mp-537460406109"
+          - "managed_by"            = "terraform"
+          - "mediapulse_deployment" = "mp-537460406109"
+          - "project"               = "mediapulse-ingest"
+          - "role"                  = "dead-letter-archive"
+        } -> null
+      - message_retention_duration   = "1209600s" -> null
+      - name                         = "mp-537460406109-events-dlq-sub" -> null
+      - project                      = "mp-ver-1a787de8" -> null
+      - retain_acked_messages        = false -> null
+      - terraform_labels             = {
+          - "deployment"                 = "mp-537460406109"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+          - "mediapulse_deployment"      = "mp-537460406109"
+          - "project"                    = "mediapulse-ingest"
+          - "role"                       = "dead-letter-archive"
+        } -> null
+      - topic                        = "projects/mp-ver-1a787de8/topics/mp-537460406109-events-dlq" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # google_pubsub_topic.dead_letters will be destroyed
+  - resource "google_pubsub_topic" "dead_letters" {
+      - deletion_policy            = "DELETE" -> null
+      - effective_labels           = {
+          - "deployment"                 = "mp-537460406109"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+          - "mediapulse_deployment"      = "mp-537460406109"
+          - "project"                    = "mediapulse-ingest"
+          - "role"                       = "dead-letter"
+        } -> null
+      - id                         = "projects/mp-ver-1a787de8/topics/mp-537460406109-events-dlq" -> null
+      - kms_key_name               = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-messaging-cmek" -> null
+      - labels                     = {
+          - "deployment"            = "mp-537460406109"
+          - "managed_by"            = "terraform"
+          - "mediapulse_deployment" = "mp-537460406109"
+          - "project"               = "mediapulse-ingest"
+          - "role"                  = "dead-letter"
+        } -> null
+      - message_retention_duration = "1209600s" -> null
+      - name                       = "mp-537460406109-events-dlq" -> null
+      - project                    = "mp-ver-1a787de8" -> null
+      - terraform_labels           = {
+          - "deployment"                 = "mp-537460406109"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+          - "mediapulse_deployment"      = "mp-537460406109"
+          - "project"                    = "mediapulse-ingest"
+          - "role"                       = "dead-letter"
+        } -> null
+    }
+
+  # google_pubsub_topic.events will be destroyed
+  - resource "google_pubsub_topic" "events" {
+      - deletion_policy            = "DELETE" -> null
+      - effective_labels           = {
+          - "deployment"                 = "mp-537460406109"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+          - "mediapulse_deployment"      = "mp-537460406109"
+          - "project"                    = "mediapulse-ingest"
+          - "role"                       = "domain-events"
+        } -> null
+      - id                         = "projects/mp-ver-1a787de8/topics/mp-537460406109-events" -> null
+      - kms_key_name               = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-messaging-cmek" -> null
+      - labels                     = {
+          - "deployment"            = "mp-537460406109"
+          - "managed_by"            = "terraform"
+          - "mediapulse_deployment" = "mp-537460406109"
+          - "project"               = "mediapulse-ingest"
+          - "role"                  = "domain-events"
+        } -> null
+      - message_retention_duration = "345600s" -> null
+      - name                       = "mp-537460406109-events" -> null
+      - project                    = "mp-ver-1a787de8" -> null
+      - terraform_labels           = {
+          - "deployment"                 = "mp-537460406109"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+          - "mediapulse_deployment"      = "mp-537460406109"
+          - "project"                    = "mediapulse-ingest"
+          - "role"                       = "domain-events"
+        } -> null
+    }
+
+  # google_secret_manager_secret.db_credentials will be destroyed
+  - resource "google_secret_manager_secret" "db_credentials" {
+      - annotations           = {} -> null
+      - deletion_policy       = "DELETE" -> null
+      - deletion_protection   = false -> null
+      - effective_annotations = {} -> null
+      - effective_labels      = {} -> null
+      - id                    = "projects/mp-ver-1a787de8/secrets/mp-537460406109-db-credentials" -> null
+      - labels                = {} -> null
+        name                  = null
+      - project               = "mp-ver-1a787de8" -> null
+      - secret_id             = "mp-537460406109-db-credentials" -> null
+      - terraform_labels      = {} -> null
+      - version_aliases       = {} -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_service_account.api will be destroyed
+  - resource "google_service_account" "api" {
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - id              = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+      - member          = "serviceAccount:" -> null
+        name            = null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_service_account.archiver will be destroyed
+  - resource "google_service_account" "archiver" {
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - id              = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+      - member          = "serviceAccount:" -> null
+        name            = null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_service_account.client_admin will be destroyed
+  - resource "google_service_account" "client_admin" {
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - id              = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+      - member          = "serviceAccount:" -> null
+        name            = null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_service_account.client_read will be destroyed
+  - resource "google_service_account" "client_read" {
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - id              = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+      - member          = "serviceAccount:" -> null
+        name            = null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_service_account.client_write will be destroyed
+  - resource "google_service_account" "client_write" {
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - id              = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+      - member          = "serviceAccount:" -> null
+        name            = null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_service_account.processor will be destroyed
+  - resource "google_service_account" "processor" {
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - id              = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+      - member          = "serviceAccount:" -> null
+        name            = null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_service_account.pubsub_invoker will be destroyed
+  - resource "google_service_account" "pubsub_invoker" {
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - id              = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+      - member          = "serviceAccount:" -> null
+        name            = null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_service_account.relay will be destroyed
+  - resource "google_service_account" "relay" {
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - id              = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+      - member          = "serviceAccount:" -> null
+        name            = null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_service_account.scheduler will be destroyed
+  - resource "google_service_account" "scheduler" {
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - id              = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+      - member          = "serviceAccount:" -> null
+        name            = null
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_service_account_key.client_admin will be destroyed
+  - resource "google_service_account_key" "client_admin" {
+      - deletion_policy    = "DELETE" -> null
+      - id                 = "v1/projects/-/serviceAccounts/v1/projects/mp-ver-1a787de8/serviceAccounts@mp-ver-1a787de8.iam.gserviceaccount.com/keys" -> null
+        name               = null
+      - private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE" -> null
+      - public_key_type    = "TYPE_X509_PEM_FILE" -> null
+      - service_account_id = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # google_service_account_key.client_read will be destroyed
+  - resource "google_service_account_key" "client_read" {
+      - deletion_policy    = "DELETE" -> null
+      - id                 = "v1/projects/-/serviceAccounts/v1/projects/mp-ver-1a787de8/serviceAccounts@mp-ver-1a787de8.iam.gserviceaccount.com/keys" -> null
+        name               = null
+      - private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE" -> null
+      - public_key_type    = "TYPE_X509_PEM_FILE" -> null
+      - service_account_id = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # google_service_account_key.client_write will be destroyed
+  - resource "google_service_account_key" "client_write" {
+      - deletion_policy    = "DELETE" -> null
+      - id                 = "v1/projects/-/serviceAccounts/v1/projects/mp-ver-1a787de8/serviceAccounts@mp-ver-1a787de8.iam.gserviceaccount.com/keys" -> null
+        name               = null
+      - private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE" -> null
+      - public_key_type    = "TYPE_X509_PEM_FILE" -> null
+      - service_account_id = "v1/projects/mp-ver-1a787de8/serviceAccounts" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # google_storage_bucket.audit will be destroyed
+  - resource "google_storage_bucket" "audit" {
+      - default_event_based_hold    = false -> null
+      - deletion_policy             = "DELETE" -> null
+      - effective_labels            = {
+          - "data_role"                  = "immutable-audit"
+          - "deployment"                 = "mp-537460406109"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+          - "mediapulse_deployment"      = "mp-537460406109"
+          - "project"                    = "mediapulse-ingest"
+        } -> null
+      - enable_object_retention     = false -> null
+      - force_destroy               = true -> null
+      - id                          = "mp-537460406109-mp-ver-1a787de8-audit" -> null
+      - labels                      = {
+          - "data_role"             = "immutable-audit"
+          - "deployment"            = "mp-537460406109"
+          - "managed_by"            = "terraform"
+          - "mediapulse_deployment" = "mp-537460406109"
+          - "project"               = "mediapulse-ingest"
+        } -> null
+      - location                    = "US-WEST1" -> null
+      - name                        = "mp-537460406109-mp-ver-1a787de8-audit" -> null
+      - project                     = "mp-ver-1a787de8" -> null
+      - project_number              = 123456789012 -> null
+      - public_access_prevention    = "enforced" -> null
+      - requester_pays              = false -> null
+      - self_link                   = "http://gcp:4588/storage/v1/b/mp-537460406109-mp-ver-1a787de8-audit" -> null
+      - storage_class               = "STANDARD" -> null
+      - terraform_labels            = {
+          - "data_role"                  = "immutable-audit"
+          - "deployment"                 = "mp-537460406109"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+          - "mediapulse_deployment"      = "mp-537460406109"
+          - "project"                    = "mediapulse-ingest"
+        } -> null
+      - time_created                = "2026-09-25T06:08:01Z" -> null
+      - uniform_bucket_level_access = true -> null
+      - updated                     = "2026-09-25T06:08:01Z" -> null
+      - url                         = "gs://mp-537460406109-mp-ver-1a787de8-audit" -> null
+
+      - encryption {
+          - default_kms_key_name = "projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-audit-cmek" -> null
+        }
+
+      - hierarchical_namespace {
+          - enabled = false -> null
+        }
+
+      - soft_delete_policy {
+          - retention_duration_seconds = 0 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - versioning {
+          - enabled = true -> null
+        }
+    }
+
+Plan: 0 to add, 0 to change, 40 to destroy.
+
+Changes to Outputs:
+  - cloud_run_service_name = "mp-537460406109-api" -> null
+  - load_balancer_url      = "http://gcp" -> null
+  - pubsub_topic_id        = "projects/mp-ver-1a787de8/topics/mp-537460406109-events" -> null
+google_service_account.processor: Destroying... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_compute_subnetwork.private: Destroying... [id=projects/mp-ver-1a787de8/regions/us-west1/subnetworks/mp-537460406109-subnet-private]
+google_service_account_key.client_write: Destroying... [id=v1/projects/-/serviceAccounts/v1/projects/mp-ver-1a787de8/serviceAccounts@mp-ver-1a787de8.iam.gserviceaccount.com/keys]
+google_pubsub_topic.events: Destroying... [id=projects/mp-ver-1a787de8/topics/mp-537460406109-events]
+google_firestore_index.media_cache: Destroying... [id=projects/mp-ver-1a787de8/databases/mp-537460406109-projections/collectionGroups/MediaCache/indexes/idx-f2ffabd9]
+google_service_account.pubsub_invoker: Destroying... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_compute_firewall.deny_external_ingress: Destroying... [id=projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-deny-external-ingress]
+google_kms_crypto_key.database: Destroying... [id=projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-database-cmek]
+google_monitoring_notification_channel.ops_email: Destroying... [id=projects/mp-ver-1a787de8/notificationChannels/notificationChannel-ca15a2c1]
+google_firestore_index.media_cache: Destruction complete after 0s
+google_monitoring_notification_channel.ops_email: Destruction complete after 0s
+google_compute_subnetwork.private: Destruction complete after 0s
+google_compute_firewall.deny_external_ingress: Destruction complete after 0s
+google_service_account.api: Destroying... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_service_account_key.client_admin: Destroying... [id=v1/projects/-/serviceAccounts/v1/projects/mp-ver-1a787de8/serviceAccounts@mp-ver-1a787de8.iam.gserviceaccount.com/keys]
+google_kms_crypto_key.database: Destruction complete after 0s
+google_pubsub_topic.events: Destruction complete after 0s
+google_logging_project_bucket_config.processor: Destroying... [id=projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-processor-logs]
+google_compute_firewall.allow_workloads_to_postgres: Destroying... [id=projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-allow-workloads-pg]
+google_service_account.processor: Destruction complete after 0s
+google_service_account_key.client_write: Destruction complete after 0s
+google_service_account_key.client_admin: Destruction complete after 0s
+google_service_account.api: Destruction complete after 0s
+google_secret_manager_secret.db_credentials: Destroying... [id=projects/mp-ver-1a787de8/secrets/mp-537460406109-db-credentials]
+google_cloud_tasks_queue.projection_rebuild: Destroying... [id=projects/mp-ver-1a787de8/locations/us-west1/queues/mp-537460406109-projection-rebuild-q]
+google_logging_project_bucket_config.processor: Destruction complete after 0s
+google_service_account_key.client_read: Destroying... [id=v1/projects/-/serviceAccounts/v1/projects/mp-ver-1a787de8/serviceAccounts@mp-ver-1a787de8.iam.gserviceaccount.com/keys]
+google_pubsub_subscription.dead_letters: Destroying... [id=projects/mp-ver-1a787de8/subscriptions/mp-537460406109-events-dlq-sub]
+google_compute_firewall.allow_workloads_to_postgres: Destruction complete after 0s
+google_service_account.relay: Destroying... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_bigquery_table.archived_events: Destroying... [id=projects/mp-ver-1a787de8/datasets//tables/]
+google_secret_manager_secret.db_credentials: Destruction complete after 0s
+google_cloud_tasks_queue.projection_rebuild: Destruction complete after 0s
+google_service_account_key.client_read: Destruction complete after 0s
+google_logging_project_bucket_config.api: Destroying... [id=projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-api-logs]
+google_logging_project_bucket_config.archiver: Destroying... [id=projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-archiver-logs]
+google_service_account.scheduler: Destroying... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_pubsub_subscription.dead_letters: Destruction complete after 0s
+google_logging_project_bucket_config.api: Destruction complete after 0s
+google_service_account.relay: Destruction complete after 0s
+google_bigquery_table.archived_events: Destruction complete after 0s
+google_logging_project_bucket_config.relay: Destroying... [id=projects/mp-ver-1a787de8/locations/us-west1/buckets/mp-537460406109-relay-logs]
+google_logging_project_bucket_config.archiver: Destruction complete after 0s
+google_service_account.archiver: Destroying... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_storage_bucket.audit: Destroying... [id=mp-537460406109-mp-ver-1a787de8-audit]
+google_compute_subnetwork.ingress: Destroying... [id=projects/mp-ver-1a787de8/regions/us-west1/subnetworks/mp-537460406109-subnet-ingress]
+google_compute_firewall.allow_lb_to_api: Destroying... [id=projects/mp-ver-1a787de8/global/firewalls/mp-537460406109-allow-lb-to-api]
+google_compute_global_address.api_ip: Destroying... [id=projects/mp-ver-1a787de8/global/addresses/mp-537460406109-api-lb-ip]
+google_service_account.scheduler: Destruction complete after 0s
+google_firestore_database.projections: Destroying... [id=projects/mp-ver-1a787de8/databases/mp-537460406109-projections]
+google_compute_firewall.allow_lb_to_api: Destruction complete after 0s
+google_service_account.client_write: Destroying... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_service_account.client_admin: Destroying... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_compute_subnetwork.ingress: Destruction complete after 0s
+google_compute_global_address.api_ip: Destruction complete after 0s
+google_logging_project_bucket_config.relay: Destruction complete after 0s
+google_service_account.client_read: Destroying... [id=v1/projects/mp-ver-1a787de8/serviceAccounts]
+google_pubsub_topic.dead_letters: Destroying... [id=projects/mp-ver-1a787de8/topics/mp-537460406109-events-dlq]
+google_firestore_database.projections: Destruction complete after 0s
+google_service_account.archiver: Destruction complete after 0s
+google_bigquery_dataset.audit_analytics: Destroying... [id=projects/mp-ver-1a787de8/datasets/mp_537460406109_audit_analytics]
+google_service_account.client_write: Destruction complete after 0s
+google_kms_crypto_key.projection: Destroying... [id=projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-projection-cmek]
+google_compute_network.ingest: Destroying... [id=projects/mp-ver-1a787de8/global/networks/mp-537460406109-vpc]
+google_service_account.client_admin: Destruction complete after 0s
+google_pubsub_topic.dead_letters: Destruction complete after 0s
+google_service_account.client_read: Destruction complete after 0s
+google_kms_crypto_key.projection: Destruction complete after 0s
+google_compute_network.ingest: Destruction complete after 0s
+google_bigquery_dataset.audit_analytics: Destruction complete after 0s
+google_kms_crypto_key.messaging: Destroying... [id=projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-messaging-cmek]
+google_storage_bucket.audit: Destruction complete after 0s
+google_kms_crypto_key.messaging: Destruction complete after 0s
+google_kms_crypto_key.audit: Destroying... [id=projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring/cryptoKeys/mp-537460406109-audit-cmek]
+google_kms_crypto_key.audit: Destruction complete after 0s
+google_kms_key_ring.mediapulse: Destroying... [id=projects/mp-ver-1a787de8/locations/us-west1/keyRings/mp-537460406109-keyring]
+google_kms_key_ring.mediapulse: Destruction complete after 0s
+google_service_account.pubsub_invoker: Destruction complete after 1s
+google_identity_platform_tenant.mediapulse: Destroying... [id=projects/mp-ver-1a787de8/tenants/tenant-a94aa459]
+google_identity_platform_tenant.mediapulse: Destruction complete after 0s
+
+Destroy complete! Resources: 40 destroyed.
+MediaPulse Ingest resources destroyed.

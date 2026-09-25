@@ -41,7 +41,6 @@ services:
       - DAC_READ_SEARCH
     volumes:
       - config:/workspace/config:ro
-      - ./workspace/contracts:/workspace/contracts:ro
       - /etc/daytona/netleash/ca.crt:/etc/daytona-netleash-ca.crt:ro
 
   runtime-setup:

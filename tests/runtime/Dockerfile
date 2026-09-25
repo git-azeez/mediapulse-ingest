@@ -35,7 +35,8 @@ RUN groupadd --gid 10002 verifier \
  && useradd --uid 10002 --gid 10002 --create-home --shell /bin/bash verifier \
  && mkdir -p /logs/verifier /workspace/config /workspace/submission /workspace/evidence \
  && chown -R verifier:verifier /logs/verifier /workspace \
- && chmod +x /tests/test.sh
+ && chmod +x /tests/test.sh \
+ && test -s /opt/cinderroute-verifier/contracts/manifest.schema.json
 
 WORKDIR /tests
 

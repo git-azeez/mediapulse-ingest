@@ -1,0 +1,377 @@
+{
+  "admin_client_email": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-admin-client@mp-proj-d0c0142c.iam.gserviceaccount.com"
+  },
+  "admin_client_secret": {
+    "sensitive": true,
+    "type": "string",
+    "value": "eyJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsICJwcm9qZWN0X2lkIjogIm1wLXByb2otZDBjMDE0MmMiLCAicHJpdmF0ZV9rZXlfaWQiOiAiZGQ3OTM4NDE5YjExNGFmZiIsICJwcml2YXRlX2tleSI6ICItLS0tLUJFR0lOIFBSSVZBVEUgS0VZLS0tLS1cbk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRQzdcbi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS1cbiIsICJjbGllbnRfZW1haWwiOiAibXAtZjYyMmVhNmMwNjMxLWFkbWluLWNsaWVudEBtcC1wcm9qLWQwYzAxNDJjLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwgImNsaWVudF9pZCI6ICIxMjM0NTY3ODkwIiwgImF1dGhfdXJpIjogImh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbS9vL29hdXRoMi9hdXRoIiwgInRva2VuX3VyaSI6ICJodHRwOi8vMTI3LjAuMC4xOjQ1ODkvb2F1dGgyL3Y0L3Rva2VuIn0="
+  },
+  "api_image": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mediapulse/api:1.0.0"
+  },
+  "api_image_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sha256:d0ce8632b9a3b798fccd5bca72cb6756d71a643573feef781cc5578cf723eedb"
+  },
+  "api_service_account": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-api@mp-proj-d0c0142c.iam.gserviceaccount.com"
+  },
+  "archiver_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/locations/us-west1/functions/mp-f622ea6c0631-archiver"
+  },
+  "archiver_image": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mediapulse/archiver:1.0.0"
+  },
+  "archiver_image_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sha256:3cff9b285f3c449c87c4666311341c360069b1b3f3930d91230bf74454228700"
+  },
+  "archiver_job_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-archiver-job"
+  },
+  "archiver_service_account": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-archiver@mp-proj-d0c0142c.iam.gserviceaccount.com"
+  },
+  "audit_bucket": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-audit-logs"
+  },
+  "audit_prefix": {
+    "sensitive": false,
+    "type": "string",
+    "value": "events/"
+  },
+  "auth_issuer": {
+    "sensitive": false,
+    "type": "string",
+    "value": "http://gcp:4588/identitytoolkit/v3/relyingparty/mp-proj-d0c0142c"
+  },
+  "auth_jwks_url": {
+    "sensitive": false,
+    "type": "string",
+    "value": "http://gcp:4588/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com"
+  },
+  "auth_resource_server_identifier": {
+    "sensitive": false,
+    "type": "string",
+    "value": "https://api.mediapulse.io"
+  },
+  "auth_tenant_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "tenant-ea89bb82"
+  },
+  "auth_token_endpoint": {
+    "sensitive": false,
+    "type": "string",
+    "value": "http://gcp:4588/oauth2/v4/token"
+  },
+  "backend_service_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/global/backendServices/mp-f622ea6c0631-api-backend"
+  },
+  "bigquery_dataset": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/datasets/mp_f622ea6c0631_audit"
+  },
+  "cache_datastore_namespace": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-cache"
+  },
+  "cache_emulator_host": {
+    "sensitive": false,
+    "type": "string",
+    "value": "gcp:4588"
+  },
+  "cache_engine": {
+    "sensitive": false,
+    "type": "string",
+    "value": "cloud-datastore"
+  },
+  "cloud_run_max_instance_count": {
+    "sensitive": false,
+    "type": "number",
+    "value": 10
+  },
+  "cloud_run_min_instance_count": {
+    "sensitive": false,
+    "type": "number",
+    "value": 2
+  },
+  "cloud_run_service_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/locations/us-west1/services/mp-f622ea6c0631-api"
+  },
+  "cloud_run_service_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-api"
+  },
+  "cloud_run_service_uri": {
+    "sensitive": false,
+    "type": "string",
+    "value": "https://mp-f622ea6c0631-api-3b1057a.a.run.app"
+  },
+  "db_instance_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-db"
+  },
+  "db_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp_997ef5"
+  },
+  "db_port": {
+    "sensitive": false,
+    "type": "number",
+    "value": 5432
+  },
+  "db_private_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "gcp"
+  },
+  "db_secret_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/secrets/mp-f622ea6c0631-db-url"
+  },
+  "dlq_subscription_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/subscriptions/mp-f622ea6c0631-events-dlq-pull"
+  },
+  "dlq_topic_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/topics/mp-f622ea6c0631-events-dlq"
+  },
+  "firestore_collection": {
+    "sensitive": false,
+    "type": "string",
+    "value": "media_projections"
+  },
+  "firestore_database": {
+    "sensitive": false,
+    "type": "string",
+    "value": "(default)"
+  },
+  "forwarding_rule_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/global/forwardingRules/mp-f622ea6c0631-api-fr"
+  },
+  "gcp_endpoint_url": {
+    "sensitive": false,
+    "type": "string",
+    "value": "http://gcp:4588"
+  },
+  "ingress_subnet_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/regions/us-west1/subnetworks/mp-f622ea6c0631-ingress-subnet"
+  },
+  "kms_audit_key_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/locations/us-west1/keyRings/mp-f622ea6c0631-keyring/cryptoKeys/mp-f622ea6c0631-audit-key"
+  },
+  "kms_database_key_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/locations/us-west1/keyRings/mp-f622ea6c0631-keyring/cryptoKeys/mp-f622ea6c0631-database-key"
+  },
+  "kms_keyring_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/locations/us-west1/keyRings/mp-f622ea6c0631-keyring"
+  },
+  "kms_messaging_key_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/locations/us-west1/keyRings/mp-f622ea6c0631-keyring/cryptoKeys/mp-f622ea6c0631-messaging-key"
+  },
+  "kms_projection_key_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/locations/us-west1/keyRings/mp-f622ea6c0631-keyring/cryptoKeys/mp-f622ea6c0631-projection-key"
+  },
+  "lb_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "gcp"
+  },
+  "lb_url": {
+    "sensitive": false,
+    "type": "string",
+    "value": "http://gcp"
+  },
+  "logs_api": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-api-sink"
+  },
+  "logs_archiver": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-archiver-sink"
+  },
+  "logs_processor": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-processor-sink"
+  },
+  "logs_relay": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-relay-sink"
+  },
+  "max_delivery_attempts": {
+    "sensitive": false,
+    "type": "number",
+    "value": 5
+  },
+  "prefix": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631"
+  },
+  "private_subnet_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/regions/us-west1/subnetworks/mp-f622ea6c0631-private-subnet"
+  },
+  "processor_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/locations/us-west1/functions/mp-f622ea6c0631-processor"
+  },
+  "processor_image": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mediapulse/projector:1.0.0"
+  },
+  "processor_image_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sha256:1d5e6d8b7301123a7f718789745da27087fd33ff9f741c2940466ae79235f452"
+  },
+  "processor_service_account": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-processor@mp-proj-d0c0142c.iam.gserviceaccount.com"
+  },
+  "project_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-proj-d0c0142c"
+  },
+  "read_client_email": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-read-client@mp-proj-d0c0142c.iam.gserviceaccount.com"
+  },
+  "read_client_secret": {
+    "sensitive": true,
+    "type": "string",
+    "value": "eyJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsICJwcm9qZWN0X2lkIjogIm1wLXByb2otZDBjMDE0MmMiLCAicHJpdmF0ZV9rZXlfaWQiOiAiMThkZmJmYzdiMjc2NGYzNiIsICJwcml2YXRlX2tleSI6ICItLS0tLUJFR0lOIFBSSVZBVEUgS0VZLS0tLS1cbk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRQzdcbi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS1cbiIsICJjbGllbnRfZW1haWwiOiAibXAtZjYyMmVhNmMwNjMxLXJlYWQtY2xpZW50QG1wLXByb2otZDBjMDE0MmMuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCAiY2xpZW50X2lkIjogIjEyMzQ1Njc4OTAiLCAiYXV0aF91cmkiOiAiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vb2F1dGgyL2F1dGgiLCAidG9rZW5fdXJpIjogImh0dHA6Ly8xMjcuMC4wLjE6NDU4OS9vYXV0aDIvdjQvdG9rZW4ifQ=="
+  },
+  "rebuild_tasks_queue": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/locations/us-west1/queues/mp-f622ea6c0631-rebuild-queue"
+  },
+  "region": {
+    "sensitive": false,
+    "type": "string",
+    "value": "us-west1"
+  },
+  "relay_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/locations/us-west1/functions/mp-f622ea6c0631-relay"
+  },
+  "relay_image": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mediapulse/relay:1.0.0"
+  },
+  "relay_image_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sha256:ed5ebf8a9d8a775579350caef4ae0ada171f3fc833d6c2d712d0a76cb00607f1"
+  },
+  "relay_job_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-relay-job"
+  },
+  "relay_service_account": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-relay@mp-proj-d0c0142c.iam.gserviceaccount.com"
+  },
+  "scheduler_service_account": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-scheduler@mp-proj-d0c0142c.iam.gserviceaccount.com"
+  },
+  "serverless_neg_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/regions/us-west1/networkEndpointGroups/mp-f622ea6c0631-api-neg"
+  },
+  "subscription_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/subscriptions/mp-f622ea6c0631-events-push"
+  },
+  "topic_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/topics/mp-f622ea6c0631-events"
+  },
+  "topic_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-events"
+  },
+  "vpc_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "projects/mp-proj-d0c0142c/global/networks/mp-f622ea6c0631-vpc"
+  },
+  "write_client_email": {
+    "sensitive": false,
+    "type": "string",
+    "value": "mp-f622ea6c0631-write-client@mp-proj-d0c0142c.iam.gserviceaccount.com"
+  },
+  "write_client_secret": {
+    "sensitive": true,
+    "type": "string",
+    "value": "eyJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsICJwcm9qZWN0X2lkIjogIm1wLXByb2otZDBjMDE0MmMiLCAicHJpdmF0ZV9rZXlfaWQiOiAiZGU5MjBmNmJhYzhlNGY1OCIsICJwcml2YXRlX2tleSI6ICItLS0tLUJFR0lOIFBSSVZBVEUgS0VZLS0tLS1cbk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRQzdcbi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS1cbiIsICJjbGllbnRfZW1haWwiOiAibXAtZjYyMmVhNmMwNjMxLXdyaXRlLWNsaWVudEBtcC1wcm9qLWQwYzAxNDJjLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwgImNsaWVudF9pZCI6ICIxMjM0NTY3ODkwIiwgImF1dGhfdXJpIjogImh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbS9vL29hdXRoMi9hdXRoIiwgInRva2VuX3VyaSI6ICJodHRwOi8vMTI3LjAuMC4xOjQ1ODkvb2F1dGgyL3Y0L3Rva2VuIn0="
+  }
+}

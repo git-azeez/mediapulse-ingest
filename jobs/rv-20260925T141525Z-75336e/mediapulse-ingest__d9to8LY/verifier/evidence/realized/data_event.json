@@ -1,0 +1,46 @@
+{
+  "audit": {
+    "bucket": "mp-bd33e75c0330-mp-ver-4228974a-audit",
+    "prefix": "events/"
+  },
+  "cache": {
+    "datastore_namespace": "mp-bd33e75c0330-cache",
+    "emulator_host": "gcp:4588",
+    "engine": "cloud-datastore"
+  },
+  "database": {
+    "instance_name": "mp-bd33e75c0330-events-pg",
+    "name": "mp_566fdd",
+    "port": 5432,
+    "private_ip": "gcp",
+    "secret_id": "mp-bd33e75c0330-db-credentials"
+  },
+  "live_buckets_count": 2,
+  "live_functions_count": 3,
+  "live_subscriptions_count": 2,
+  "live_topics_count": 2,
+  "managed_resource_count": 67,
+  "messaging": {
+    "dlq_subscription_id": "projects/mp-ver-4228974a/subscriptions/mp-bd33e75c0330-events-dlq-sub",
+    "dlq_topic_id": "projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events-dlq",
+    "max_delivery_attempts": 5,
+    "rebuild_tasks_queue": "mp-bd33e75c0330-projection-rebuild-q",
+    "subscription_id": "projects/mp-ver-4228974a/subscriptions/mp-bd33e75c0330-events-processor-sub",
+    "topic_id": "projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events",
+    "topic_name": "mp-bd33e75c0330-events"
+  },
+  "projections": {
+    "bigquery_dataset": "mp_bd33e75c0330_audit_analytics",
+    "collection": "media_timeline",
+    "firestore_database": "mp-bd33e75c0330-projections"
+  },
+  "schedules": {
+    "archiver_job_name": "mp-bd33e75c0330-archiver-schedule",
+    "relay_job_name": "mp-bd33e75c0330-relay-schedule"
+  },
+  "workers": {
+    "archiver_id": "projects/mp-ver-4228974a/locations/us-west1/functions/mp-bd33e75c0330-audit-archiver",
+    "processor_id": "projects/mp-ver-4228974a/locations/us-west1/functions/mp-bd33e75c0330-processor",
+    "relay_id": "projects/mp-ver-4228974a/locations/us-west1/functions/mp-bd33e75c0330-outbox-relay"
+  }
+}

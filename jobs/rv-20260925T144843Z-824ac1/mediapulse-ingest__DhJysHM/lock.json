@@ -1,0 +1,67 @@
+{
+    "schema_version": 1,
+    "task": {
+        "name": "mediapulse-ingest",
+        "type": "local",
+        "digest": "sha256:6c095be72be27aafdc18fad1818b6b3a2b9d3f667d6f0cff4db265054b3c2bd2",
+        "path": "/Users/azeez/Azeez/microai/mediapulse-ingest"
+    },
+    "install_only": false,
+    "timeout_multiplier": 1.0,
+    "agent": {
+        "import_path": "opencode_subscription_agent:SubscriptionOpenCode",
+        "model_name": "openrouter/z-ai/glm-5.2",
+        "skills": [],
+        "resume_trajectory": false,
+        "extra_allowed_hosts": [],
+        "kwargs": {
+            "opencode_config": {
+                "permission": {
+                    "external_directory": {
+                        "/*": "allow"
+                    }
+                },
+                "provider": {
+                    "openrouter": {
+                        "models": {
+                            "z-ai/glm-5.2": {
+                                "options": {
+                                    "provider": {
+                                        "sort": "throughput",
+                                        "max_price": {
+                                            "prompt": 2.0,
+                                            "completion": 5.0
+                                        },
+                                        "allow_fallbacks": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+        },
+        "mcp_servers": []
+    },
+    "skills": [],
+    "environment": {
+        "type": "docker",
+        "force_build": false,
+        "delete": true,
+        "cpu_enforcement_policy": "auto",
+        "memory_enforcement_policy": "auto",
+        "extra_docker_compose": [],
+        "kwargs": {},
+        "extra_allowed_hosts": []
+    },
+    "verifier": {
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}",
+            "REWARDKIT_JUDGE": "${REWARDKIT_JUDGE}"
+        },
+        "disable": false
+    }
+}

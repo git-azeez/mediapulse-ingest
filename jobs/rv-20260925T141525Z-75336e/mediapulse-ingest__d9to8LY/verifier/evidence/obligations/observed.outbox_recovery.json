@@ -1,0 +1,13 @@
+{
+  "associated_artifacts": [
+    "evidence/lifecycle/deploy.log",
+    "evidence/observed/outbox_recovery.json"
+  ],
+  "details": {
+    "fault_media_id": "mp-bd33e75c0330-outbox-4302",
+    "relay_function": "projects/mp-ver-4228974a/locations/us-west1/functions/mp-bd33e75c0330-outbox-relay"
+  },
+  "obligation_id": "observed.outbox_recovery",
+  "outcome": "pass",
+  "summary": "Cloud SQL PostgreSQL outbox retained events during Pub/Sub topic deletion and replayed via relay after repair"
+}

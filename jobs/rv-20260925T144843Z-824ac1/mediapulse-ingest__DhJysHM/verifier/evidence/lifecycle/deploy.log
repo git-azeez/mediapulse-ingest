@@ -1,0 +1,42 @@
+[init] Initializing the backend...
+[init] 
+[init] Initializing provider plugins...
+[init] - Finding hashicorp/google-beta versions matching "~> 8.4"...
+[init] - Finding hashicorp/google versions matching "~> 8.4"...
+[init] - Installing hashicorp/google-beta v8.4.0...
+[init] - Installing hashicorp/google v8.4.0...
+[init] 
+[init] Error: Failed to install provider
+[init] 
+[init] Error while installing hashicorp/google-beta v8.4.0: cannot install existing
+[init] provider directory
+[init] /opt/terraform-plugin-cache/registry.terraform.io/hashicorp/google-beta/8.4.0/linux_amd64
+[init] to itself
+[init] 
+[init] Error: Failed to install provider
+[init] 
+[init] Error while installing hashicorp/google v8.4.0: cannot install existing
+[init] provider directory
+[init] /opt/terraform-plugin-cache/registry.terraform.io/hashicorp/google/8.4.0/linux_amd64
+[init] to itself
+[init] Initializing the backend...
+[init] 
+[init] Initializing provider plugins...
+[init] - Finding hashicorp/google versions matching "~> 8.4"...
+[init] - Finding hashicorp/google-beta versions matching "~> 8.4"...
+[init] - Installing hashicorp/google v8.4.0...
+[init] - Installing hashicorp/google-beta v8.4.0...
+[init] 
+[init] Error: Failed to install provider
+[init] 
+[init] Error while installing hashicorp/google v8.4.0: cannot install existing
+[init] provider directory
+[init] /opt/terraform-plugin-cache/registry.terraform.io/hashicorp/google/8.4.0/linux_amd64
+[init] to itself
+[init] 
+[init] Error: Failed to install provider
+[init] 
+[init] Error while installing hashicorp/google-beta v8.4.0: cannot install existing
+[init] provider directory
+[init] /opt/terraform-plugin-cache/registry.terraform.io/hashicorp/google-beta/8.4.0/linux_amd64
+[init] to itself

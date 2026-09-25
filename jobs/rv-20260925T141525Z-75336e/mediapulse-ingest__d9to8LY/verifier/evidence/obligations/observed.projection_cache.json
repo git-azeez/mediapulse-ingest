@@ -1,0 +1,12 @@
+{
+  "associated_artifacts": [
+    "evidence/observed/projection_cache.json"
+  ],
+  "details": {
+    "datastore_namespace": "mp-bd33e75c0330-cache",
+    "etag": "W/\"mp-bd33e75c0330-media-00-4957-v6\""
+  },
+  "obligation_id": "observed.projection_cache",
+  "outcome": "pass",
+  "summary": "Firestore projection read, Cloud Datastore entity cache, and conditional GET ETag 304 verified"
+}

@@ -1,0 +1,6 @@
+{
+  "fault_media_id": "mp-bd33e75c0330-outbox-4302",
+  "outbox_repaired": true,
+  "relay_function": "projects/mp-ver-4228974a/locations/us-west1/functions/mp-bd33e75c0330-outbox-relay",
+  "relay_scheduler_job": "mp-bd33e75c0330-relay-schedule"
+}

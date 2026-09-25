@@ -1,0 +1,272 @@
+google_secret_manager_secret.db_credentials: Refreshing state... [id=projects/mp-ver-4228974a/secrets/mp-bd33e75c0330-db-credentials]
+google_service_account.client_read: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-client-read@mp-ver-4228974a.iam.gserviceaccount.com]
+google_logging_project_bucket_config.relay: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/buckets/mp-bd33e75c0330-relay-logs]
+google_logging_project_bucket_config.archiver: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/buckets/mp-bd33e75c0330-archiver-logs]
+google_service_account.scheduler: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-scheduler-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_service_account.archiver: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-archiver-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_service_account.processor: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-processor-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_service_account.client_write: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-client-write@mp-ver-4228974a.iam.gserviceaccount.com]
+google_service_account.client_admin: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-client-admin@mp-ver-4228974a.iam.gserviceaccount.com]
+google_kms_key_ring.mediapulse: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring]
+google_logging_project_bucket_config.processor: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/buckets/mp-bd33e75c0330-processor-logs]
+google_service_account.api: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-api-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_logging_project_bucket_config.api: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/buckets/mp-bd33e75c0330-api-logs]
+google_compute_network.ingest: Refreshing state... [id=projects/mp-ver-4228974a/global/networks/mp-bd33e75c0330-vpc]
+google_service_account.pubsub_invoker: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-pubsub-push-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_compute_global_address.api_ip: Refreshing state... [id=projects/mp-ver-4228974a/global/addresses/mp-bd33e75c0330-api-lb-ip]
+google_monitoring_notification_channel.ops_email: Refreshing state... [id=projects/mp-ver-4228974a/notificationChannels/notificationChannel-5d943791]
+google_service_account.relay: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-relay-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_cloud_tasks_queue.projection_rebuild: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/queues/mp-bd33e75c0330-projection-rebuild-q]
+google_service_account_key.client_admin: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-client-admin@mp-ver-4228974a.iam.gserviceaccount.com/keys/76e6e333f67d49c0]
+google_service_account_key.client_write: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-client-write@mp-ver-4228974a.iam.gserviceaccount.com/keys/bf9c20eaecb84923]
+google_service_account_key.client_read: Refreshing state... [id=projects/mp-ver-4228974a/serviceAccounts/mp-bd33e75c0330-client-read@mp-ver-4228974a.iam.gserviceaccount.com/keys/3a3a256e42a14086]
+google_kms_crypto_key.projection: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-projection-cmek]
+google_kms_crypto_key.messaging: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-messaging-cmek]
+google_kms_crypto_key.database: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-database-cmek]
+google_project_iam_member.api_datastore_viewer: Refreshing state... [id=mp-ver-4228974a/roles/datastore.viewer/serviceAccount:mp-bd33e75c0330-api-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_kms_crypto_key.audit: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-audit-cmek]
+google_secret_manager_secret_iam_member.api_db_secret_accessor: Refreshing state... [id=projects/mp-ver-4228974a/secrets/mp-bd33e75c0330-db-credentials/roles/secretmanager.secretAccessor/serviceAccount:mp-bd33e75c0330-api-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_compute_firewall.allow_workloads_to_postgres: Refreshing state... [id=projects/mp-ver-4228974a/global/firewalls/mp-bd33e75c0330-allow-workloads-pg]
+google_project_iam_member.api_cloudsql_client: Refreshing state... [id=mp-ver-4228974a/roles/cloudsql.client/serviceAccount:mp-bd33e75c0330-api-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_compute_subnetwork.ingress: Refreshing state... [id=projects/mp-ver-4228974a/regions/us-west1/subnetworks/mp-bd33e75c0330-subnet-ingress]
+google_compute_firewall.deny_external_ingress: Refreshing state... [id=projects/mp-ver-4228974a/global/firewalls/mp-bd33e75c0330-deny-external-ingress]
+google_compute_subnetwork.private: Refreshing state... [id=projects/mp-ver-4228974a/regions/us-west1/subnetworks/mp-bd33e75c0330-subnet-private]
+google_compute_firewall.allow_lb_to_api: Refreshing state... [id=projects/mp-ver-4228974a/global/firewalls/mp-bd33e75c0330-allow-lb-to-api]
+google_project_iam_member.relay_cloudsql_client: Refreshing state... [id=mp-ver-4228974a/roles/cloudsql.client/serviceAccount:mp-bd33e75c0330-relay-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_firestore_database.projections: Refreshing state... [id=projects/mp-ver-4228974a/databases/mp-bd33e75c0330-projections]
+google_pubsub_topic.dead_letters: Refreshing state... [id=projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events-dlq]
+google_pubsub_topic.events: Refreshing state... [id=projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events]
+google_storage_bucket.audit: Refreshing state... [id=mp-bd33e75c0330-mp-ver-4228974a-audit]
+google_bigquery_dataset.audit_analytics: Refreshing state... [id=projects/mp-ver-4228974a/datasets/mp_bd33e75c0330_audit_analytics]
+google_sql_database_instance.events: Refreshing state... [id=mp-bd33e75c0330-events-pg]
+google_firestore_index.media_cache: Refreshing state... [id=projects/mp-ver-4228974a/databases/mp-bd33e75c0330-projections/collectionGroups/MediaCache/indexes/idx-98c3ceae]
+google_pubsub_subscription.dead_letters: Refreshing state... [id=projects/mp-ver-4228974a/subscriptions/mp-bd33e75c0330-events-dlq-sub]
+google_pubsub_topic_iam_member.relay_publish_events: Refreshing state... [id=projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events/roles/pubsub.publisher/serviceAccount:mp-bd33e75c0330-relay-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_pubsub_topic_iam_member.api_publish_events: Refreshing state... [id=projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events/roles/pubsub.publisher/serviceAccount:mp-bd33e75c0330-api-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_bigquery_table.archived_events: Refreshing state... [id=projects/mp-ver-4228974a/datasets/mp_bd33e75c0330_audit_analytics/tables/archived_events]
+google_sql_user.app: Refreshing state... [id=mp_user_653088/%/mp-bd33e75c0330-events-pg]
+google_sql_database.mediapulse: Refreshing state... [id=projects/mp-ver-4228974a/instances/mp-bd33e75c0330-events-pg/databases/mp_566fdd]
+google_secret_manager_secret_version.db_credentials_v1: Refreshing state... [id=projects/mp-ver-4228974a/secrets/mp-bd33e75c0330-db-credentials/versions/1]
+google_cloudfunctions2_function.relay: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/functions/mp-bd33e75c0330-outbox-relay]
+google_cloud_run_v2_service.api: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/services/mp-bd33e75c0330-api]
+google_identity_platform_tenant.mediapulse: Refreshing state... [id=projects/mp-ver-4228974a/tenants/tenant-d327b037]
+google_cloud_scheduler_job.relay: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/jobs/mp-bd33e75c0330-relay-schedule]
+google_logging_project_sink.api: Refreshing state... [id=projects/mp-ver-4228974a/sinks/mp-bd33e75c0330-api-sink]
+google_compute_region_network_endpoint_group.api_serverless_neg: Refreshing state... [id=projects/mp-ver-4228974a/regions/us-west1/networkEndpointGroups/mp-bd33e75c0330-api-neg]
+google_compute_backend_service.api: Refreshing state... [id=projects/mp-ver-4228974a/global/backendServices/mp-bd33e75c0330-api-backend]
+google_compute_url_map.api: Refreshing state... [id=projects/mp-ver-4228974a/global/urlMaps/mp-bd33e75c0330-api-urlmap]
+google_compute_target_http_proxy.api: Refreshing state... [id=projects/mp-ver-4228974a/global/targetHttpProxies/mp-bd33e75c0330-api-http-proxy]
+google_compute_global_forwarding_rule.http: Refreshing state... [id=projects/mp-ver-4228974a/global/forwardingRules/mp-bd33e75c0330-api-http-fwd]
+google_project_iam_member.archiver_cloudsql_client: Refreshing state... [id=mp-ver-4228974a/roles/cloudsql.client/serviceAccount:mp-bd33e75c0330-archiver-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_storage_bucket_iam_member.archiver_write_audit: Refreshing state... [id=b/mp-bd33e75c0330-mp-ver-4228974a-audit/roles/storage.objectAdmin/serviceAccount:mp-bd33e75c0330-archiver-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_project_iam_member.processor_datastore_user: Refreshing state... [id=mp-ver-4228974a/roles/datastore.user/serviceAccount:mp-bd33e75c0330-processor-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+google_cloudfunctions2_function.archiver: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/functions/mp-bd33e75c0330-audit-archiver]
+google_cloudfunctions2_function.processor: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/functions/mp-bd33e75c0330-processor]
+google_cloud_scheduler_job.archiver: Refreshing state... [id=projects/mp-ver-4228974a/locations/us-west1/jobs/mp-bd33e75c0330-archiver-schedule]
+google_pubsub_subscription.processor_push: Refreshing state... [id=projects/mp-ver-4228974a/subscriptions/mp-bd33e75c0330-events-processor-sub]
+google_pubsub_subscription_iam_member.processor_consume_events: Refreshing state... [id=projects/mp-ver-4228974a/subscriptions/mp-bd33e75c0330-events-processor-sub/roles/pubsub.subscriber/serviceAccount:mp-bd33e75c0330-processor-sa@mp-ver-4228974a.iam.gserviceaccount.com]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # google_bigquery_dataset.audit_analytics will be updated in-place
+  ~ resource "google_bigquery_dataset" "audit_analytics" {
+        id                              = "projects/mp-ver-4228974a/datasets/mp_bd33e75c0330_audit_analytics"
+        # (20 unchanged attributes hidden)
+
+      + default_encryption_configuration {
+          + kms_key_name = "projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-audit-cmek"
+        }
+    }
+
+  # google_cloud_scheduler_job.archiver will be updated in-place
+  ~ resource "google_cloud_scheduler_job" "archiver" {
+        id               = "projects/mp-ver-4228974a/locations/us-west1/jobs/mp-bd33e75c0330-archiver-schedule"
+        name             = "mp-bd33e75c0330-archiver-schedule"
+        # (9 unchanged attributes hidden)
+
+      ~ http_target {
+            # (4 unchanged attributes hidden)
+
+          + oidc_token {
+              + audience              = "https://us-west1-mp-ver-4228974a.cloudfunctions.net/mp-bd33e75c0330-audit-archiver"
+              + service_account_email = "mp-bd33e75c0330-scheduler-sa@mp-ver-4228974a.iam.gserviceaccount.com"
+            }
+        }
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_cloud_scheduler_job.relay will be updated in-place
+  ~ resource "google_cloud_scheduler_job" "relay" {
+        id               = "projects/mp-ver-4228974a/locations/us-west1/jobs/mp-bd33e75c0330-relay-schedule"
+        name             = "mp-bd33e75c0330-relay-schedule"
+        # (9 unchanged attributes hidden)
+
+      ~ http_target {
+            # (4 unchanged attributes hidden)
+
+          + oidc_token {
+              + audience              = "https://us-west1-mp-ver-4228974a.cloudfunctions.net/mp-bd33e75c0330-outbox-relay"
+              + service_account_email = "mp-bd33e75c0330-scheduler-sa@mp-ver-4228974a.iam.gserviceaccount.com"
+            }
+        }
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.audit will be updated in-place
+  ~ resource "google_kms_crypto_key" "audit" {
+        id                            = "projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-audit-cmek"
+        name                          = "mp-bd33e75c0330-audit-cmek"
+      + rotation_period               = "7776000s"
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.database will be updated in-place
+  ~ resource "google_kms_crypto_key" "database" {
+        id                            = "projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-database-cmek"
+        name                          = "mp-bd33e75c0330-database-cmek"
+      + rotation_period               = "7776000s"
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.messaging will be updated in-place
+  ~ resource "google_kms_crypto_key" "messaging" {
+        id                            = "projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-messaging-cmek"
+        name                          = "mp-bd33e75c0330-messaging-cmek"
+      + rotation_period               = "7776000s"
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.projection will be updated in-place
+  ~ resource "google_kms_crypto_key" "projection" {
+        id                            = "projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-projection-cmek"
+        name                          = "mp-bd33e75c0330-projection-cmek"
+      + rotation_period               = "7776000s"
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_pubsub_subscription.processor_push will be updated in-place
+  ~ resource "google_pubsub_subscription" "processor_push" {
+        id                           = "projects/mp-ver-4228974a/subscriptions/mp-bd33e75c0330-events-processor-sub"
+        name                         = "mp-bd33e75c0330-events-processor-sub"
+        # (12 unchanged attributes hidden)
+
+      ~ push_config {
+            # (2 unchanged attributes hidden)
+
+          + oidc_token {
+              + service_account_email = "mp-bd33e75c0330-pubsub-push-sa@mp-ver-4228974a.iam.gserviceaccount.com"
+            }
+        }
+
+        # (2 unchanged blocks hidden)
+    }
+
+  # google_pubsub_topic.dead_letters will be updated in-place
+  ~ resource "google_pubsub_topic" "dead_letters" {
+        id                         = "projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events-dlq"
+      + kms_key_name               = "projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-messaging-cmek"
+        name                       = "mp-bd33e75c0330-events-dlq"
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_pubsub_topic.events will be updated in-place
+  ~ resource "google_pubsub_topic" "events" {
+        id                         = "projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events"
+      + kms_key_name               = "projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-messaging-cmek"
+        name                       = "mp-bd33e75c0330-events"
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_secret_manager_secret.db_credentials will be updated in-place
+  ~ resource "google_secret_manager_secret" "db_credentials" {
+      ~ effective_labels      = {
+          + "data_role"             = "database-secret"
+          + "deployment"            = "mp-bd33e75c0330"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-bd33e75c0330"
+          + "project"               = "mediapulse-ingest"
+        }
+        id                    = "projects/mp-ver-4228974a/secrets/mp-bd33e75c0330-db-credentials"
+      ~ labels                = {
+          + "data_role"             = "database-secret"
+          + "deployment"            = "mp-bd33e75c0330"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-bd33e75c0330"
+          + "project"               = "mediapulse-ingest"
+        }
+        name                  = "projects/mp-ver-4228974a/secrets/mp-bd33e75c0330-db-credentials"
+      ~ terraform_labels      = {
+          + "data_role"             = "database-secret"
+          + "deployment"            = "mp-bd33e75c0330"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-bd33e75c0330"
+          + "project"               = "mediapulse-ingest"
+        }
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_storage_bucket.audit will be updated in-place
+  ~ resource "google_storage_bucket" "audit" {
+        id                          = "mp-bd33e75c0330-mp-ver-4228974a-audit"
+        name                        = "mp-bd33e75c0330-mp-ver-4228974a-audit"
+      ~ uniform_bucket_level_access = false -> true
+        # (17 unchanged attributes hidden)
+
+      + encryption {
+          + default_kms_key_name = "projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-audit-cmek"
+        }
+
+        # (2 unchanged blocks hidden)
+    }
+
+Plan: 0 to add, 12 to change, 0 to destroy.
+google_kms_crypto_key.database: Modifying... [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-database-cmek]
+google_kms_crypto_key.audit: Modifying... [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-audit-cmek]
+google_kms_crypto_key.projection: Modifying... [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-projection-cmek]
+google_secret_manager_secret.db_credentials: Modifying... [id=projects/mp-ver-4228974a/secrets/mp-bd33e75c0330-db-credentials]
+google_kms_crypto_key.messaging: Modifying... [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-messaging-cmek]
+google_kms_crypto_key.database: Modifications complete after 0s [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-database-cmek]
+google_kms_crypto_key.messaging: Modifications complete after 0s [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-messaging-cmek]
+google_kms_crypto_key.projection: Modifications complete after 0s [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-projection-cmek]
+google_kms_crypto_key.audit: Modifications complete after 0s [id=projects/mp-ver-4228974a/locations/us-west1/keyRings/mp-bd33e75c0330-keyring/cryptoKeys/mp-bd33e75c0330-audit-cmek]
+google_secret_manager_secret.db_credentials: Modifications complete after 0s [id=projects/mp-ver-4228974a/secrets/mp-bd33e75c0330-db-credentials]
+google_pubsub_topic.events: Modifying... [id=projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events]
+google_pubsub_topic.dead_letters: Modifying... [id=projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events-dlq]
+google_bigquery_dataset.audit_analytics: Modifying... [id=projects/mp-ver-4228974a/datasets/mp_bd33e75c0330_audit_analytics]
+google_storage_bucket.audit: Modifying... [id=mp-bd33e75c0330-mp-ver-4228974a-audit]
+google_pubsub_topic.events: Modifications complete after 0s [id=projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events]
+google_pubsub_topic.dead_letters: Modifications complete after 0s [id=projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events-dlq]
+google_bigquery_dataset.audit_analytics: Modifications complete after 0s [id=projects/mp-ver-4228974a/datasets/mp_bd33e75c0330_audit_analytics]
+google_storage_bucket.audit: Modifications complete after 0s [id=mp-bd33e75c0330-mp-ver-4228974a-audit]
+google_cloud_scheduler_job.relay: Modifying... [id=projects/mp-ver-4228974a/locations/us-west1/jobs/mp-bd33e75c0330-relay-schedule]
+google_cloud_scheduler_job.archiver: Modifying... [id=projects/mp-ver-4228974a/locations/us-west1/jobs/mp-bd33e75c0330-archiver-schedule]
+google_pubsub_subscription.processor_push: Modifying... [id=projects/mp-ver-4228974a/subscriptions/mp-bd33e75c0330-events-processor-sub]
+google_cloud_scheduler_job.relay: Modifications complete after 0s [id=projects/mp-ver-4228974a/locations/us-west1/jobs/mp-bd33e75c0330-relay-schedule]
+google_cloud_scheduler_job.archiver: Modifications complete after 0s [id=projects/mp-ver-4228974a/locations/us-west1/jobs/mp-bd33e75c0330-archiver-schedule]
+google_pubsub_subscription.processor_push: Modifications complete after 0s [id=projects/mp-ver-4228974a/subscriptions/mp-bd33e75c0330-events-processor-sub]
+
+Apply complete! Resources: 0 added, 12 changed, 0 destroyed.
+
+Outputs:
+
+cloud_run_service_name = "mp-bd33e75c0330-api"
+load_balancer_url = "http://gcp"
+manifest = <sensitive>
+pubsub_topic_id = "projects/mp-ver-4228974a/topics/mp-bd33e75c0330-events"
+MediaPulse Ingest is ready: http://gcp:4588

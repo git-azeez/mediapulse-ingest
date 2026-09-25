@@ -1,0 +1,6 @@
+{
+  "fault_media_id": "mp-02d296cb108a-outbox-7447",
+  "outbox_repaired": true,
+  "relay_function": "projects/mp-ver-b9e52a28/locations/us-east1/functions/mp-02d296cb108a-outbox-relay",
+  "relay_scheduler_job": "mp-02d296cb108a-relay-schedule"
+}

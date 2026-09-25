@@ -69,3 +69,4 @@ What each file needs to do:
 - `destroy.sh` tears down every GCP resource managed by this deployment (`resource_prefix`) without deleting or altering pre-existing baseline resources in the project. Time limit: 900 seconds; max combined stdout/stderr: 8 MiB.
 - `infra/` holds your `.tf` files. Every required cloud resource must be managed in `infra/terraform.tfstate`; creating scored resources out-of-band with CLI commands in shell scripts will fail verification.
 ' 2>&1 </dev/null | stdbuf -oL tee /logs/agent/opencode.txt
+Trial mediapulse-ingest__ugu2HZx cancelled

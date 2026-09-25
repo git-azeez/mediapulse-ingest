@@ -1,0 +1,6 @@
+{
+  "database_instance_after": "mp-02d296cb108a-events-pg",
+  "database_instance_before": "mp-02d296cb108a-events-pg",
+  "deploy_returncode": 0,
+  "managed_resource_count": 50
+}

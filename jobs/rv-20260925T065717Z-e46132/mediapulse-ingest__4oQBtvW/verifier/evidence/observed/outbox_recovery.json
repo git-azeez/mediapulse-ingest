@@ -1,0 +1,6 @@
+{
+  "fault_media_id": "mp-a4e69838c03f-outbox-8212",
+  "outbox_repaired": true,
+  "relay_function": "projects/mp-ver-d10db989/locations/us-central1/functions/mp-a4e69838c03f-outbox-relay",
+  "relay_scheduler_job": "mp-a4e69838c03f-relay-schedule"
+}

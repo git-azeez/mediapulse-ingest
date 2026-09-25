@@ -1,0 +1,13 @@
+{
+  "cap_reason": null,
+  "details": {
+    "exception": "SubmissionFailure",
+    "message": "expected 4 Cloud Logging bucket configs, found 1"
+  },
+  "duration_seconds": 0.017818457999965176,
+  "evidence": [],
+  "hard_gate": null,
+  "obligation_id": "declared.security_ops",
+  "outcome": "fail",
+  "summary": "expected 4 Cloud Logging bucket configs, found 1"
+}

@@ -1,0 +1,5 @@
+{
+  "exception": "SubmissionFailure",
+  "message": "required script is missing: deploy.sh",
+  "traceback": "Traceback (most recent call last):\n  File \"/tests/suite/tools/trial.py\", line 232, in _setup\n    check_submission(self.ctx)\n  File \"/tests/suite/tools/execution/submission.py\", line 66, in run\n    raise SubmissionFailure(f\"required script is missing: {script.name}\")\nsuite.tools.reporting.errors.SubmissionFailure: required script is missing: deploy.sh\n"
+}

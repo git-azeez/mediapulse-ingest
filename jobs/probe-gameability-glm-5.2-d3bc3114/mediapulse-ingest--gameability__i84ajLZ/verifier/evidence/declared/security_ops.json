@@ -1,0 +1,28 @@
+{
+  "kms_keys": [
+    "mp-02d296cb108a-audit-cmek",
+    "mp-02d296cb108a-database-cmek",
+    "mp-02d296cb108a-messaging-cmek",
+    "mp-02d296cb108a-projection-cmek"
+  ],
+  "log_buckets": [
+    "mp-02d296cb108a-api-logs",
+    "mp-02d296cb108a-archiver-logs",
+    "mp-02d296cb108a-processor-logs",
+    "mp-02d296cb108a-relay-logs"
+  ],
+  "service_accounts": [
+    "mp-02d296cb108a-api-sa@mp-ver-b9e52a28.iam.gserviceaccount.com",
+    "mp-02d296cb108a-arch-sa@mp-ver-b9e52a28.iam.gserviceaccount.com",
+    "mp-02d296cb108a-admin-sa@mp-ver-b9e52a28.iam.gserviceaccount.com",
+    "mp-02d296cb108a-read-sa@mp-ver-b9e52a28.iam.gserviceaccount.com",
+    "mp-02d296cb108a-write-sa@mp-ver-b9e52a28.iam.gserviceaccount.com",
+    "mp-02d296cb108a-proc-sa@mp-ver-b9e52a28.iam.gserviceaccount.com",
+    "mp-02d296cb108a-relay-sa@mp-ver-b9e52a28.iam.gserviceaccount.com",
+    "mp-02d296cb108a-sched-sa@mp-ver-b9e52a28.iam.gserviceaccount.com"
+  ],
+  "subnetworks": [
+    "mp-02d296cb108a-subnet-ingress",
+    "mp-02d296cb108a-subnet-private"
+  ]
+}

@@ -1,0 +1,2671 @@
+{
+  "outputs": {
+    "cloud_run_service_name": {
+      "expression": {
+        "references": [
+          "google_cloud_run_v2_service.api.name",
+          "google_cloud_run_v2_service.api"
+        ]
+      }
+    },
+    "load_balancer_url": {
+      "description": "External HTTP Application Load Balancer entry point.",
+      "expression": {
+        "references": [
+          "google_compute_global_address.api_ip.address",
+          "google_compute_global_address.api_ip"
+        ]
+      }
+    },
+    "manifest": {
+      "description": "Machine-readable MediaPulse Ingest GCP deployment manifest written to manifest.json by deploy.sh.",
+      "expression": {
+        "references": [
+          "var.prefix",
+          "var.gcp_project_id",
+          "var.gcp_region",
+          "var.gcp_endpoint_url",
+          "var.api_image",
+          "var.api_image_id",
+          "var.processor_image",
+          "var.processor_image_id",
+          "var.relay_image",
+          "var.relay_image_id",
+          "var.archiver_image",
+          "var.archiver_image_id",
+          "google_compute_global_address.api_ip.address",
+          "google_compute_global_address.api_ip",
+          "google_compute_global_address.api_ip.address",
+          "google_compute_global_address.api_ip",
+          "var.gcp_endpoint_url",
+          "google_compute_global_forwarding_rule.http.id",
+          "google_compute_global_forwarding_rule.http",
+          "google_compute_backend_service.api.id",
+          "google_compute_backend_service.api",
+          "google_compute_region_network_endpoint_group.api_serverless_neg.id",
+          "google_compute_region_network_endpoint_group.api_serverless_neg",
+          "google_cloud_run_v2_service.api.id",
+          "google_cloud_run_v2_service.api",
+          "google_cloud_run_v2_service.api.name",
+          "google_cloud_run_v2_service.api",
+          "google_cloud_run_v2_service.api.uri",
+          "google_cloud_run_v2_service.api",
+          "local.api_min_instances",
+          "local.api_max_instances",
+          "google_sql_database_instance.events.name",
+          "google_sql_database_instance.events",
+          "local.database_host",
+          "local.database_port",
+          "google_sql_database.mediapulse.name",
+          "google_sql_database.mediapulse",
+          "google_secret_manager_secret.db_credentials.secret_id",
+          "google_secret_manager_secret.db_credentials",
+          "google_pubsub_topic.events.id",
+          "google_pubsub_topic.events",
+          "google_pubsub_topic.events.name",
+          "google_pubsub_topic.events",
+          "google_pubsub_subscription.processor_push.id",
+          "google_pubsub_subscription.processor_push",
+          "google_pubsub_topic.dead_letters.id",
+          "google_pubsub_topic.dead_letters",
+          "google_pubsub_subscription.dead_letters.id",
+          "google_pubsub_subscription.dead_letters",
+          "google_cloud_tasks_queue.projection_rebuild.name",
+          "google_cloud_tasks_queue.projection_rebuild",
+          "google_firestore_database.projections.name",
+          "google_firestore_database.projections",
+          "google_bigquery_dataset.audit_analytics.dataset_id",
+          "google_bigquery_dataset.audit_analytics",
+          "var.prefix",
+          "local.datastore_emulator_host",
+          "google_identity_platform_tenant.mediapulse.name",
+          "google_identity_platform_tenant.mediapulse",
+          "local.auth_resource_server",
+          "local.auth_issuer",
+          "local.auth_jwks_url",
+          "var.gcp_endpoint_url",
+          "google_service_account.client_read.email",
+          "google_service_account.client_read",
+          "google_service_account.client_write.email",
+          "google_service_account.client_write",
+          "google_service_account.client_admin.email",
+          "google_service_account.client_admin",
+          "google_service_account.client_read.email",
+          "google_service_account.client_read",
+          "google_service_account.client_write.email",
+          "google_service_account.client_write",
+          "google_service_account.client_admin.email",
+          "google_service_account.client_admin",
+          "google_service_account_key.client_read.private_key",
+          "google_service_account_key.client_read",
+          "google_service_account_key.client_write.private_key",
+          "google_service_account_key.client_write",
+          "google_service_account_key.client_admin.private_key",
+          "google_service_account_key.client_admin",
+          "google_cloudfunctions2_function.processor.id",
+          "google_cloudfunctions2_function.processor",
+          "google_cloudfunctions2_function.relay.id",
+          "google_cloudfunctions2_function.relay",
+          "google_cloudfunctions2_function.archiver.id",
+          "google_cloudfunctions2_function.archiver",
+          "google_cloud_scheduler_job.relay.name",
+          "google_cloud_scheduler_job.relay",
+          "google_cloud_scheduler_job.archiver.name",
+          "google_cloud_scheduler_job.archiver",
+          "google_storage_bucket.audit.name",
+          "google_storage_bucket.audit",
+          "google_compute_network.ingest.id",
+          "google_compute_network.ingest",
+          "google_compute_subnetwork.ingress.id",
+          "google_compute_subnetwork.ingress",
+          "google_compute_subnetwork.private.id",
+          "google_compute_subnetwork.private",
+          "google_service_account.api.email",
+          "google_service_account.api",
+          "google_service_account.processor.email",
+          "google_service_account.processor",
+          "google_service_account.relay.email",
+          "google_service_account.relay",
+          "google_service_account.archiver.email",
+          "google_service_account.archiver",
+          "google_service_account.scheduler.email",
+          "google_service_account.scheduler",
+          "google_kms_key_ring.mediapulse.id",
+          "google_kms_key_ring.mediapulse",
+          "google_kms_crypto_key.database.id",
+          "google_kms_crypto_key.database",
+          "google_kms_crypto_key.messaging.id",
+          "google_kms_crypto_key.messaging",
+          "google_kms_crypto_key.projection.id",
+          "google_kms_crypto_key.projection",
+          "google_kms_crypto_key.audit.id",
+          "google_kms_crypto_key.audit",
+          "google_logging_project_bucket_config.api.bucket_id",
+          "google_logging_project_bucket_config.api",
+          "google_logging_project_bucket_config.processor.bucket_id",
+          "google_logging_project_bucket_config.processor",
+          "google_logging_project_bucket_config.relay.bucket_id",
+          "google_logging_project_bucket_config.relay",
+          "google_logging_project_bucket_config.archiver.bucket_id",
+          "google_logging_project_bucket_config.archiver"
+        ]
+      },
+      "sensitive": true
+    },
+    "pubsub_topic_id": {
+      "expression": {
+        "references": [
+          "google_pubsub_topic.events.id",
+          "google_pubsub_topic.events"
+        ]
+      }
+    }
+  },
+  "resources": [
+    {
+      "address": "google_bigquery_dataset.audit_analytics",
+      "expressions": {
+        "dataset_id": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "default_encryption_configuration": [
+          {
+            "kms_key_name": {
+              "references": [
+                "google_kms_crypto_key.audit.id",
+                "google_kms_crypto_key.audit"
+              ]
+            }
+          }
+        ],
+        "delete_contents_on_destroy": {
+          "constant_value": true
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "audit_analytics",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_bigquery_dataset"
+    },
+    {
+      "address": "google_bigquery_table.archived_events",
+      "expressions": {
+        "dataset_id": {
+          "references": [
+            "google_bigquery_dataset.audit_analytics.dataset_id",
+            "google_bigquery_dataset.audit_analytics"
+          ]
+        },
+        "deletion_protection": {
+          "constant_value": false
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "table_id": {
+          "constant_value": "archived_events"
+        }
+      },
+      "mode": "managed",
+      "name": "archived_events",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_bigquery_table"
+    },
+    {
+      "address": "google_cloud_run_v2_service.api",
+      "expressions": {
+        "deletion_protection": {
+          "constant_value": false
+        },
+        "ingress": {
+          "constant_value": "INGRESS_TRAFFIC_ALL"
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "template": [
+          {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": {
+                      "constant_value": "BIND_ADDR"
+                    },
+                    "value": {
+                      "constant_value": "0.0.0.0:8080"
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "GCP_PROJECT_ID"
+                    },
+                    "value": {
+                      "references": [
+                        "var.gcp_project_id"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "GCP_REGION"
+                    },
+                    "value": {
+                      "references": [
+                        "var.gcp_region"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "GCP_ENDPOINT_URL"
+                    },
+                    "value": {
+                      "references": [
+                        "var.gcp_endpoint_url"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "PUBSUB_EMULATOR_HOST"
+                    },
+                    "value": {
+                      "references": [
+                        "local.pubsub_emulator_host"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "FIRESTORE_EMULATOR_HOST"
+                    },
+                    "value": {
+                      "references": [
+                        "local.firestore_emulator_host"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "DATASTORE_EMULATOR_HOST"
+                    },
+                    "value": {
+                      "references": [
+                        "local.datastore_emulator_host"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "STORAGE_EMULATOR_HOST"
+                    },
+                    "value": {
+                      "references": [
+                        "local.storage_emulator_host"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "DATABASE_URL"
+                    },
+                    "value": {
+                      "references": [
+                        "local.database_url"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "PUBSUB_TOPIC"
+                    },
+                    "value": {
+                      "references": [
+                        "google_pubsub_topic.events.name",
+                        "google_pubsub_topic.events"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "FIRESTORE_DATABASE"
+                    },
+                    "value": {
+                      "references": [
+                        "google_firestore_database.projections.name",
+                        "google_firestore_database.projections"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "DATASTORE_NAMESPACE"
+                    },
+                    "value": {
+                      "references": [
+                        "var.prefix"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "AUTH_ISSUER"
+                    },
+                    "value": {
+                      "references": [
+                        "local.auth_issuer"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "AUTH_AUDIENCES"
+                    },
+                    "value": {
+                      "references": [
+                        "local.auth_audiences"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "AUTH_JWKS_URL"
+                    },
+                    "value": {
+                      "references": [
+                        "local.auth_jwks_url"
+                      ]
+                    }
+                  },
+                  {
+                    "name": {
+                      "constant_value": "RUST_LOG"
+                    },
+                    "value": {
+                      "constant_value": "info"
+                    }
+                  }
+                ],
+                "image": {
+                  "references": [
+                    "var.api_image"
+                  ]
+                },
+                "liveness_probe": [
+                  {
+                    "failure_threshold": {
+                      "constant_value": 3
+                    },
+                    "http_get": [
+                      {
+                        "path": {
+                          "constant_value": "/health/ready"
+                        },
+                        "port": {
+                          "constant_value": 8080
+                        }
+                      }
+                    ],
+                    "period_seconds": {
+                      "constant_value": 10
+                    },
+                    "timeout_seconds": {
+                      "constant_value": 3
+                    }
+                  }
+                ],
+                "name": {
+                  "constant_value": "api"
+                },
+                "ports": [
+                  {
+                    "container_port": {
+                      "constant_value": 8080
+                    },
+                    "name": {
+                      "constant_value": "http1"
+                    }
+                  }
+                ],
+                "startup_probe": [
+                  {
+                    "failure_threshold": {
+                      "constant_value": 6
+                    },
+                    "http_get": [
+                      {
+                        "path": {
+                          "constant_value": "/health/ready"
+                        },
+                        "port": {
+                          "constant_value": 8080
+                        }
+                      }
+                    ],
+                    "initial_delay_seconds": {
+                      "constant_value": 2
+                    },
+                    "period_seconds": {
+                      "constant_value": 5
+                    },
+                    "timeout_seconds": {
+                      "constant_value": 3
+                    }
+                  }
+                ]
+              }
+            ],
+            "scaling": [
+              {
+                "max_instance_count": {
+                  "references": [
+                    "local.api_max_instances"
+                  ]
+                },
+                "min_instance_count": {
+                  "references": [
+                    "local.api_min_instances"
+                  ]
+                }
+              }
+            ],
+            "service_account": {
+              "references": [
+                "google_service_account.api.email",
+                "google_service_account.api"
+              ]
+            }
+          }
+        ]
+      },
+      "mode": "managed",
+      "name": "api",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_cloud_run_v2_service"
+    },
+    {
+      "address": "google_cloud_scheduler_job.archiver",
+      "expressions": {
+        "attempt_deadline": {
+          "constant_value": "60s"
+        },
+        "description": {
+          "constant_value": "Triggers Audit Archiver function every 5 minutes to export published events to GCS"
+        },
+        "http_target": [
+          {
+            "body": {},
+            "headers": {
+              "constant_value": {
+                "Content-Type": "application/json"
+              }
+            },
+            "http_method": {
+              "constant_value": "POST"
+            },
+            "oidc_token": [
+              {
+                "audience": {
+                  "references": [
+                    "google_cloudfunctions2_function.archiver.url",
+                    "google_cloudfunctions2_function.archiver"
+                  ]
+                },
+                "service_account_email": {
+                  "references": [
+                    "google_service_account.scheduler.email",
+                    "google_service_account.scheduler"
+                  ]
+                }
+              }
+            ],
+            "uri": {
+              "references": [
+                "google_cloudfunctions2_function.archiver.url",
+                "google_cloudfunctions2_function.archiver"
+              ]
+            }
+          }
+        ],
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "region": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "retry_config": [
+          {
+            "max_backoff_duration": {
+              "constant_value": "30s"
+            },
+            "min_backoff_duration": {
+              "constant_value": "5s"
+            },
+            "retry_count": {
+              "constant_value": 2
+            }
+          }
+        ],
+        "schedule": {
+          "constant_value": "*/5 * * * *"
+        },
+        "time_zone": {
+          "constant_value": "Etc/UTC"
+        }
+      },
+      "mode": "managed",
+      "name": "archiver",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_cloud_scheduler_job"
+    },
+    {
+      "address": "google_cloud_scheduler_job.relay",
+      "expressions": {
+        "attempt_deadline": {
+          "constant_value": "30s"
+        },
+        "description": {
+          "constant_value": "Triggers Outbox Relay function every minute to flush unpublished PostgreSQL outbox events"
+        },
+        "http_target": [
+          {
+            "body": {},
+            "headers": {
+              "constant_value": {
+                "Content-Type": "application/json"
+              }
+            },
+            "http_method": {
+              "constant_value": "POST"
+            },
+            "oidc_token": [
+              {
+                "audience": {
+                  "references": [
+                    "google_cloudfunctions2_function.relay.url",
+                    "google_cloudfunctions2_function.relay"
+                  ]
+                },
+                "service_account_email": {
+                  "references": [
+                    "google_service_account.scheduler.email",
+                    "google_service_account.scheduler"
+                  ]
+                }
+              }
+            ],
+            "uri": {
+              "references": [
+                "google_cloudfunctions2_function.relay.url",
+                "google_cloudfunctions2_function.relay"
+              ]
+            }
+          }
+        ],
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "region": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "retry_config": [
+          {
+            "max_backoff_duration": {
+              "constant_value": "15s"
+            },
+            "min_backoff_duration": {
+              "constant_value": "2s"
+            },
+            "retry_count": {
+              "constant_value": 2
+            }
+          }
+        ],
+        "schedule": {
+          "constant_value": "* * * * *"
+        },
+        "time_zone": {
+          "constant_value": "Etc/UTC"
+        }
+      },
+      "mode": "managed",
+      "name": "relay",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_cloud_scheduler_job"
+    },
+    {
+      "address": "google_cloud_tasks_queue.projection_rebuild",
+      "expressions": {
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "rate_limits": [
+          {
+            "max_concurrent_dispatches": {
+              "constant_value": 10
+            },
+            "max_dispatches_per_second": {
+              "constant_value": 25
+            }
+          }
+        ],
+        "retry_config": [
+          {
+            "max_attempts": {
+              "constant_value": 5
+            },
+            "max_backoff": {
+              "constant_value": "15s"
+            },
+            "min_backoff": {
+              "constant_value": "1s"
+            }
+          }
+        ]
+      },
+      "mode": "managed",
+      "name": "projection_rebuild",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_cloud_tasks_queue"
+    },
+    {
+      "address": "google_cloudfunctions2_function.archiver",
+      "expressions": {
+        "description": {
+          "constant_value": "Exports published PostgreSQL media events into private GCS NDJSON audit batches"
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "service_config": [
+          {
+            "all_traffic_on_latest_revision": {
+              "constant_value": true
+            },
+            "available_memory": {
+              "constant_value": "512Mi"
+            },
+            "environment_variables": {
+              "references": [
+                "var.archiver_image",
+                "var.gcp_project_id",
+                "var.gcp_region",
+                "var.gcp_endpoint_url",
+                "local.storage_emulator_host",
+                "local.database_url",
+                "google_storage_bucket.audit.name",
+                "google_storage_bucket.audit"
+              ]
+            },
+            "ingress_settings": {
+              "constant_value": "ALLOW_INTERNAL_ONLY"
+            },
+            "max_instance_count": {
+              "constant_value": 2
+            },
+            "min_instance_count": {
+              "constant_value": 0
+            },
+            "service_account_email": {
+              "references": [
+                "google_service_account.archiver.email",
+                "google_service_account.archiver"
+              ]
+            },
+            "timeout_seconds": {
+              "constant_value": 60
+            }
+          }
+        ]
+      },
+      "mode": "managed",
+      "name": "archiver",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_cloudfunctions2_function"
+    },
+    {
+      "address": "google_cloudfunctions2_function.processor",
+      "expressions": {
+        "description": {
+          "constant_value": "Projects Pub/Sub media events into Firestore and invalidates Datastore entity cache"
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "service_config": [
+          {
+            "all_traffic_on_latest_revision": {
+              "constant_value": true
+            },
+            "available_memory": {
+              "constant_value": "512Mi"
+            },
+            "environment_variables": {
+              "references": [
+                "var.processor_image",
+                "var.gcp_project_id",
+                "var.gcp_region",
+                "var.gcp_endpoint_url",
+                "local.pubsub_emulator_host",
+                "local.firestore_emulator_host",
+                "local.datastore_emulator_host",
+                "google_firestore_database.projections.name",
+                "google_firestore_database.projections",
+                "var.prefix"
+              ]
+            },
+            "ingress_settings": {
+              "constant_value": "ALLOW_INTERNAL_ONLY"
+            },
+            "max_instance_count": {
+              "constant_value": 4
+            },
+            "min_instance_count": {
+              "constant_value": 1
+            },
+            "service_account_email": {
+              "references": [
+                "google_service_account.processor.email",
+                "google_service_account.processor"
+              ]
+            },
+            "timeout_seconds": {
+              "constant_value": 30
+            }
+          }
+        ]
+      },
+      "mode": "managed",
+      "name": "processor",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_cloudfunctions2_function"
+    },
+    {
+      "address": "google_cloudfunctions2_function.relay",
+      "expressions": {
+        "description": {
+          "constant_value": "Reconciles unpublished outbox rows from Cloud SQL PostgreSQL to Cloud Pub/Sub"
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "service_config": [
+          {
+            "all_traffic_on_latest_revision": {
+              "constant_value": true
+            },
+            "available_memory": {
+              "constant_value": "512Mi"
+            },
+            "environment_variables": {
+              "references": [
+                "var.relay_image",
+                "var.gcp_project_id",
+                "var.gcp_region",
+                "var.gcp_endpoint_url",
+                "local.pubsub_emulator_host",
+                "local.database_url",
+                "google_pubsub_topic.events.name",
+                "google_pubsub_topic.events"
+              ]
+            },
+            "ingress_settings": {
+              "constant_value": "ALLOW_INTERNAL_ONLY"
+            },
+            "max_instance_count": {
+              "constant_value": 2
+            },
+            "min_instance_count": {
+              "constant_value": 0
+            },
+            "service_account_email": {
+              "references": [
+                "google_service_account.relay.email",
+                "google_service_account.relay"
+              ]
+            },
+            "timeout_seconds": {
+              "constant_value": 30
+            }
+          }
+        ]
+      },
+      "mode": "managed",
+      "name": "relay",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_cloudfunctions2_function"
+    },
+    {
+      "address": "google_compute_backend_service.api",
+      "expressions": {
+        "backend": [
+          {
+            "group": {
+              "references": [
+                "google_compute_region_network_endpoint_group.api_serverless_neg.id",
+                "google_compute_region_network_endpoint_group.api_serverless_neg"
+              ]
+            }
+          }
+        ],
+        "load_balancing_scheme": {
+          "constant_value": "EXTERNAL_MANAGED"
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "port_name": {
+          "constant_value": "http"
+        },
+        "protocol": {
+          "constant_value": "HTTP"
+        },
+        "timeout_sec": {
+          "constant_value": 30
+        }
+      },
+      "mode": "managed",
+      "name": "api",
+      "provider_config_key": "google",
+      "schema_version": 1,
+      "type": "google_compute_backend_service"
+    },
+    {
+      "address": "google_compute_firewall.allow_lb_to_api",
+      "expressions": {
+        "allow": [
+          {
+            "ports": {
+              "constant_value": [
+                "8080"
+              ]
+            },
+            "protocol": {
+              "constant_value": "tcp"
+            }
+          }
+        ],
+        "direction": {
+          "constant_value": "INGRESS"
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "network": {
+          "references": [
+            "google_compute_network.ingest.name",
+            "google_compute_network.ingest"
+          ]
+        },
+        "priority": {
+          "constant_value": 1000
+        },
+        "source_ranges": {
+          "references": [
+            "local.ingress_subnet_cidr"
+          ]
+        },
+        "target_tags": {
+          "references": [
+            "var.prefix"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "allow_lb_to_api",
+      "provider_config_key": "google",
+      "schema_version": 1,
+      "type": "google_compute_firewall"
+    },
+    {
+      "address": "google_compute_firewall.allow_workloads_to_postgres",
+      "expressions": {
+        "allow": [
+          {
+            "ports": {
+              "constant_value": [
+                "5432"
+              ]
+            },
+            "protocol": {
+              "constant_value": "tcp"
+            }
+          }
+        ],
+        "direction": {
+          "constant_value": "INGRESS"
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "network": {
+          "references": [
+            "google_compute_network.ingest.name",
+            "google_compute_network.ingest"
+          ]
+        },
+        "priority": {
+          "constant_value": 1010
+        },
+        "source_ranges": {
+          "references": [
+            "local.private_subnet_cidr"
+          ]
+        },
+        "target_tags": {
+          "references": [
+            "var.prefix"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "allow_workloads_to_postgres",
+      "provider_config_key": "google",
+      "schema_version": 1,
+      "type": "google_compute_firewall"
+    },
+    {
+      "address": "google_compute_firewall.deny_external_ingress",
+      "expressions": {
+        "deny": [
+          {
+            "protocol": {
+              "constant_value": "all"
+            }
+          }
+        ],
+        "direction": {
+          "constant_value": "INGRESS"
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "network": {
+          "references": [
+            "google_compute_network.ingest.name",
+            "google_compute_network.ingest"
+          ]
+        },
+        "priority": {
+          "constant_value": 65500
+        },
+        "source_ranges": {
+          "constant_value": [
+            "0.0.0.0/0"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "deny_external_ingress",
+      "provider_config_key": "google",
+      "schema_version": 1,
+      "type": "google_compute_firewall"
+    },
+    {
+      "address": "google_compute_global_address.api_ip",
+      "expressions": {
+        "address_type": {
+          "constant_value": "EXTERNAL"
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "api_ip",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_compute_global_address"
+    },
+    {
+      "address": "google_compute_global_forwarding_rule.http",
+      "expressions": {
+        "ip_address": {
+          "references": [
+            "google_compute_global_address.api_ip.id",
+            "google_compute_global_address.api_ip"
+          ]
+        },
+        "ip_protocol": {
+          "constant_value": "TCP"
+        },
+        "load_balancing_scheme": {
+          "constant_value": "EXTERNAL_MANAGED"
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "port_range": {
+          "constant_value": "80"
+        },
+        "target": {
+          "references": [
+            "google_compute_target_http_proxy.api.id",
+            "google_compute_target_http_proxy.api"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "http",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_compute_global_forwarding_rule"
+    },
+    {
+      "address": "google_compute_network.ingest",
+      "expressions": {
+        "auto_create_subnetworks": {
+          "constant_value": false
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "routing_mode": {
+          "constant_value": "REGIONAL"
+        }
+      },
+      "mode": "managed",
+      "name": "ingest",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_compute_network"
+    },
+    {
+      "address": "google_compute_region_network_endpoint_group.api_serverless_neg",
+      "expressions": {
+        "cloud_run": [
+          {
+            "service": {
+              "references": [
+                "google_cloud_run_v2_service.api.name",
+                "google_cloud_run_v2_service.api"
+              ]
+            }
+          }
+        ],
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "network_endpoint_type": {
+          "constant_value": "SERVERLESS"
+        },
+        "region": {
+          "references": [
+            "var.gcp_region"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "api_serverless_neg",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_compute_region_network_endpoint_group"
+    },
+    {
+      "address": "google_compute_subnetwork.ingress",
+      "expressions": {
+        "ip_cidr_range": {
+          "references": [
+            "local.ingress_subnet_cidr"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "network": {
+          "references": [
+            "google_compute_network.ingest.id",
+            "google_compute_network.ingest"
+          ]
+        },
+        "region": {
+          "references": [
+            "var.gcp_region"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "ingress",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_compute_subnetwork"
+    },
+    {
+      "address": "google_compute_subnetwork.private",
+      "expressions": {
+        "ip_cidr_range": {
+          "references": [
+            "local.private_subnet_cidr"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "network": {
+          "references": [
+            "google_compute_network.ingest.id",
+            "google_compute_network.ingest"
+          ]
+        },
+        "private_ip_google_access": {
+          "constant_value": true
+        },
+        "region": {
+          "references": [
+            "var.gcp_region"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "private",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_compute_subnetwork"
+    },
+    {
+      "address": "google_compute_target_http_proxy.api",
+      "expressions": {
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "url_map": {
+          "references": [
+            "google_compute_url_map.api.id",
+            "google_compute_url_map.api"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "api",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_compute_target_http_proxy"
+    },
+    {
+      "address": "google_compute_url_map.api",
+      "expressions": {
+        "default_service": {
+          "references": [
+            "google_compute_backend_service.api.id",
+            "google_compute_backend_service.api"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "api",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_compute_url_map"
+    },
+    {
+      "address": "google_firestore_database.projections",
+      "expressions": {
+        "cmek_config": [
+          {
+            "kms_key_name": {
+              "references": [
+                "google_kms_crypto_key.projection.id",
+                "google_kms_crypto_key.projection"
+              ]
+            }
+          }
+        ],
+        "concurrency_mode": {
+          "constant_value": "OPTIMISTIC"
+        },
+        "delete_protection_state": {
+          "constant_value": "DELETE_PROTECTION_DISABLED"
+        },
+        "deletion_policy": {
+          "constant_value": "DELETE"
+        },
+        "location_id": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "point_in_time_recovery_enablement": {
+          "constant_value": "POINT_IN_TIME_RECOVERY_ENABLED"
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        },
+        "type": {
+          "constant_value": "FIRESTORE_NATIVE"
+        }
+      },
+      "mode": "managed",
+      "name": "projections",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_firestore_database"
+    },
+    {
+      "address": "google_firestore_index.media_cache",
+      "expressions": {
+        "collection": {
+          "constant_value": "MediaCache"
+        },
+        "database": {
+          "references": [
+            "google_firestore_database.projections.name",
+            "google_firestore_database.projections"
+          ]
+        },
+        "fields": [
+          {
+            "field_path": {
+              "constant_value": "media_id"
+            },
+            "order": {
+              "constant_value": "ASCENDING"
+            }
+          },
+          {
+            "field_path": {
+              "constant_value": "expires_at"
+            },
+            "order": {
+              "constant_value": "ASCENDING"
+            }
+          }
+        ],
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "media_cache",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_firestore_index"
+    },
+    {
+      "address": "google_identity_platform_tenant.mediapulse",
+      "expressions": {
+        "allow_password_signup": {
+          "constant_value": true
+        },
+        "display_name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "enable_email_link_signin": {
+          "constant_value": false
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "mediapulse",
+      "provider_config_key": "google-beta",
+      "schema_version": 0,
+      "type": "google_identity_platform_tenant"
+    },
+    {
+      "address": "google_kms_crypto_key.audit",
+      "expressions": {
+        "key_ring": {
+          "references": [
+            "google_kms_key_ring.mediapulse.id",
+            "google_kms_key_ring.mediapulse"
+          ]
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "purpose": {
+          "constant_value": "ENCRYPT_DECRYPT"
+        },
+        "rotation_period": {
+          "constant_value": "7776000s"
+        }
+      },
+      "mode": "managed",
+      "name": "audit",
+      "provider_config_key": "google",
+      "schema_version": 1,
+      "type": "google_kms_crypto_key"
+    },
+    {
+      "address": "google_kms_crypto_key.database",
+      "expressions": {
+        "key_ring": {
+          "references": [
+            "google_kms_key_ring.mediapulse.id",
+            "google_kms_key_ring.mediapulse"
+          ]
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "purpose": {
+          "constant_value": "ENCRYPT_DECRYPT"
+        },
+        "rotation_period": {
+          "constant_value": "7776000s"
+        }
+      },
+      "mode": "managed",
+      "name": "database",
+      "provider_config_key": "google",
+      "schema_version": 1,
+      "type": "google_kms_crypto_key"
+    },
+    {
+      "address": "google_kms_crypto_key.messaging",
+      "expressions": {
+        "key_ring": {
+          "references": [
+            "google_kms_key_ring.mediapulse.id",
+            "google_kms_key_ring.mediapulse"
+          ]
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "purpose": {
+          "constant_value": "ENCRYPT_DECRYPT"
+        },
+        "rotation_period": {
+          "constant_value": "7776000s"
+        }
+      },
+      "mode": "managed",
+      "name": "messaging",
+      "provider_config_key": "google",
+      "schema_version": 1,
+      "type": "google_kms_crypto_key"
+    },
+    {
+      "address": "google_kms_crypto_key.projection",
+      "expressions": {
+        "key_ring": {
+          "references": [
+            "google_kms_key_ring.mediapulse.id",
+            "google_kms_key_ring.mediapulse"
+          ]
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "purpose": {
+          "constant_value": "ENCRYPT_DECRYPT"
+        },
+        "rotation_period": {
+          "constant_value": "7776000s"
+        }
+      },
+      "mode": "managed",
+      "name": "projection",
+      "provider_config_key": "google",
+      "schema_version": 1,
+      "type": "google_kms_crypto_key"
+    },
+    {
+      "address": "google_kms_key_ring.mediapulse",
+      "expressions": {
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "mediapulse",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_kms_key_ring"
+    },
+    {
+      "address": "google_logging_project_bucket_config.api",
+      "expressions": {
+        "bucket_id": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "description": {
+          "constant_value": "Cloud Run API structured request and audit logs"
+        },
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        },
+        "retention_days": {
+          "constant_value": 14
+        }
+      },
+      "mode": "managed",
+      "name": "api",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_logging_project_bucket_config"
+    },
+    {
+      "address": "google_logging_project_bucket_config.archiver",
+      "expressions": {
+        "bucket_id": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "description": {
+          "constant_value": "Cloud Functions audit archiver logs"
+        },
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        },
+        "retention_days": {
+          "constant_value": 14
+        }
+      },
+      "mode": "managed",
+      "name": "archiver",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_logging_project_bucket_config"
+    },
+    {
+      "address": "google_logging_project_bucket_config.processor",
+      "expressions": {
+        "bucket_id": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "description": {
+          "constant_value": "Cloud Functions event processor execution logs"
+        },
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        },
+        "retention_days": {
+          "constant_value": 14
+        }
+      },
+      "mode": "managed",
+      "name": "processor",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_logging_project_bucket_config"
+    },
+    {
+      "address": "google_logging_project_bucket_config.relay",
+      "expressions": {
+        "bucket_id": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "description": {
+          "constant_value": "Cloud Functions outbox relay logs"
+        },
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        },
+        "retention_days": {
+          "constant_value": 14
+        }
+      },
+      "mode": "managed",
+      "name": "relay",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_logging_project_bucket_config"
+    },
+    {
+      "address": "google_logging_project_sink.api",
+      "expressions": {
+        "destination": {
+          "references": [
+            "var.gcp_project_id",
+            "var.gcp_region",
+            "google_logging_project_bucket_config.api.bucket_id",
+            "google_logging_project_bucket_config.api"
+          ]
+        },
+        "filter": {
+          "references": [
+            "google_cloud_run_v2_service.api.name",
+            "google_cloud_run_v2_service.api"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "api",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_logging_project_sink"
+    },
+    {
+      "address": "google_monitoring_notification_channel.ops_email",
+      "expressions": {
+        "display_name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "labels": {
+          "constant_value": {
+            "email_address": "ops@mediapulse.invalid"
+          }
+        },
+        "type": {
+          "constant_value": "email"
+        }
+      },
+      "mode": "managed",
+      "name": "ops_email",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_monitoring_notification_channel"
+    },
+    {
+      "address": "google_project_iam_member.api_cloudsql_client",
+      "expressions": {
+        "member": {
+          "references": [
+            "google_service_account.api.email",
+            "google_service_account.api"
+          ]
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        },
+        "role": {
+          "constant_value": "roles/cloudsql.client"
+        }
+      },
+      "mode": "managed",
+      "name": "api_cloudsql_client",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_project_iam_member"
+    },
+    {
+      "address": "google_project_iam_member.api_datastore_viewer",
+      "expressions": {
+        "member": {
+          "references": [
+            "google_service_account.api.email",
+            "google_service_account.api"
+          ]
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        },
+        "role": {
+          "constant_value": "roles/datastore.viewer"
+        }
+      },
+      "mode": "managed",
+      "name": "api_datastore_viewer",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_project_iam_member"
+    },
+    {
+      "address": "google_project_iam_member.archiver_cloudsql_client",
+      "expressions": {
+        "member": {
+          "references": [
+            "google_service_account.archiver.email",
+            "google_service_account.archiver"
+          ]
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        },
+        "role": {
+          "constant_value": "roles/cloudsql.client"
+        }
+      },
+      "mode": "managed",
+      "name": "archiver_cloudsql_client",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_project_iam_member"
+    },
+    {
+      "address": "google_project_iam_member.processor_datastore_user",
+      "expressions": {
+        "member": {
+          "references": [
+            "google_service_account.processor.email",
+            "google_service_account.processor"
+          ]
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        },
+        "role": {
+          "constant_value": "roles/datastore.user"
+        }
+      },
+      "mode": "managed",
+      "name": "processor_datastore_user",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_project_iam_member"
+    },
+    {
+      "address": "google_project_iam_member.relay_cloudsql_client",
+      "expressions": {
+        "member": {
+          "references": [
+            "google_service_account.relay.email",
+            "google_service_account.relay"
+          ]
+        },
+        "project": {
+          "references": [
+            "var.gcp_project_id"
+          ]
+        },
+        "role": {
+          "constant_value": "roles/cloudsql.client"
+        }
+      },
+      "mode": "managed",
+      "name": "relay_cloudsql_client",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_project_iam_member"
+    },
+    {
+      "address": "google_pubsub_subscription.dead_letters",
+      "expressions": {
+        "ack_deadline_seconds": {
+          "constant_value": 60
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "message_retention_duration": {
+          "constant_value": "1209600s"
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "retain_acked_messages": {
+          "constant_value": false
+        },
+        "topic": {
+          "references": [
+            "google_pubsub_topic.dead_letters.name",
+            "google_pubsub_topic.dead_letters"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "dead_letters",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_pubsub_subscription"
+    },
+    {
+      "address": "google_pubsub_subscription.processor_push",
+      "expressions": {
+        "ack_deadline_seconds": {
+          "constant_value": 20
+        },
+        "dead_letter_policy": [
+          {
+            "dead_letter_topic": {
+              "references": [
+                "google_pubsub_topic.dead_letters.id",
+                "google_pubsub_topic.dead_letters"
+              ]
+            },
+            "max_delivery_attempts": {
+              "constant_value": 5
+            }
+          }
+        ],
+        "enable_message_ordering": {
+          "constant_value": true
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "message_retention_duration": {
+          "constant_value": "345600s"
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "push_config": [
+          {
+            "oidc_token": [
+              {
+                "service_account_email": {
+                  "references": [
+                    "google_service_account.pubsub_invoker.email",
+                    "google_service_account.pubsub_invoker"
+                  ]
+                }
+              }
+            ],
+            "push_endpoint": {
+              "references": [
+                "google_cloudfunctions2_function.processor.url",
+                "google_cloudfunctions2_function.processor"
+              ]
+            }
+          }
+        ],
+        "retry_policy": [
+          {
+            "maximum_backoff": {
+              "constant_value": "30s"
+            },
+            "minimum_backoff": {
+              "constant_value": "2s"
+            }
+          }
+        ],
+        "topic": {
+          "references": [
+            "google_pubsub_topic.events.name",
+            "google_pubsub_topic.events"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "processor_push",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_pubsub_subscription"
+    },
+    {
+      "address": "google_pubsub_subscription_iam_member.processor_consume_events",
+      "expressions": {
+        "member": {
+          "references": [
+            "google_service_account.processor.email",
+            "google_service_account.processor"
+          ]
+        },
+        "role": {
+          "constant_value": "roles/pubsub.subscriber"
+        },
+        "subscription": {
+          "references": [
+            "google_pubsub_subscription.processor_push.name",
+            "google_pubsub_subscription.processor_push"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "processor_consume_events",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_pubsub_subscription_iam_member"
+    },
+    {
+      "address": "google_pubsub_topic.dead_letters",
+      "expressions": {
+        "kms_key_name": {
+          "references": [
+            "google_kms_crypto_key.messaging.id",
+            "google_kms_crypto_key.messaging"
+          ]
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "message_retention_duration": {
+          "constant_value": "1209600s"
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "dead_letters",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_pubsub_topic"
+    },
+    {
+      "address": "google_pubsub_topic.events",
+      "expressions": {
+        "kms_key_name": {
+          "references": [
+            "google_kms_crypto_key.messaging.id",
+            "google_kms_crypto_key.messaging"
+          ]
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "message_retention_duration": {
+          "constant_value": "345600s"
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "events",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_pubsub_topic"
+    },
+    {
+      "address": "google_pubsub_topic_iam_member.api_publish_events",
+      "expressions": {
+        "member": {
+          "references": [
+            "google_service_account.api.email",
+            "google_service_account.api"
+          ]
+        },
+        "role": {
+          "constant_value": "roles/pubsub.publisher"
+        },
+        "topic": {
+          "references": [
+            "google_pubsub_topic.events.name",
+            "google_pubsub_topic.events"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "api_publish_events",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_pubsub_topic_iam_member"
+    },
+    {
+      "address": "google_pubsub_topic_iam_member.relay_publish_events",
+      "expressions": {
+        "member": {
+          "references": [
+            "google_service_account.relay.email",
+            "google_service_account.relay"
+          ]
+        },
+        "role": {
+          "constant_value": "roles/pubsub.publisher"
+        },
+        "topic": {
+          "references": [
+            "google_pubsub_topic.events.name",
+            "google_pubsub_topic.events"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "relay_publish_events",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_pubsub_topic_iam_member"
+    },
+    {
+      "address": "google_secret_manager_secret.db_credentials",
+      "expressions": {
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "replication": [
+          {
+            "auto": [
+              {}
+            ]
+          }
+        ],
+        "secret_id": {
+          "references": [
+            "var.prefix"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "db_credentials",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_secret_manager_secret"
+    },
+    {
+      "address": "google_secret_manager_secret_iam_member.api_db_secret_accessor",
+      "expressions": {
+        "member": {
+          "references": [
+            "google_service_account.api.email",
+            "google_service_account.api"
+          ]
+        },
+        "role": {
+          "constant_value": "roles/secretmanager.secretAccessor"
+        },
+        "secret_id": {
+          "references": [
+            "google_secret_manager_secret.db_credentials.secret_id",
+            "google_secret_manager_secret.db_credentials"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "api_db_secret_accessor",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_secret_manager_secret_iam_member"
+    },
+    {
+      "address": "google_secret_manager_secret_version.db_credentials_v1",
+      "expressions": {
+        "secret": {
+          "references": [
+            "google_secret_manager_secret.db_credentials.id",
+            "google_secret_manager_secret.db_credentials"
+          ]
+        },
+        "secret_data": {
+          "references": [
+            "local.database_url"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "db_credentials_v1",
+      "provider_config_key": "google",
+      "schema_version": 1,
+      "type": "google_secret_manager_secret_version"
+    },
+    {
+      "address": "google_service_account.api",
+      "expressions": {
+        "account_id": {
+          "references": [
+            "local.sa_prefix"
+          ]
+        },
+        "display_name": {
+          "constant_value": "MediaPulse Ingest Cloud Run API Service Account"
+        }
+      },
+      "mode": "managed",
+      "name": "api",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account"
+    },
+    {
+      "address": "google_service_account.archiver",
+      "expressions": {
+        "account_id": {
+          "references": [
+            "local.sa_prefix"
+          ]
+        },
+        "display_name": {
+          "constant_value": "MediaPulse Ingest Audit Archiver Function Service Account"
+        }
+      },
+      "mode": "managed",
+      "name": "archiver",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account"
+    },
+    {
+      "address": "google_service_account.client_admin",
+      "expressions": {
+        "account_id": {
+          "references": [
+            "local.sa_prefix"
+          ]
+        },
+        "display_name": {
+          "constant_value": "MediaPulse Admin Scope Client (mediapulse/admin)"
+        }
+      },
+      "mode": "managed",
+      "name": "client_admin",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account"
+    },
+    {
+      "address": "google_service_account.client_read",
+      "expressions": {
+        "account_id": {
+          "references": [
+            "local.sa_prefix"
+          ]
+        },
+        "display_name": {
+          "constant_value": "MediaPulse Read Scope Client (mediapulse/read)"
+        }
+      },
+      "mode": "managed",
+      "name": "client_read",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account"
+    },
+    {
+      "address": "google_service_account.client_write",
+      "expressions": {
+        "account_id": {
+          "references": [
+            "local.sa_prefix"
+          ]
+        },
+        "display_name": {
+          "constant_value": "MediaPulse Write Scope Client (mediapulse/write)"
+        }
+      },
+      "mode": "managed",
+      "name": "client_write",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account"
+    },
+    {
+      "address": "google_service_account.processor",
+      "expressions": {
+        "account_id": {
+          "references": [
+            "local.sa_prefix"
+          ]
+        },
+        "display_name": {
+          "constant_value": "MediaPulse Ingest Event Processor Function Service Account"
+        }
+      },
+      "mode": "managed",
+      "name": "processor",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account"
+    },
+    {
+      "address": "google_service_account.pubsub_invoker",
+      "expressions": {
+        "account_id": {
+          "references": [
+            "local.sa_prefix"
+          ]
+        },
+        "display_name": {
+          "constant_value": "MediaPulse Ingest Pub/Sub Push Invoker Service Account"
+        }
+      },
+      "mode": "managed",
+      "name": "pubsub_invoker",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account"
+    },
+    {
+      "address": "google_service_account.relay",
+      "expressions": {
+        "account_id": {
+          "references": [
+            "local.sa_prefix"
+          ]
+        },
+        "display_name": {
+          "constant_value": "MediaPulse Ingest Outbox Relay Function Service Account"
+        }
+      },
+      "mode": "managed",
+      "name": "relay",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account"
+    },
+    {
+      "address": "google_service_account.scheduler",
+      "expressions": {
+        "account_id": {
+          "references": [
+            "local.sa_prefix"
+          ]
+        },
+        "display_name": {
+          "constant_value": "MediaPulse Ingest Cloud Scheduler Invoker Service Account"
+        }
+      },
+      "mode": "managed",
+      "name": "scheduler",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account"
+    },
+    {
+      "address": "google_service_account_key.client_admin",
+      "expressions": {
+        "service_account_id": {
+          "references": [
+            "google_service_account.client_admin.name",
+            "google_service_account.client_admin"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "client_admin",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account_key"
+    },
+    {
+      "address": "google_service_account_key.client_read",
+      "expressions": {
+        "service_account_id": {
+          "references": [
+            "google_service_account.client_read.name",
+            "google_service_account.client_read"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "client_read",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account_key"
+    },
+    {
+      "address": "google_service_account_key.client_write",
+      "expressions": {
+        "service_account_id": {
+          "references": [
+            "google_service_account.client_write.name",
+            "google_service_account.client_write"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "client_write",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_service_account_key"
+    },
+    {
+      "address": "google_sql_database.mediapulse",
+      "expressions": {
+        "instance": {
+          "references": [
+            "google_sql_database_instance.events.name",
+            "google_sql_database_instance.events"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.db_name"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "mediapulse",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_sql_database"
+    },
+    {
+      "address": "google_sql_database_instance.events",
+      "expressions": {
+        "database_version": {
+          "constant_value": "POSTGRES_16"
+        },
+        "deletion_protection": {
+          "constant_value": false
+        },
+        "encryption_key_name": {
+          "references": [
+            "google_kms_crypto_key.database.id",
+            "google_kms_crypto_key.database"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix"
+          ]
+        },
+        "region": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "settings": [
+          {
+            "availability_type": {
+              "constant_value": "ZONAL"
+            },
+            "backup_configuration": [
+              {
+                "enabled": {
+                  "constant_value": true
+                },
+                "point_in_time_recovery_enabled": {
+                  "constant_value": true
+                }
+              }
+            ],
+            "disk_autoresize": {
+              "constant_value": true
+            },
+            "disk_size": {
+              "constant_value": 20
+            },
+            "disk_type": {
+              "constant_value": "PD_SSD"
+            },
+            "ip_configuration": [
+              {
+                "ipv4_enabled": {
+                  "constant_value": false
+                },
+                "private_network": {
+                  "references": [
+                    "google_compute_network.ingest.id",
+                    "google_compute_network.ingest"
+                  ]
+                }
+              }
+            ],
+            "tier": {
+              "constant_value": "db-custom-2-4096"
+            },
+            "user_labels": {
+              "references": [
+                "local.common_labels"
+              ]
+            }
+          }
+        ]
+      },
+      "mode": "managed",
+      "name": "events",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_sql_database_instance"
+    },
+    {
+      "address": "google_sql_user.app",
+      "expressions": {
+        "instance": {
+          "references": [
+            "google_sql_database_instance.events.name",
+            "google_sql_database_instance.events"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.db_username"
+          ]
+        },
+        "password": {
+          "references": [
+            "var.db_password"
+          ]
+        }
+      },
+      "mode": "managed",
+      "name": "app",
+      "provider_config_key": "google",
+      "schema_version": 1,
+      "type": "google_sql_user"
+    },
+    {
+      "address": "google_storage_bucket.audit",
+      "expressions": {
+        "encryption": [
+          {
+            "default_kms_key_name": {
+              "references": [
+                "google_kms_crypto_key.audit.id",
+                "google_kms_crypto_key.audit"
+              ]
+            }
+          }
+        ],
+        "force_destroy": {
+          "constant_value": true
+        },
+        "labels": {
+          "references": [
+            "local.common_labels"
+          ]
+        },
+        "location": {
+          "references": [
+            "var.gcp_region"
+          ]
+        },
+        "name": {
+          "references": [
+            "var.prefix",
+            "var.gcp_project_id"
+          ]
+        },
+        "public_access_prevention": {
+          "constant_value": "enforced"
+        },
+        "uniform_bucket_level_access": {
+          "constant_value": true
+        },
+        "versioning": [
+          {
+            "enabled": {
+              "constant_value": true
+            }
+          }
+        ]
+      },
+      "mode": "managed",
+      "name": "audit",
+      "provider_config_key": "google",
+      "schema_version": 4,
+      "type": "google_storage_bucket"
+    },
+    {
+      "address": "google_storage_bucket_iam_member.archiver_write_audit",
+      "expressions": {
+        "bucket": {
+          "references": [
+            "google_storage_bucket.audit.name",
+            "google_storage_bucket.audit"
+          ]
+        },
+        "member": {
+          "references": [
+            "google_service_account.archiver.email",
+            "google_service_account.archiver"
+          ]
+        },
+        "role": {
+          "constant_value": "roles/storage.objectAdmin"
+        }
+      },
+      "mode": "managed",
+      "name": "archiver_write_audit",
+      "provider_config_key": "google",
+      "schema_version": 0,
+      "type": "google_storage_bucket_iam_member"
+    }
+  ],
+  "variables": {
+    "api_image": {
+      "default": "gcr.io/example/api:latest",
+      "description": "Supplied Cloud Run API container image reference."
+    },
+    "api_image_id": {
+      "default": "",
+      "description": "Optional digest/ID for the API container image."
+    },
+    "archiver_image": {
+      "default": "gcr.io/example/archiver:latest",
+      "description": "Supplied Cloud Functions audit archiver container image reference."
+    },
+    "archiver_image_id": {
+      "default": "",
+      "description": "Optional digest/ID for the audit archiver container image."
+    },
+    "db_name": {
+      "default": "mediapulse",
+      "description": "Cloud SQL PostgreSQL database name from config.json."
+    },
+    "db_password": {
+      "default": "example-pass",
+      "description": "Cloud SQL PostgreSQL password from config.json.",
+      "sensitive": true
+    },
+    "db_username": {
+      "default": "mediapulse_user",
+      "description": "Cloud SQL PostgreSQL username from config.json."
+    },
+    "gcp_endpoint_url": {
+      "default": "http://gcp:4588",
+      "description": "Floci-GCP local emulator base URL (http://gcp:4588)."
+    },
+    "gcp_project_id": {
+      "default": "example-gcp-project",
+      "description": "Target Google Cloud project ID from config.json."
+    },
+    "gcp_region": {
+      "default": "us-central1",
+      "description": "Target Google Cloud region from config.json."
+    },
+    "prefix": {
+      "description": "Deployment prefix loaded from /workspace/config/config.json."
+    },
+    "processor_image": {
+      "default": "gcr.io/example/processor:latest",
+      "description": "Supplied Cloud Functions event processor container image reference."
+    },
+    "processor_image_id": {
+      "default": "",
+      "description": "Optional digest/ID for the processor container image."
+    },
+    "relay_image": {
+      "default": "gcr.io/example/relay:latest",
+      "description": "Supplied Cloud Functions outbox relay container image reference."
+    },
+    "relay_image_id": {
+      "default": "",
+      "description": "Optional digest/ID for the outbox relay container image."
+    }
+  }
+}

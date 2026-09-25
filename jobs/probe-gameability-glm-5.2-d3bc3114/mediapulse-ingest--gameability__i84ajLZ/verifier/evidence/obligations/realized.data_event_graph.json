@@ -1,0 +1,12 @@
+{
+  "associated_artifacts": [
+    "evidence/realized/data_event.json"
+  ],
+  "details": {
+    "bucket": "mp-02d296cb108a-mp-ver-b9e52a28-audit",
+    "topic": "mp-02d296cb108a-events"
+  },
+  "obligation_id": "realized.data_event_graph",
+  "outcome": "pass",
+  "summary": "Cloud SQL, Pub/Sub + DLQ, Cloud Functions, Cloud Scheduler, Firestore, Datastore, and private GCS are live"
+}

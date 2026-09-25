@@ -1,0 +1,35 @@
+{
+  "auth": {
+    "admin_client_email": "mp-a4e69838c03f-client-admin@mp-ver-d10db989.iam.gserviceaccount.com",
+    "issuer": "http://gcp:4588/identitytoolkit.googleapis.com/v1/projects/mp-ver-d10db989",
+    "read_client_email": "mp-a4e69838c03f-client-read@mp-ver-d10db989.iam.gserviceaccount.com",
+    "tenant_id": "tenant-168c3651",
+    "write_client_email": "mp-a4e69838c03f-client-write@mp-ver-d10db989.iam.gserviceaccount.com"
+  },
+  "iam": {
+    "api_service_account": "mp-a4e69838c03f-api-sa@mp-ver-d10db989.iam.gserviceaccount.com",
+    "archiver_service_account": "mp-a4e69838c03f-archiver-sa@mp-ver-d10db989.iam.gserviceaccount.com",
+    "processor_service_account": "mp-a4e69838c03f-processor-sa@mp-ver-d10db989.iam.gserviceaccount.com",
+    "relay_service_account": "mp-a4e69838c03f-relay-sa@mp-ver-d10db989.iam.gserviceaccount.com",
+    "scheduler_service_account": "mp-a4e69838c03f-scheduler-sa@mp-ver-d10db989.iam.gserviceaccount.com"
+  },
+  "kms": {
+    "audit_key_id": "projects/mp-ver-d10db989/locations/us-central1/keyRings/mp-a4e69838c03f-keyring/cryptoKeys/mp-a4e69838c03f-audit-cmek",
+    "database_key_id": "projects/mp-ver-d10db989/locations/us-central1/keyRings/mp-a4e69838c03f-keyring/cryptoKeys/mp-a4e69838c03f-database-cmek",
+    "keyring_id": "projects/mp-ver-d10db989/locations/us-central1/keyRings/mp-a4e69838c03f-keyring",
+    "messaging_key_id": "projects/mp-ver-d10db989/locations/us-central1/keyRings/mp-a4e69838c03f-keyring/cryptoKeys/mp-a4e69838c03f-messaging-cmek",
+    "projection_key_id": "projects/mp-ver-d10db989/locations/us-central1/keyRings/mp-a4e69838c03f-keyring/cryptoKeys/mp-a4e69838c03f-projection-cmek"
+  },
+  "logs": {
+    "api": "mp-a4e69838c03f-api-logs",
+    "archiver": "mp-a4e69838c03f-archiver-logs",
+    "processor": "mp-a4e69838c03f-processor-logs",
+    "relay": "mp-a4e69838c03f-relay-logs"
+  },
+  "network": {
+    "ingress_subnet_id": "projects/mp-ver-d10db989/regions/us-central1/subnetworks/mp-a4e69838c03f-subnet-ingress",
+    "private_subnet_id": "projects/mp-ver-d10db989/regions/us-central1/subnetworks/mp-a4e69838c03f-subnet-private",
+    "vpc_id": "projects/mp-ver-d10db989/global/networks/mp-a4e69838c03f-vpc"
+  },
+  "state_resource_count": 67
+}

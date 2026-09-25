@@ -1,0 +1,35 @@
+{
+  "auth": {
+    "admin_client_email": "mp-a740fb947898-client-admin@mp-ver-2540ecfd.iam.gserviceaccount.com",
+    "issuer": "http://gcp:4588/identitytoolkit.googleapis.com/v1/projects/mp-ver-2540ecfd",
+    "read_client_email": "mp-a740fb947898-client-read@mp-ver-2540ecfd.iam.gserviceaccount.com",
+    "tenant_id": "tenant-bd4ce600",
+    "write_client_email": "mp-a740fb947898-client-write@mp-ver-2540ecfd.iam.gserviceaccount.com"
+  },
+  "iam": {
+    "api_service_account": "mp-a740fb947898-api-sa@mp-ver-2540ecfd.iam.gserviceaccount.com",
+    "archiver_service_account": "mp-a740fb947898-archiver-sa@mp-ver-2540ecfd.iam.gserviceaccount.com",
+    "processor_service_account": "mp-a740fb947898-processor-sa@mp-ver-2540ecfd.iam.gserviceaccount.com",
+    "relay_service_account": "mp-a740fb947898-relay-sa@mp-ver-2540ecfd.iam.gserviceaccount.com",
+    "scheduler_service_account": "mp-a740fb947898-scheduler-sa@mp-ver-2540ecfd.iam.gserviceaccount.com"
+  },
+  "kms": {
+    "audit_key_id": "projects/mp-ver-2540ecfd/locations/us-east1/keyRings/mp-a740fb947898-keyring/cryptoKeys/mp-a740fb947898-audit-cmek",
+    "database_key_id": "projects/mp-ver-2540ecfd/locations/us-east1/keyRings/mp-a740fb947898-keyring/cryptoKeys/mp-a740fb947898-database-cmek",
+    "keyring_id": "projects/mp-ver-2540ecfd/locations/us-east1/keyRings/mp-a740fb947898-keyring",
+    "messaging_key_id": "projects/mp-ver-2540ecfd/locations/us-east1/keyRings/mp-a740fb947898-keyring/cryptoKeys/mp-a740fb947898-messaging-cmek",
+    "projection_key_id": "projects/mp-ver-2540ecfd/locations/us-east1/keyRings/mp-a740fb947898-keyring/cryptoKeys/mp-a740fb947898-projection-cmek"
+  },
+  "logs": {
+    "api": "mp-a740fb947898-logs",
+    "archiver": "mp-a740fb947898-logs",
+    "processor": "mp-a740fb947898-logs",
+    "relay": "mp-a740fb947898-logs"
+  },
+  "network": {
+    "ingress_subnet_id": "projects/mp-ver-2540ecfd/regions/us-east1/subnetworks/mp-a740fb947898-subnet-ingress",
+    "private_subnet_id": "projects/mp-ver-2540ecfd/regions/us-east1/subnetworks/mp-a740fb947898-subnet-private",
+    "vpc_id": "projects/mp-ver-2540ecfd/global/networks/mp-a740fb947898-vpc"
+  },
+  "state_resource_count": 67
+}

@@ -1,0 +1,73 @@
+MediaPulse verifier: starting pytest oracle
+============================= test session starts ==============================
+platform linux -- Python 3.11.2, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+collected 19 items
+
+suite/test_declared.py FFFF                                              [ 21%]
+suite/test_live.py FFF                                                   [ 36%]
+suite/test_behavior.py FFFFFFFFFF                                        [ 89%]
+suite/test_lifecycle.py FF                                               [100%]
+
+=================================== FAILURES ===================================
+_______________________________ test_managed_iac _______________________________
+fail: deployment did not complete
+_____________________________ test_compute_ingress _____________________________
+fail: deployment did not complete
+_______________________________ test_data_async ________________________________
+fail: deployment did not complete
+______________________________ test_security_ops _______________________________
+fail: deployment did not complete
+__________________________ test_ingress_compute_graph __________________________
+fail: deployment did not complete
+____________________________ test_data_event_graph _____________________________
+fail: deployment did not complete
+___________________________ test_security_ops_graph ____________________________
+fail: deployment did not complete
+___________________________ test_workflow_relations ____________________________
+fail: deployment did not complete
+____________________________ test_projection_cache _____________________________
+fail: deployment did not complete
+_________________________ test_idempotency_concurrency _________________________
+fail: deployment did not complete
+____________________________ test_backlog_recovery _____________________________
+fail: deployment did not complete
+______________________________ test_duplicate_dlq ______________________________
+fail: deployment did not complete
+_____________________________ test_outbox_recovery _____________________________
+fail: deployment did not complete
+___________________________ test_projection_rebuild ____________________________
+fail: deployment did not complete
+______________________________ test_ecs_recovery _______________________________
+fail: deployment did not complete
+_______________________________ test_rds_reboot ________________________________
+fail: deployment did not complete
+____________________________ test_auth_archive_logs ____________________________
+fail: deployment did not complete
+_____________________________ test_reapply_stable ______________________________
+fail: deployment did not complete
+______________________________ test_destroy_clean ______________________________
+fail: clean destroy could not be attempted
+--------------------------- Captured stdout teardown ---------------------------
+{"reward": 0.0, "score": 0, "seed": 5692928142447155618, "total": 100, "valid": true}
+=========================== short test summary info ============================
+FAILED suite/test_declared.py::test_managed_iac - Failed: fail: deployment di...
+FAILED suite/test_declared.py::test_compute_ingress - Failed: fail: deploymen...
+FAILED suite/test_declared.py::test_data_async - Failed: fail: deployment did...
+FAILED suite/test_declared.py::test_security_ops - Failed: fail: deployment d...
+FAILED suite/test_live.py::test_ingress_compute_graph - Failed: fail: deploym...
+FAILED suite/test_live.py::test_data_event_graph - Failed: fail: deployment d...
+FAILED suite/test_live.py::test_security_ops_graph - Failed: fail: deployment...
+FAILED suite/test_behavior.py::test_workflow_relations - Failed: fail: deploy...
+FAILED suite/test_behavior.py::test_projection_cache - Failed: fail: deployme...
+FAILED suite/test_behavior.py::test_idempotency_concurrency - Failed: fail: d...
+FAILED suite/test_behavior.py::test_backlog_recovery - Failed: fail: deployme...
+FAILED suite/test_behavior.py::test_duplicate_dlq - Failed: fail: deployment ...
+FAILED suite/test_behavior.py::test_outbox_recovery - Failed: fail: deploymen...
+FAILED suite/test_behavior.py::test_projection_rebuild - Failed: fail: deploy...
+FAILED suite/test_behavior.py::test_ecs_recovery - Failed: fail: deployment d...
+FAILED suite/test_behavior.py::test_rds_reboot - Failed: fail: deployment did...
+FAILED suite/test_behavior.py::test_auth_archive_logs - Failed: fail: deploym...
+FAILED suite/test_lifecycle.py::test_reapply_stable - Failed: fail: deploymen...
+FAILED suite/test_lifecycle.py::test_destroy_clean - Failed: fail: clean dest...
+============================== 19 failed in 0.31s ==============================

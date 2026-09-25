@@ -1,0 +1,18 @@
+{
+  "audit_bucket": "mp-a4e69838c03f-mp-ver-d10db989-audit",
+  "cloud_functions": [
+    "mp-a4e69838c03f-audit-archiver",
+    "mp-a4e69838c03f-processor",
+    "mp-a4e69838c03f-outbox-relay"
+  ],
+  "datastore_kinds": [
+    "MediaCache"
+  ],
+  "firestore": "mp-a4e69838c03f-projections",
+  "max_delivery_attempts": 5,
+  "pubsub_topics": [
+    "mp-a4e69838c03f-events-dlq",
+    "mp-a4e69838c03f-events"
+  ],
+  "sql_instance": "mp-a4e69838c03f-events-pg"
+}

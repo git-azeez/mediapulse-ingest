@@ -1,0 +1,6 @@
+{
+  "database_instance_after": "mp-a4e69838c03f-events-pg",
+  "database_instance_before": "mp-a4e69838c03f-events-pg",
+  "deploy_returncode": 0,
+  "managed_resource_count": 67
+}

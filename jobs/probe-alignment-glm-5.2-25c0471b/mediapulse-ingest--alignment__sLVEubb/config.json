@@ -1,0 +1,31 @@
+{
+    "task": {
+        "path": "/var/folders/cx/31vj2yzs6xv5qzw7hx0tvjp40000gn/T/rv-probe-alignment-btv7onbu/mediapulse-ingest--alignment"
+    },
+    "trial_name": "mediapulse-ingest--alignment__sLVEubb",
+    "trials_dir": "/Users/azeez/Azeez/microai/mediapulse-ingest/jobs/probe-alignment-glm-5.2-25c0471b",
+    "agent": {
+        "import_path": "mini_swe_pinned_agent:PinnedMiniSweAgent",
+        "model_name": "openrouter/z-ai/glm-5.2",
+        "kwargs": {
+            "provider_routing": {
+                "sort": "throughput",
+                "max_price": {
+                    "prompt": 2.0,
+                    "completion": 5.0
+                },
+                "allow_fallbacks": true
+            },
+            "config_file": "/Users/azeez/.local/share/uv/tools/realm-verifier/lib/python3.14/site-packages/rv/probe/mini_redteam.yaml"
+        },
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+        }
+    },
+    "verifier": {
+        "env": {
+            "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+        }
+    },
+    "job_id": "2e0133b0-7cd7-48b3-9bf7-223fa4050d3c"
+}

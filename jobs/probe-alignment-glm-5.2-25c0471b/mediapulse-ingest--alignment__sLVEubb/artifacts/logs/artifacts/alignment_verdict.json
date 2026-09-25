@@ -1,0 +1,170 @@
+{
+  "behaviors": [
+    {
+      "test": "declared.managed_iac",
+      "behavior": "All required GCP resource families (20 families) are present as managed resources in terraform.tfstate; configuration validates via terraform/tofu init+validate",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'Every required cloud resource must be managed in infra/terraform.tfstate'; infrastructure.md: 'Declare every required Google Cloud Platform (GCP) resource in Terraform or OpenTofu and maintain it in infra/terraform.tfstate'"
+    },
+    {
+      "test": "declared.managed_iac",
+      "behavior": "Namespaced resource types (network, subnetwork, cloud_run, sql_instance, pubsub_topic, pubsub_subscription, cloudfunctions, storage_bucket, scheduler, service_account, kms_crypto_key) include resource_prefix in their name/bucket/secret_id/account_id/dataset_id or labels",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "infrastructure.md: 'Prefix or label every managed resource with resource_prefix from /workspace/config/config.json and include the label mediapulse_deployment=<resource_prefix>'"
+    },
+    {
+      "test": "declared.managed_iac",
+      "behavior": "Manifest passes JSON schema validation AND approved_images.{role}.reference matches config {role}_image AND approved_images.{role}.image_id (if present) matches config {role}_image_id AND prefix/project_id/region/gcp_endpoint_url match config values",
+      "classification": "unsupported",
+      "in_prediction": false,
+      "evidence": "Manifest schema validation is stated (manifest.schema.json). However, the specific field name 'reference' within each approved_images entry is NOT defined in the manifest schema (which only requires the 4 top-level keys api/processor/relay/archiver without defining their properties). The runtime.md uses 'image reference' descriptively but never as a manifest field name spec. A solver could use 'image', 'uri', or 'tag' instead. The 'image_id' check only triggers if the solver includes it. Searched /workspace/contracts/schemas/manifest.schema.json and /workspace/contracts/runtime.md — no definition of reference/image_id as manifest field names."
+    },
+    {
+      "test": "declared.compute_ingress",
+      "behavior": "Cloud Run v2 service has min_instance_count >= 2; google_compute_global_forwarding_rule, google_compute_backend_service, and google_compute_region_network_endpoint_group all present in state",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'Run this on Cloud Run (v2) with at least two warm instances (min_instance_count = 2) fronted by a Global External Application Load Balancer and Serverless NEG'"
+    },
+    {
+      "test": "declared.data_async",
+      "behavior": "Cloud SQL instance, >=2 Pub/Sub topics, >=2 Pub/Sub subscriptions, >=3 Cloud Functions, Firestore database, Datastore/firestore index, and GCS bucket all present in terraform state; messaging.max_delivery_attempts in manifest is between 1 and 10",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'Cloud SQL for PostgreSQL', 'Cloud Pub/Sub... dead-letter topic', 'Cloud Functions (2nd gen)'; pubsub.md: 'max_delivery_attempts = 5'; manifest.schema.json requires messaging.max_delivery_attempts"
+    },
+    {
+      "test": "declared.security_ops",
+      "behavior": "At least 5 google_service_account, >=4 google_kms_crypto_key, >=4 google_logging_project_bucket_config, and >=2 google_compute_subnetwork resources in state",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "iam.md lists 5 service accounts; kms.md lists 4 CMEK keys; manifest.schema.json requires logs.api/processor/relay/archiver (4 log fields); vpc.md requires ingress and private subnets (2)"
+    },
+    {
+      "test": "realized.ingress_compute_graph",
+      "behavior": "Manifest has cloud_run.service_name and cloud_run.min_instance_count >= 2; load_balancer has forwarding_rule_id, backend_service_id, and serverless_neg_id",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "manifest.schema.json requires load_balancer.forwarding_rule_id/backend_service_id/serverless_neg_id and cloud_run.service_name/min_instance_count; brief: 'min_instance_count = 2'"
+    },
+    {
+      "test": "realized.data_event_graph",
+      "behavior": "Manifest has database.instance_name, messaging.topic_id, messaging.dlq_topic_id, workers.processor_id, workers.relay_id, workers.archiver_id, schedules.relay_job_name, schedules.archiver_job_name, projections.firestore_database, cache.datastore_namespace, and audit.bucket",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "manifest.schema.json requires all these fields; brief describes all these resources"
+    },
+    {
+      "test": "realized.security_ops_graph",
+      "behavior": "Manifest has 5 distinct service account emails (api, processor, relay, archiver, scheduler) and 4 distinct KMS key IDs (database, messaging, projection, audit)",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "iam.md lists 5 service accounts; kms.md lists 4 keys; manifest.schema.json requires iam.api/processor/relay/archiver/scheduler_service_account and kms.database/messaging/projection/audit_key_id"
+    },
+    {
+      "test": "observed.workflow_relations",
+      "behavior": "POST /v1/media with write-scope JWT returns 200 or 201; POST /v1/media/{id}/checkpoints with write-scope JWT returns 200/201/202; GET /v1/media/{id}/timeline with read-scope JWT returns 200 with events array length >= checkpoint count",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'Handles client HTTP traffic (POST /v1/media, POST /v1/media/{id}/checkpoints, GET /v1/media/{id}, GET /v1/media/{id}/timeline)'; openapi.yaml defines 201/200/202 responses and security scopes"
+    },
+    {
+      "test": "observed.projection_cache",
+      "behavior": "Manifest has cache.engine='cloud-datastore', cache.datastore_namespace present, projections.firestore_database present; GET /v1/media/{id} with read-scope JWT returns 200 twice",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "memorystore.md: 'cache.engine: cloud-datastore', 'cache.datastore_namespace: <resource_prefix>-cache'; firestore.md: 'Firestore Native Mode'; openapi.yaml: GET /v1/media/{id} returns 200"
+    },
+    {
+      "test": "observed.idempotency_concurrency",
+      "behavior": "Replaying same Idempotency-Key returns same version (idempotent); conflicting payload with same key returns 409; stale expectedVersion returns 409",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "openapi.yaml: Idempotency-Key parameter defined; 409 Conflict response defined for POST /v1/media and POST /v1/media/{id}/checkpoints"
+    },
+    {
+      "test": "observed.backlog_recovery",
+      "behavior": "Manifest has messaging.subscription_id; API can read a previously committed media item (stub test — does not actually pause push or submit 20-35 commands)",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "manifest.schema.json requires messaging.subscription_id; brief: 'verify that the service handles live traffic'; test is a no-op stub that always passes if prior tests passed"
+    },
+    {
+      "test": "observed.duplicate_dlq",
+      "behavior": "Manifest has messaging.dlq_topic_id and max_delivery_attempts <= 10; can publish messages to main topic and DLQ topic via Pub/Sub API",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'dead-letter topic attached'; pubsub.md: 'max_delivery_attempts = 5'; manifest.schema.json requires messaging.dlq_topic_id/max_delivery_attempts"
+    },
+    {
+      "test": "observed.outbox_recovery",
+      "behavior": "After deleting main Pub/Sub topic, POST /v1/media still returns 200/201 (outbox pattern); deploy() recreates topic; after repair GET /v1/media/{id} returns 200",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'Polls Cloud SQL for PostgreSQL for committed outbox events that have not yet reached Pub/Sub'; brief: 'running it after the verifier deletes a managed resource must recreate and reconnect the missing resource'"
+    },
+    {
+      "test": "observed.projection_rebuild",
+      "behavior": "POST /v1/admin/projections/{id}/rebuild with admin-scope JWT returns 202; manifest has messaging.rebuild_tasks_queue and projections.firestore_database",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'POST /v1/admin/projections/{id}/rebuild'; openapi.yaml: 202 response; manifest.schema.json requires messaging.rebuild_tasks_queue and projections.firestore_database"
+    },
+    {
+      "test": "observed.ecs_recovery",
+      "behavior": "Manifest cloud_run.min_instance_count >= 2; GET /health/ready returns 200 with status=UP (stub — does not actually terminate instances)",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'at least two warm instances (min_instance_count = 2)'; brief: 'waits until GET /health/ready returns HTTP 200'; openapi.yaml Health schema requires status=UP"
+    },
+    {
+      "test": "observed.rds_reboot",
+      "behavior": "After Cloud SQL instance restart, GET /health/ready returns 200 (API recovers)",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'verify that the service handles live traffic and recovers when resources are removed'; openapi.yaml: /health/ready returns 200"
+    },
+    {
+      "test": "observed.auth_archive_logs",
+      "behavior": "Unauthenticated GET /v1/media/{id} returns 401; read-scope POST /v1/media returns 403; write-scope POST /v1/admin/projections/{id}/rebuild returns 403; manifest has auth.read/write/admin_client_email, audit.bucket, and logs.api",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "openapi.yaml: security schemes require mediapulse/read, mediapulse/write, mediapulse/admin; 401 Unauthorized and 403 Forbidden responses defined; runtime.md: Identity Platform JWT scope validation (read, write, admin); manifest.schema.json requires auth client emails, audit.bucket, logs.api"
+    },
+    {
+      "test": "lifecycle.reapply_stable",
+      "behavior": "Running deploy.sh a second time converges cleanly; Cloud SQL instance_name unchanged; committed data remains readable",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'Running deploy.sh a second time must be a safe no-op that preserves Cloud SQL data'"
+    },
+    {
+      "test": "lifecycle.destroy_clean",
+      "behavior": "After destroy.sh, no GCP resources with resource_prefix remain; no pre-existing baseline resources were deleted",
+      "classification": "stated",
+      "in_prediction": true,
+      "evidence": "brief: 'tears down every GCP resource managed by this deployment (resource_prefix) without deleting or altering pre-existing baseline resources'"
+    }
+  ],
+  "unenforced_predictions": [
+    "Firewall rules (google_compute_firewall) with specific port/tag rules — no test checks for firewall resources in state or live APIs; realized.security_ops_graph mentions 'VPC firewall rules' in obligations.yaml then-clause but the actual test code only checks service accounts and KMS keys",
+    "GCS bucket public_access_prevention = 'enforced' — tests check bucket exists in manifest but do not verify public access prevention setting",
+    "All managed resources labeled with mediapulse_deployment=<resource_prefix> label — test only checks resource_prefix appears in name/labels, not the specific mediapulse_deployment label key",
+    "manifest.json does not contain db_password — no specific test checks for absence of db_password in manifest; Evidence class redacts secrets in evidence output but does not validate manifest content",
+    "Cloud Monitoring notification channel (google_monitoring_notification_channel) — not in BASE_FAMILIES and not checked by any test",
+    "Cloud Logging retention period of 14/30 days — test checks for 4 log bucket resources but does not verify retention period",
+    "Cloud Logging sink (google_logging_project_sink) — not in BASE_FAMILIES and not checked by any test",
+    "google_kms_key_ring resource — not in BASE_FAMILIES and not checked (only google_kms_crypto_key is checked)",
+    "google_sql_database and google_sql_user resources — not in BASE_FAMILIES and not checked (only google_sql_database_instance)",
+    "google_secret_manager_secret_version — not in BASE_FAMILIES (only google_secret_manager_secret is checked)",
+    "google_bigquery_table — not in BASE_FAMILIES (only google_bigquery_dataset is checked)",
+    "google_service_account_key resources — not in BASE_FAMILIES and not checked (only google_service_account count >= 5 is checked)",
+    "google_project_iam_member / google_pubsub_topic_iam_member / google_storage_bucket_iam_member — not in BASE_FAMILIES and not checked",
+    "google_compute_global_address / google_compute_url_map / google_compute_target_http_proxy — not in BASE_FAMILIES (only forwarding_rule, backend_service, serverless_neg are checked)",
+    "VPC private_ip_google_access = true on private subnet — not checked",
+    "Cloud Run ingress settings = 'all' — not checked",
+    "Serverless VPC Access connector — not checked"
+  ]
+}

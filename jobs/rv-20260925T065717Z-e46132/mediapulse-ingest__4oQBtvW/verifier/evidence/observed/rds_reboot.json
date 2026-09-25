@@ -1,0 +1,5 @@
+{
+  "cloud_sql_instance": "mp-a4e69838c03f-events-pg",
+  "instances_reported": 1,
+  "post_restart_ready": true
+}

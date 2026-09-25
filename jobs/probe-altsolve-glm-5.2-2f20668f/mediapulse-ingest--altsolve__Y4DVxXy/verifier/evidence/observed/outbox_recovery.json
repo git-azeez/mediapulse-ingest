@@ -1,0 +1,6 @@
+{
+  "fault_media_id": "mp-a740fb947898-outbox-3040",
+  "outbox_repaired": true,
+  "relay_function": "projects/mp-ver-2540ecfd/locations/us-east1/functions/mp-a740fb947898-outbox-relay",
+  "relay_scheduler_job": "mp-a740fb947898-relay-schedule"
+}

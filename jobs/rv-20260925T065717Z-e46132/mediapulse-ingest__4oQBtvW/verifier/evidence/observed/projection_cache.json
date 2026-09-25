@@ -1,0 +1,9 @@
+{
+  "conditional_get_status": 304,
+  "datastore_namespace": "mp-a4e69838c03f-cache",
+  "etag": "W/\"mp-a4e69838c03f-media-00-8987-v7\"",
+  "firestore_database": "mp-a4e69838c03f-projections",
+  "first_read_status": 200,
+  "mediaId": "mp-a4e69838c03f-media-00-8987",
+  "second_read_status": 200
+}

@@ -1,0 +1,11 @@
+{
+  "associated_artifacts": [
+    "evidence/observed/workflow.json"
+  ],
+  "details": {
+    "shipment_count": 12
+  },
+  "obligation_id": "observed.workflow_relations",
+  "outcome": "pass",
+  "summary": "12 randomized media ingestion workflows committed, projected, and verified"
+}

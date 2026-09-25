@@ -1,0 +1,12 @@
+{
+  "associated_artifacts": [
+    "evidence/observed/projection_rebuild.json"
+  ],
+  "details": {
+    "rebuild_tasks_queue": "mp-a4e69838c03f-projection-rebuild-q",
+    "requeued": 8
+  },
+  "obligation_id": "observed.projection_rebuild",
+  "outcome": "pass",
+  "summary": "Firestore projection and Datastore cache reconstructed from Cloud SQL event store via Cloud Tasks queue"
+}

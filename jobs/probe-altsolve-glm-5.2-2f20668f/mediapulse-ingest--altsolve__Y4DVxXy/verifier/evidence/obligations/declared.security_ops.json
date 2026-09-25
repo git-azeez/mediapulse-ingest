@@ -1,0 +1,12 @@
+{
+  "associated_artifacts": [
+    "evidence/failures/declared.security_ops.json"
+  ],
+  "details": {
+    "exception": "SubmissionFailure",
+    "message": "expected 4 Cloud Logging bucket configs, found 1"
+  },
+  "obligation_id": "declared.security_ops",
+  "outcome": "fail",
+  "summary": "expected 4 Cloud Logging bucket configs, found 1"
+}

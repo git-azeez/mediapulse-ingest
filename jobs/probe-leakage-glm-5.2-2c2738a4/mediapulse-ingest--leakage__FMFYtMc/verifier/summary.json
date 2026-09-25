@@ -1,0 +1,80 @@
+{
+  "categories": {
+    "architecture": {
+      "earned": 0,
+      "label": "Architecture and deployment",
+      "possible": 17
+    },
+    "async_processing": {
+      "earned": 0,
+      "label": "Asynchronous processing",
+      "possible": 13
+    },
+    "core_behavior": {
+      "earned": 0,
+      "label": "Core product behavior",
+      "possible": 24
+    },
+    "lifecycle": {
+      "earned": 0,
+      "label": "Lifecycle",
+      "possible": 15
+    },
+    "recovery": {
+      "earned": 0,
+      "label": "Recovery",
+      "possible": 20
+    },
+    "security_operations": {
+      "earned": 0,
+      "label": "Security and observability",
+      "possible": 11
+    }
+  },
+  "failed": [
+    "declared.managed_iac",
+    "declared.compute_ingress",
+    "declared.data_async",
+    "declared.security_ops",
+    "realized.ingress_compute_graph",
+    "realized.data_event_graph",
+    "realized.security_ops_graph",
+    "observed.workflow_relations",
+    "observed.projection_cache",
+    "observed.idempotency_concurrency",
+    "observed.backlog_recovery",
+    "observed.duplicate_dlq",
+    "observed.outbox_recovery",
+    "observed.projection_rebuild",
+    "observed.ecs_recovery",
+    "observed.rds_reboot",
+    "observed.auth_archive_logs",
+    "lifecycle.reapply_stable",
+    "lifecycle.destroy_clean"
+  ],
+  "planes": {
+    "declared": {
+      "earned": 0,
+      "possible": 10
+    },
+    "lifecycle": {
+      "earned": 0,
+      "possible": 15
+    },
+    "observed": {
+      "earned": 0,
+      "possible": 60
+    },
+    "realized": {
+      "earned": 0,
+      "possible": 15
+    }
+  },
+  "prefix": "mp-7982a561f7f4",
+  "raw_score": 0,
+  "reward": 0.0,
+  "score": 0,
+  "seed": 2881126087895082121,
+  "total": 100,
+  "trial_valid": true
+}

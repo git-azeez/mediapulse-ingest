@@ -1,0 +1,12 @@
+{
+  "associated_artifacts": [
+    "evidence/declared/security_ops.json"
+  ],
+  "details": {
+    "kms_keys": 4,
+    "service_accounts": 8
+  },
+  "obligation_id": "declared.security_ops",
+  "outcome": "pass",
+  "summary": "per-component service accounts, ingress/private VPC subnets, 4 CMEK KMS keys, and 14-day log buckets are declared"
+}

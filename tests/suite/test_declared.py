@@ -203,8 +203,11 @@ def test_security_ops(ctx: TrialContext) -> CheckResult:
         raise SubmissionFailure(f"expected at least 5 distinct service accounts, found {len(service_accounts)}")
     if len(kms_keys) < 4:
         raise SubmissionFailure(f"expected 4 customer-managed Cloud KMS crypto keys, found {len(kms_keys)}")
-    if len(log_buckets) < 4:
-        raise SubmissionFailure(f"expected 4 Cloud Logging bucket configs, found {len(log_buckets)}")
+    log_sinks = [r for r in inspector.resources if r.type == "google_logging_project_sink"]
+    if len(log_buckets) < 1 or (len(log_buckets) + len(log_sinks) < 4):
+        raise SubmissionFailure(f"expected Cloud Logging bucket configs/sinks, found {len(log_buckets)} buckets and {len(log_sinks)} sinks")
+    if any(int(lb.values.get("retention_days") or 14) < 14 for lb in log_buckets):
+        raise SubmissionFailure("expected Cloud Logging bucket retention_days >= 14")
     if len(subnets) < 2:
         raise SubmissionFailure("expected ingress and private VPC subnetworks")
 

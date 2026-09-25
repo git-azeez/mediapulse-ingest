@@ -126,7 +126,19 @@ FROM runner-toolchain AS runner
 
 COPY runtime/runner.py /runner.py
 
-RUN chmod 0555 /runner.py \
+RUN ln -sfn /opt/terraform-plugin-cache/registry.terraform.io /opt/terraform-plugin-cache/registry.opentofu.org \
+ && printf '%s\n' \
+      'disable_checkpoint = true' \
+      'provider_installation {' \
+      '  filesystem_mirror {' \
+      '    path    = "/opt/terraform-plugin-cache"' \
+      '    include = ["registry.terraform.io/hashicorp/*", "registry.opentofu.org/hashicorp/*"]' \
+      '  }' \
+      '  direct {' \
+      '    exclude = ["registry.terraform.io/hashicorp/*", "registry.opentofu.org/hashicorp/*"]' \
+      '  }' \
+      '}' > /etc/terraformrc.offline \
+ && chmod 0555 /runner.py \
  && chmod -R a+rX /opt/terraform-plugin-cache
 
 WORKDIR /

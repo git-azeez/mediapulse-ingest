@@ -693,128 +693,177 @@ class GatewayHandler(BaseHTTPRequestHandler):
         with STATE_LOCK:
             state = _load_state()
             deleted_set = set(state.get("deleted_resources") or [])
-        canonical = path.lstrip("/").removeprefix("v1/").removeprefix("v2/").removeprefix("storage/v1/b/").removeprefix("sql/v1beta4/")
-        short_id = canonical.split("/")[-1].split("?")[0]
-        collection_plurals = {
-            "topics", "subscriptions", "items", "services", "functions", "instances", "b", "o",
-            "networks", "subnetworks", "firewalls", "addresses", "networkEndpointGroups",
-            "backendServices", "urlMaps", "targetHttpProxies", "forwardingRules", "keys",
-            "users", "databases", "buckets", "sinks", "queues", "tenants", "operations",
-            "keyRings", "cryptoKeys", "cryptoKeyVersions", "notificationChannels", "alertPolicies",
-        }
+            canonical = path.lstrip("/").removeprefix("v1/").removeprefix("v2/").removeprefix("storage/v1/b/").removeprefix("sql/v1beta4/")
+            short_id = canonical.split("/")[-1].split("?")[0]
+            collection_plurals = {
+                "topics", "subscriptions", "items", "services", "functions", "instances", "b", "o",
+                "networks", "subnetworks", "firewalls", "addresses", "networkEndpointGroups",
+                "backendServices", "urlMaps", "targetHttpProxies", "forwardingRules", "keys",
+                "users", "databases", "buckets", "sinks", "queues", "tenants", "operations",
+                "keyRings", "cryptoKeys", "cryptoKeyVersions", "notificationChannels", "alertPolicies",
+                "secrets", "versions", "datasets", "tables", "jobs", "accounts", "serviceAccounts",
+                "metrics", "views", "exclusions", "links",
+            }
 
-        if method == "DELETE":
-            deleted_set.add(canonical)
-            if short_id not in collection_plurals:
-                deleted_set.add(short_id)
-                if any(seg in path for seg in ("/networks/", "/instances/", "/services/", "/storage/v1/b/")):
-                    m_pfx = re.match(r"^([a-z0-9]+-[a-z0-9]{4,12})-", short_id)
-                    if m_pfx:
-                        deleted_set.add(f"prefix:{m_pfx.group(1)}")
-            state["deleted_resources"] = sorted(deleted_set)
-            _save_state(state)
-            m_del_sql = re.match(r"^(?:/sql/v1beta4)?/projects/([^/]+)/instances/([^/]+)$", path)
-            m_del_v2 = re.match(r"^(?:/v2)?/projects/([^/]+)/locations/([^/]+)/(services|functions)/([^/]+)$", path)
-            if m_del_sql:
-                proj_sql, inst_sql = m_del_sql.groups()
-                status = 200
-                resp_body = json.dumps({
-                    "kind": "sql#operation",
-                    "status": "DONE",
-                    "operationType": "DELETE",
-                    "name": f"op-sql-del-{inst_sql}",
-                    "targetProject": proj_sql,
-                    "targetId": inst_sql,
-                    "selfLink": f"{BACKEND_URL}/sql/v1beta4/projects/{proj_sql}/operations/op-sql-del-{inst_sql}",
-                }).encode("utf-8")
-            elif m_del_v2:
-                proj_v2, loc_v2, _, name_v2 = m_del_v2.groups()
-                status = 200
-                resp_body = json.dumps({
-                    "name": f"projects/{proj_v2}/locations/{loc_v2}/operations/op-del-{name_v2}",
-                    "done": True,
-                    "response": {},
-                }).encode("utf-8")
-            elif status >= 400:
-                status = 200
-                resp_body = b"{}"
-        elif method in ("POST", "PUT", "PATCH"):
-            if deleted_set:
-                changed_del = False
-                if canonical in deleted_set:
-                    deleted_set.discard(canonical)
-                    changed_del = True
-                if short_id in deleted_set:
-                    deleted_set.discard(short_id)
-                    changed_del = True
-                for item_key in list(deleted_set):
-                    if item_key.startswith("prefix:"):
-                        pfx_val = item_key.split(":", 1)[1]
-                        if pfx_val in self.path or (body and pfx_val.encode("utf-8") in body):
-                            deleted_set.discard(item_key)
-                            changed_del = True
-                    elif item_key in self.path or (body and item_key.encode("utf-8") in body):
-                        deleted_set.discard(item_key)
-                        changed_del = True
-                if changed_del:
-                    state["deleted_resources"] = sorted(deleted_set)
-                    _save_state(state)
-            if status == 409:
-                st_get, hdr_get, body_get = _backend_request("GET", path, headers=fwd_headers)
-                if st_get == 200 and body_get:
-                    status, resp_headers, resp_body = st_get, hdr_get, body_get
-                else:
+            if method == "DELETE":
+                deleted_set.add(canonical)
+                if short_id not in collection_plurals:
+                    deleted_set.add(short_id)
+                    if "/networks/" in path:
+                        m_pfx = re.match(r"^([a-z0-9]+-[a-z0-9]{4,12})-", short_id)
+                        if m_pfx:
+                            deleted_set.add(f"prefix:{m_pfx.group(1)}")
+                state["deleted_resources"] = sorted(deleted_set)
+                _save_state(state)
+                m_del_sql = re.match(r"^(?:/sql/v1beta4)?/projects/([^/]+)/instances/([^/]+)$", path)
+                m_del_v2 = re.match(r"^(?:/v2)?/projects/([^/]+)/locations/([^/]+)/(services|functions)/([^/]+)$", path)
+                if m_del_sql:
+                    proj_sql, inst_sql = m_del_sql.groups()
                     status = 200
-                    resp_body = json.dumps({"name": canonical}).encode("utf-8")
-        elif method == "GET" and deleted_set:
-            deleted_prefixes = tuple(k.split(":", 1)[1] + "-" for k in deleted_set if k.startswith("prefix:"))
-            if short_id not in collection_plurals and (
-                canonical in deleted_set
-                or short_id in deleted_set
-                or (deleted_prefixes and short_id.startswith(deleted_prefixes))
-            ):
-                status = 404
-                resp_body = json.dumps({"error": {"code": 404, "message": "Resource not found", "status": "NOT_FOUND"}}).encode("utf-8")
-            elif status == 200 and resp_body:
-                try:
-                    doc = json.loads(resp_body.decode("utf-8", errors="replace"))
-                    if isinstance(doc, dict):
-                        modified = False
-                        for list_key in ("topics", "subscriptions", "items", "services", "functions", "buckets", "instances", "networks"):
-                            if isinstance(doc.get(list_key), list):
-                                orig_len = len(doc[list_key])
-                                doc[list_key] = [
-                                    item for item in doc[list_key]
-                                    if not (
-                                        isinstance(item, dict)
-                                        and (
-                                            str(item.get("name") or "") in deleted_set
-                                            or str(item.get("name") or "").split("/")[-1] in deleted_set
-                                            or str(item.get("id") or "") in deleted_set
-                                            or (
-                                                deleted_prefixes
-                                                and (
-                                                    str(item.get("name") or "").split("/")[-1].startswith(deleted_prefixes)
-                                                    or str(item.get("id") or "").startswith(deleted_prefixes)
+                    resp_body = json.dumps({
+                        "kind": "sql#operation",
+                        "status": "DONE",
+                        "operationType": "DELETE",
+                        "name": f"op-sql-del-{inst_sql}",
+                        "targetProject": proj_sql,
+                        "targetId": inst_sql,
+                        "selfLink": f"{BACKEND_URL}/sql/v1beta4/projects/{proj_sql}/operations/op-sql-del-{inst_sql}",
+                    }).encode("utf-8")
+                elif m_del_v2:
+                    proj_v2, loc_v2, _, name_v2 = m_del_v2.groups()
+                    status = 200
+                    resp_body = json.dumps({
+                        "name": f"projects/{proj_v2}/locations/{loc_v2}/operations/op-del-{name_v2}",
+                        "done": True,
+                        "response": {},
+                    }).encode("utf-8")
+                elif status >= 400:
+                    status = 200
+                    resp_body = b"{}"
+            elif method in ("POST", "PUT", "PATCH"):
+                if deleted_set:
+                    changed_del = False
+                    if canonical in deleted_set:
+                        deleted_set.discard(canonical)
+                        changed_del = True
+                    if short_id in deleted_set:
+                        deleted_set.discard(short_id)
+                        changed_del = True
+                    for item_key in list(deleted_set):
+                        if item_key.startswith("prefix:"):
+                            pfx_val = item_key.split(":", 1)[1]
+                            pfx_us = pfx_val.replace("-", "_")
+                            if (
+                                pfx_val in self.path
+                                or pfx_us in self.path
+                                or (body and (pfx_val.encode("utf-8") in body or pfx_us.encode("utf-8") in body))
+                            ):
+                                deleted_set.discard(item_key)
+                                changed_del = True
+                        else:
+                            item_tail = item_key.split("/")[-1]
+                            if (
+                                item_key in self.path
+                                or (body and item_key.encode("utf-8") in body)
+                                or (
+                                    item_tail
+                                    and item_tail not in collection_plurals
+                                    and (item_tail in self.path or (body and item_tail.encode("utf-8") in body))
+                                )
+                            ):
+                                deleted_set.discard(item_key)
+                                changed_del = True
+                    if changed_del:
+                        state["deleted_resources"] = sorted(deleted_set)
+                        _save_state(state)
+                if status == 409:
+                    st_get, hdr_get, body_get = _backend_request("GET", path, headers=fwd_headers)
+                    if st_get == 200 and body_get:
+                        status, resp_headers, resp_body = st_get, hdr_get, body_get
+                    else:
+                        status = 200
+                        resp_body = json.dumps({"name": canonical}).encode("utf-8")
+            elif method == "GET" and deleted_set:
+                deleted_prefixes = tuple(
+                    p
+                    for k in deleted_set
+                    if k.startswith("prefix:")
+                    for p in (k.split(":", 1)[1] + "-", k.split(":", 1)[1].replace("-", "_") + "_")
+                )
+                if short_id not in collection_plurals and (
+                    canonical in deleted_set
+                    or short_id in deleted_set
+                    or (deleted_prefixes and short_id.startswith(deleted_prefixes))
+                ):
+                    status = 404
+                    resp_body = json.dumps({"error": {"code": 404, "message": "Resource not found", "status": "NOT_FOUND"}}).encode("utf-8")
+                elif status == 200 and resp_body:
+                    try:
+                        doc = json.loads(resp_body.decode("utf-8", errors="replace"))
+                        if isinstance(doc, dict):
+                            modified = False
+                            for list_key in (
+                                "topics", "subscriptions", "items", "services", "functions", "buckets",
+                                "instances", "networks", "cryptoKeys", "keyRings", "secrets", "datasets",
+                                "accounts", "jobs", "queues", "databases",
+                            ):
+                                if isinstance(doc.get(list_key), list):
+                                    orig_len = len(doc[list_key])
+                                    doc[list_key] = [
+                                        item for item in doc[list_key]
+                                        if not (
+                                            isinstance(item, dict)
+                                            and (
+                                                str(item.get("name") or "") in deleted_set
+                                                or str(item.get("name") or "").split("/")[-1] in deleted_set
+                                                or str(item.get("id") or "") in deleted_set
+                                                or str(item.get("id") or "").split(":")[-1] in deleted_set
+                                                or (
+                                                    isinstance(item.get("datasetReference"), dict)
+                                                    and str(item["datasetReference"].get("datasetId") or "") in deleted_set
+                                                )
+                                                or (
+                                                    deleted_prefixes
+                                                    and (
+                                                        str(item.get("name") or "").split("/")[-1].startswith(deleted_prefixes)
+                                                        or str(item.get("id") or "").split(":")[-1].startswith(deleted_prefixes)
+                                                    )
                                                 )
                                             )
                                         )
-                                    )
-                                ]
-                                if len(doc[list_key]) != orig_len:
-                                    modified = True
-                        if modified:
-                            resp_body = json.dumps(doc).encode("utf-8")
-                except Exception:
-                    pass
+                                    ]
+                                    if len(doc[list_key]) != orig_len:
+                                        modified = True
+                            if modified:
+                                resp_body = json.dumps(doc).encode("utf-8")
+                    except Exception:
+                        pass
 
         if resp_body and b"4589" in resp_body:
             resp_body = resp_body.replace(b":4589", b":4588")
+
+        if "/services" in path and status == 200 and resp_body:
+            try:
+                svc_doc = json.loads(resp_body.decode("utf-8", errors="replace"))
+                if isinstance(svc_doc, dict):
+                    if svc_doc.get("name", "").startswith("projects/") and "/services/" in svc_doc.get("name", ""):
+                        svc_doc.setdefault("deletionProtection", False)
+                        resp_body = json.dumps(svc_doc).encode("utf-8")
+                    elif isinstance(svc_doc.get("services"), list):
+                        for s_item in svc_doc["services"]:
+                            if isinstance(s_item, dict):
+                                s_item.setdefault("deletionProtection", False)
+                        resp_body = json.dumps(svc_doc).encode("utf-8")
+            except Exception:
+                pass
 
         if "/instances" in path and status == 200 and resp_body:
             try:
                 sql_doc = json.loads(resp_body.decode("utf-8", errors="replace"))
                 if isinstance(sql_doc, dict) and sql_doc.get("kind") == "sql#instance":
+                    sql_doc.setdefault("deletionProtectionEnabled", False)
+                    if isinstance(sql_doc.get("settings"), dict):
+                        sql_doc["settings"].setdefault("deletionProtectionEnabled", False)
                     if not sql_doc.get("ipAddresses"):
                         sql_doc["ipAddresses"] = [
                             {"type": "PRIVATE", "ipAddress": "gcp"},

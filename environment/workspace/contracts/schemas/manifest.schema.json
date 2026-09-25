@@ -35,7 +35,41 @@
     "gcp_endpoint_url": { "type": "string", "format": "uri" },
     "approved_images": {
       "type": "object",
-      "required": ["api", "processor", "relay", "archiver"]
+      "required": ["api", "processor", "relay", "archiver"],
+      "properties": {
+        "api": {
+          "type": ["object", "string"],
+          "required": ["reference"],
+          "properties": {
+            "reference": { "type": "string", "minLength": 1 },
+            "image_id": { "type": "string" }
+          }
+        },
+        "processor": {
+          "type": ["object", "string"],
+          "required": ["reference"],
+          "properties": {
+            "reference": { "type": "string", "minLength": 1 },
+            "image_id": { "type": "string" }
+          }
+        },
+        "relay": {
+          "type": ["object", "string"],
+          "required": ["reference"],
+          "properties": {
+            "reference": { "type": "string", "minLength": 1 },
+            "image_id": { "type": "string" }
+          }
+        },
+        "archiver": {
+          "type": ["object", "string"],
+          "required": ["reference"],
+          "properties": {
+            "reference": { "type": "string", "minLength": 1 },
+            "image_id": { "type": "string" }
+          }
+        }
+      }
     },
     "load_balancer": {
       "type": "object",

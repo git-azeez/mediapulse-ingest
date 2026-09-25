@@ -14,7 +14,7 @@ topology, ports, network attachments, IAM and encryption are defined in
 | Outbox relay | `mediapulse/relay:1.0.0` | `/app/relay` |
 | Audit archiver | `mediapulse/archiver:1.0.0` | `/app/archiver` |
 
-The tags are provided local application images. Exact image URIs are provided as the flat `*_image` fields in `/workspace/config/config.json`.
+The tags are provided local application images. Exact image URIs are provided as the flat `*_image` fields in `/workspace/config/config.json`. In `/workspace/manifest.json`, record each image under `approved_images.<role>` (`api`, `processor`, `relay`, `archiver`) as an object containing `"reference": "<exact image URI from config.json>"` (or `"image_id"` alongside `"reference"`).
 
 ## Configuration
 

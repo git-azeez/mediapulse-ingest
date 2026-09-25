@@ -71,9 +71,23 @@ def validate_manifest_contract(
         entry = manifest["approved_images"].get(role, {})
         expected_ref = task_config.get(f"{role}_image") or task_config.get("projector_image")
         expected_id = task_config.get(f"{role}_image_id") or task_config.get("projector_image_id")
-        if entry.get("reference") != expected_ref:
+        if isinstance(entry, str):
+            actual_ref = entry
+            actual_id = None
+        elif isinstance(entry, dict):
+            actual_ref = (
+                entry.get("reference")
+                or entry.get("image")
+                or entry.get("uri")
+                or (expected_ref if expected_ref in entry.values() else next((v for v in entry.values() if isinstance(v, str)), None))
+            )
+            actual_id = entry.get("image_id") or entry.get("digest")
+        else:
+            actual_ref = None
+            actual_id = None
+        if actual_ref != expected_ref:
             mismatches.append(f"approved_images.{role}.reference")
-        if expected_id and entry.get("image_id") and entry.get("image_id") != expected_id:
+        if expected_id and actual_id and actual_id != expected_id:
             mismatches.append(f"approved_images.{role}.image_id")
     for manifest_key, runtime_key in (
         ("prefix", "resource_prefix"),

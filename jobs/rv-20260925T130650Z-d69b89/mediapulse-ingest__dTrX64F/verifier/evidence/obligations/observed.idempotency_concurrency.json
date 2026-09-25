@@ -1,0 +1,11 @@
+{
+  "associated_artifacts": [
+    "evidence/observed/idempotency_concurrency.json"
+  ],
+  "details": {
+    "replay_attempts": 8
+  },
+  "obligation_id": "observed.idempotency_concurrency",
+  "outcome": "pass",
+  "summary": "8 concurrent idempotency replays deduplicated and racing version write rejected with 409"
+}

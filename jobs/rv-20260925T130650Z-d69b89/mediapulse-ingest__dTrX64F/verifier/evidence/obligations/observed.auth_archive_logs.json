@@ -1,0 +1,12 @@
+{
+  "associated_artifacts": [
+    "evidence/observed/auth_archive_logs.json"
+  ],
+  "details": {
+    "archived_objects": 48,
+    "audit_bucket": "mp-eeb482065555-mp-ver-188642ce-audit"
+  },
+  "obligation_id": "observed.auth_archive_logs",
+  "outcome": "pass",
+  "summary": "Identity Platform JWT scopes enforced, NDJSON audit archive verified in GCS, and Cloud Logging entries contain correlation IDs without leaked secrets"
+}

@@ -1,0 +1,16 @@
+{
+  "cloud_run_service": "mp-eeb482065555-api",
+  "discovered_services": 1,
+  "load_balancer": {
+    "backend_service_id": "projects/mp-ver-188642ce/global/backendServices/mp-eeb482065555-api-backend",
+    "connect_url": "http://gcp:4588",
+    "forwarding_rule_id": "projects/mp-ver-188642ce/global/forwardingRules/mp-eeb482065555-api-http-fwd",
+    "ip_address": "gcp",
+    "serverless_neg_id": "projects/mp-ver-188642ce/regions/us-central1/networkEndpointGroups/mp-eeb482065555-api-neg",
+    "url": "http://gcp"
+  },
+  "managed_resources": 67,
+  "min_instance_count": 2,
+  "project": "mp-ver-188642ce",
+  "region": "us-central1"
+}

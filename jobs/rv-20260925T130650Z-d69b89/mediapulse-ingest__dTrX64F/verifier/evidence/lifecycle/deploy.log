@@ -1,0 +1,272 @@
+google_monitoring_notification_channel.ops_email: Refreshing state... [id=projects/mp-ver-188642ce/notificationChannels/notificationChannel-f24e5d97]
+google_service_account.client_admin: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-client-admin@mp-ver-188642ce.iam.gserviceaccount.com]
+google_compute_network.ingest: Refreshing state... [id=projects/mp-ver-188642ce/global/networks/mp-eeb482065555-vpc]
+google_logging_project_bucket_config.archiver: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/buckets/mp-eeb482065555-archiver-logs]
+google_service_account.relay: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-relay-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_secret_manager_secret.db_credentials: Refreshing state... [id=projects/mp-ver-188642ce/secrets/mp-eeb482065555-db-credentials]
+google_service_account.processor: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-processor-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_kms_key_ring.mediapulse: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring]
+google_service_account.api: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-api-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_logging_project_bucket_config.processor: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/buckets/mp-eeb482065555-processor-logs]
+google_service_account.archiver: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-archiver-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_service_account.scheduler: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-scheduler-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_service_account.pubsub_invoker: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-pubsub-push-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_logging_project_bucket_config.api: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/buckets/mp-eeb482065555-api-logs]
+google_logging_project_bucket_config.relay: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/buckets/mp-eeb482065555-relay-logs]
+google_service_account.client_write: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-client-write@mp-ver-188642ce.iam.gserviceaccount.com]
+google_service_account.client_read: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-client-read@mp-ver-188642ce.iam.gserviceaccount.com]
+google_cloud_tasks_queue.projection_rebuild: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/queues/mp-eeb482065555-projection-rebuild-q]
+google_compute_global_address.api_ip: Refreshing state... [id=projects/mp-ver-188642ce/global/addresses/mp-eeb482065555-api-lb-ip]
+google_compute_firewall.allow_workloads_to_postgres: Refreshing state... [id=projects/mp-ver-188642ce/global/firewalls/mp-eeb482065555-allow-workloads-pg]
+google_kms_crypto_key.database: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-database-cmek]
+google_project_iam_member.processor_datastore_user: Refreshing state... [id=mp-ver-188642ce/roles/datastore.user/serviceAccount:mp-eeb482065555-processor-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_project_iam_member.relay_cloudsql_client: Refreshing state... [id=mp-ver-188642ce/roles/cloudsql.client/serviceAccount:mp-eeb482065555-relay-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_kms_crypto_key.audit: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-audit-cmek]
+google_compute_subnetwork.private: Refreshing state... [id=projects/mp-ver-188642ce/regions/us-central1/subnetworks/mp-eeb482065555-subnet-private]
+google_compute_firewall.allow_lb_to_api: Refreshing state... [id=projects/mp-ver-188642ce/global/firewalls/mp-eeb482065555-allow-lb-to-api]
+google_compute_firewall.deny_external_ingress: Refreshing state... [id=projects/mp-ver-188642ce/global/firewalls/mp-eeb482065555-deny-external-ingress]
+google_service_account_key.client_admin: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-client-admin@mp-ver-188642ce.iam.gserviceaccount.com/keys/977b3de5c209435b]
+google_project_iam_member.api_datastore_viewer: Refreshing state... [id=mp-ver-188642ce/roles/datastore.viewer/serviceAccount:mp-eeb482065555-api-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_kms_crypto_key.messaging: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-messaging-cmek]
+google_identity_platform_tenant.mediapulse: Refreshing state... [id=projects/mp-ver-188642ce/tenants/tenant-8155c8be]
+google_project_iam_member.api_cloudsql_client: Refreshing state... [id=mp-ver-188642ce/roles/cloudsql.client/serviceAccount:mp-eeb482065555-api-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_kms_crypto_key.projection: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-projection-cmek]
+google_compute_subnetwork.ingress: Refreshing state... [id=projects/mp-ver-188642ce/regions/us-central1/subnetworks/mp-eeb482065555-subnet-ingress]
+google_project_iam_member.archiver_cloudsql_client: Refreshing state... [id=mp-ver-188642ce/roles/cloudsql.client/serviceAccount:mp-eeb482065555-archiver-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_service_account_key.client_write: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-client-write@mp-ver-188642ce.iam.gserviceaccount.com/keys/fcbd9db4a0254174]
+google_service_account_key.client_read: Refreshing state... [id=projects/mp-ver-188642ce/serviceAccounts/mp-eeb482065555-client-read@mp-ver-188642ce.iam.gserviceaccount.com/keys/335d95c9989c4240]
+google_storage_bucket.audit: Refreshing state... [id=mp-eeb482065555-mp-ver-188642ce-audit]
+google_sql_database_instance.events: Refreshing state... [id=mp-eeb482065555-events-pg]
+google_pubsub_topic.dead_letters: Refreshing state... [id=projects/mp-ver-188642ce/topics/mp-eeb482065555-events-dlq]
+google_bigquery_dataset.audit_analytics: Refreshing state... [id=projects/mp-ver-188642ce/datasets/mp_eeb482065555_audit_analytics]
+google_pubsub_topic.events: Refreshing state... [id=projects/mp-ver-188642ce/topics/mp-eeb482065555-events]
+google_firestore_database.projections: Refreshing state... [id=projects/mp-ver-188642ce/databases/mp-eeb482065555-projections]
+google_pubsub_topic_iam_member.api_publish_events: Refreshing state... [id=projects/mp-ver-188642ce/topics/mp-eeb482065555-events/roles/pubsub.publisher/serviceAccount:mp-eeb482065555-api-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_pubsub_topic_iam_member.relay_publish_events: Refreshing state... [id=projects/mp-ver-188642ce/topics/mp-eeb482065555-events/roles/pubsub.publisher/serviceAccount:mp-eeb482065555-relay-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_pubsub_subscription.dead_letters: Refreshing state... [id=projects/mp-ver-188642ce/subscriptions/mp-eeb482065555-events-dlq-sub]
+google_firestore_index.media_cache: Refreshing state... [id=projects/mp-ver-188642ce/databases/mp-eeb482065555-projections/collectionGroups/MediaCache/indexes/idx-567abc4e]
+google_storage_bucket_iam_member.archiver_write_audit: Refreshing state... [id=b/mp-eeb482065555-mp-ver-188642ce-audit/roles/storage.objectAdmin/serviceAccount:mp-eeb482065555-archiver-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_cloudfunctions2_function.processor: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/functions/mp-eeb482065555-processor]
+google_bigquery_table.archived_events: Refreshing state... [id=projects/mp-ver-188642ce/datasets/mp_eeb482065555_audit_analytics/tables/archived_events]
+google_sql_database.mediapulse: Refreshing state... [id=projects/mp-ver-188642ce/instances/mp-eeb482065555-events-pg/databases/mp_170eb4]
+google_sql_user.app: Refreshing state... [id=mp_user_687185/%/mp-eeb482065555-events-pg]
+google_cloudfunctions2_function.relay: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/functions/mp-eeb482065555-outbox-relay]
+google_cloudfunctions2_function.archiver: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/functions/mp-eeb482065555-audit-archiver]
+google_pubsub_subscription.processor_push: Refreshing state... [id=projects/mp-ver-188642ce/subscriptions/mp-eeb482065555-events-processor-sub]
+google_cloud_run_v2_service.api: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/services/mp-eeb482065555-api]
+google_secret_manager_secret_iam_member.api_db_secret_accessor: Refreshing state... [id=projects/mp-ver-188642ce/secrets/mp-eeb482065555-db-credentials/roles/secretmanager.secretAccessor/serviceAccount:mp-eeb482065555-api-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_secret_manager_secret_version.db_credentials_v1: Refreshing state... [id=projects/mp-ver-188642ce/secrets/mp-eeb482065555-db-credentials/versions/1]
+google_cloud_scheduler_job.relay: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/jobs/mp-eeb482065555-relay-schedule]
+google_cloud_scheduler_job.archiver: Refreshing state... [id=projects/mp-ver-188642ce/locations/us-central1/jobs/mp-eeb482065555-archiver-schedule]
+google_pubsub_subscription_iam_member.processor_consume_events: Refreshing state... [id=projects/mp-ver-188642ce/subscriptions/mp-eeb482065555-events-processor-sub/roles/pubsub.subscriber/serviceAccount:mp-eeb482065555-processor-sa@mp-ver-188642ce.iam.gserviceaccount.com]
+google_logging_project_sink.api: Refreshing state... [id=projects/mp-ver-188642ce/sinks/mp-eeb482065555-api-sink]
+google_compute_region_network_endpoint_group.api_serverless_neg: Refreshing state... [id=projects/mp-ver-188642ce/regions/us-central1/networkEndpointGroups/mp-eeb482065555-api-neg]
+google_compute_backend_service.api: Refreshing state... [id=projects/mp-ver-188642ce/global/backendServices/mp-eeb482065555-api-backend]
+google_compute_url_map.api: Refreshing state... [id=projects/mp-ver-188642ce/global/urlMaps/mp-eeb482065555-api-urlmap]
+google_compute_target_http_proxy.api: Refreshing state... [id=projects/mp-ver-188642ce/global/targetHttpProxies/mp-eeb482065555-api-http-proxy]
+google_compute_global_forwarding_rule.http: Refreshing state... [id=projects/mp-ver-188642ce/global/forwardingRules/mp-eeb482065555-api-http-fwd]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # google_bigquery_dataset.audit_analytics will be updated in-place
+  ~ resource "google_bigquery_dataset" "audit_analytics" {
+        id                              = "projects/mp-ver-188642ce/datasets/mp_eeb482065555_audit_analytics"
+        # (20 unchanged attributes hidden)
+
+      + default_encryption_configuration {
+          + kms_key_name = "projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-audit-cmek"
+        }
+    }
+
+  # google_cloud_scheduler_job.archiver will be updated in-place
+  ~ resource "google_cloud_scheduler_job" "archiver" {
+        id               = "projects/mp-ver-188642ce/locations/us-central1/jobs/mp-eeb482065555-archiver-schedule"
+        name             = "mp-eeb482065555-archiver-schedule"
+        # (9 unchanged attributes hidden)
+
+      ~ http_target {
+            # (4 unchanged attributes hidden)
+
+          + oidc_token {
+              + audience              = "https://us-central1-mp-ver-188642ce.cloudfunctions.net/mp-eeb482065555-audit-archiver"
+              + service_account_email = "mp-eeb482065555-scheduler-sa@mp-ver-188642ce.iam.gserviceaccount.com"
+            }
+        }
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_cloud_scheduler_job.relay will be updated in-place
+  ~ resource "google_cloud_scheduler_job" "relay" {
+        id               = "projects/mp-ver-188642ce/locations/us-central1/jobs/mp-eeb482065555-relay-schedule"
+        name             = "mp-eeb482065555-relay-schedule"
+        # (9 unchanged attributes hidden)
+
+      ~ http_target {
+            # (4 unchanged attributes hidden)
+
+          + oidc_token {
+              + audience              = "https://us-central1-mp-ver-188642ce.cloudfunctions.net/mp-eeb482065555-outbox-relay"
+              + service_account_email = "mp-eeb482065555-scheduler-sa@mp-ver-188642ce.iam.gserviceaccount.com"
+            }
+        }
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.audit will be updated in-place
+  ~ resource "google_kms_crypto_key" "audit" {
+        id                            = "projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-audit-cmek"
+        name                          = "mp-eeb482065555-audit-cmek"
+      + rotation_period               = "7776000s"
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.database will be updated in-place
+  ~ resource "google_kms_crypto_key" "database" {
+        id                            = "projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-database-cmek"
+        name                          = "mp-eeb482065555-database-cmek"
+      + rotation_period               = "7776000s"
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.messaging will be updated in-place
+  ~ resource "google_kms_crypto_key" "messaging" {
+        id                            = "projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-messaging-cmek"
+        name                          = "mp-eeb482065555-messaging-cmek"
+      + rotation_period               = "7776000s"
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_kms_crypto_key.projection will be updated in-place
+  ~ resource "google_kms_crypto_key" "projection" {
+        id                            = "projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-projection-cmek"
+        name                          = "mp-eeb482065555-projection-cmek"
+      + rotation_period               = "7776000s"
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_pubsub_subscription.processor_push will be updated in-place
+  ~ resource "google_pubsub_subscription" "processor_push" {
+        id                           = "projects/mp-ver-188642ce/subscriptions/mp-eeb482065555-events-processor-sub"
+        name                         = "mp-eeb482065555-events-processor-sub"
+        # (12 unchanged attributes hidden)
+
+      ~ push_config {
+            # (2 unchanged attributes hidden)
+
+          + oidc_token {
+              + service_account_email = "mp-eeb482065555-pubsub-push-sa@mp-ver-188642ce.iam.gserviceaccount.com"
+            }
+        }
+
+        # (2 unchanged blocks hidden)
+    }
+
+  # google_pubsub_topic.dead_letters will be updated in-place
+  ~ resource "google_pubsub_topic" "dead_letters" {
+        id                         = "projects/mp-ver-188642ce/topics/mp-eeb482065555-events-dlq"
+      + kms_key_name               = "projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-messaging-cmek"
+        name                       = "mp-eeb482065555-events-dlq"
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_pubsub_topic.events will be updated in-place
+  ~ resource "google_pubsub_topic" "events" {
+        id                         = "projects/mp-ver-188642ce/topics/mp-eeb482065555-events"
+      + kms_key_name               = "projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-messaging-cmek"
+        name                       = "mp-eeb482065555-events"
+        # (6 unchanged attributes hidden)
+    }
+
+  # google_secret_manager_secret.db_credentials will be updated in-place
+  ~ resource "google_secret_manager_secret" "db_credentials" {
+      ~ effective_labels      = {
+          + "data_role"             = "database-secret"
+          + "deployment"            = "mp-eeb482065555"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-eeb482065555"
+          + "project"               = "mediapulse-ingest"
+        }
+        id                    = "projects/mp-ver-188642ce/secrets/mp-eeb482065555-db-credentials"
+      ~ labels                = {
+          + "data_role"             = "database-secret"
+          + "deployment"            = "mp-eeb482065555"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-eeb482065555"
+          + "project"               = "mediapulse-ingest"
+        }
+        name                  = "projects/mp-ver-188642ce/secrets/mp-eeb482065555-db-credentials"
+      ~ terraform_labels      = {
+          + "data_role"             = "database-secret"
+          + "deployment"            = "mp-eeb482065555"
+          + "managed_by"            = "terraform"
+          + "mediapulse_deployment" = "mp-eeb482065555"
+          + "project"               = "mediapulse-ingest"
+        }
+        # (11 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+  # google_storage_bucket.audit will be updated in-place
+  ~ resource "google_storage_bucket" "audit" {
+        id                          = "mp-eeb482065555-mp-ver-188642ce-audit"
+        name                        = "mp-eeb482065555-mp-ver-188642ce-audit"
+      ~ uniform_bucket_level_access = false -> true
+        # (17 unchanged attributes hidden)
+
+      + encryption {
+          + default_kms_key_name = "projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-audit-cmek"
+        }
+
+        # (2 unchanged blocks hidden)
+    }
+
+Plan: 0 to add, 12 to change, 0 to destroy.
+google_secret_manager_secret.db_credentials: Modifying... [id=projects/mp-ver-188642ce/secrets/mp-eeb482065555-db-credentials]
+google_kms_crypto_key.database: Modifying... [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-database-cmek]
+google_kms_crypto_key.messaging: Modifying... [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-messaging-cmek]
+google_kms_crypto_key.audit: Modifying... [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-audit-cmek]
+google_kms_crypto_key.projection: Modifying... [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-projection-cmek]
+google_secret_manager_secret.db_credentials: Modifications complete after 0s [id=projects/mp-ver-188642ce/secrets/mp-eeb482065555-db-credentials]
+google_kms_crypto_key.database: Modifications complete after 0s [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-database-cmek]
+google_kms_crypto_key.messaging: Modifications complete after 0s [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-messaging-cmek]
+google_kms_crypto_key.projection: Modifications complete after 0s [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-projection-cmek]
+google_kms_crypto_key.audit: Modifications complete after 0s [id=projects/mp-ver-188642ce/locations/us-central1/keyRings/mp-eeb482065555-keyring/cryptoKeys/mp-eeb482065555-audit-cmek]
+google_pubsub_topic.dead_letters: Modifying... [id=projects/mp-ver-188642ce/topics/mp-eeb482065555-events-dlq]
+google_pubsub_topic.events: Modifying... [id=projects/mp-ver-188642ce/topics/mp-eeb482065555-events]
+google_bigquery_dataset.audit_analytics: Modifying... [id=projects/mp-ver-188642ce/datasets/mp_eeb482065555_audit_analytics]
+google_storage_bucket.audit: Modifying... [id=mp-eeb482065555-mp-ver-188642ce-audit]
+google_pubsub_topic.dead_letters: Modifications complete after 0s [id=projects/mp-ver-188642ce/topics/mp-eeb482065555-events-dlq]
+google_pubsub_topic.events: Modifications complete after 0s [id=projects/mp-ver-188642ce/topics/mp-eeb482065555-events]
+google_bigquery_dataset.audit_analytics: Modifications complete after 0s [id=projects/mp-ver-188642ce/datasets/mp_eeb482065555_audit_analytics]
+google_storage_bucket.audit: Modifications complete after 0s [id=mp-eeb482065555-mp-ver-188642ce-audit]
+google_cloud_scheduler_job.relay: Modifying... [id=projects/mp-ver-188642ce/locations/us-central1/jobs/mp-eeb482065555-relay-schedule]
+google_cloud_scheduler_job.archiver: Modifying... [id=projects/mp-ver-188642ce/locations/us-central1/jobs/mp-eeb482065555-archiver-schedule]
+google_pubsub_subscription.processor_push: Modifying... [id=projects/mp-ver-188642ce/subscriptions/mp-eeb482065555-events-processor-sub]
+google_cloud_scheduler_job.archiver: Modifications complete after 0s [id=projects/mp-ver-188642ce/locations/us-central1/jobs/mp-eeb482065555-archiver-schedule]
+google_cloud_scheduler_job.relay: Modifications complete after 0s [id=projects/mp-ver-188642ce/locations/us-central1/jobs/mp-eeb482065555-relay-schedule]
+google_pubsub_subscription.processor_push: Modifications complete after 0s [id=projects/mp-ver-188642ce/subscriptions/mp-eeb482065555-events-processor-sub]
+
+Apply complete! Resources: 0 added, 12 changed, 0 destroyed.
+
+Outputs:
+
+cloud_run_service_name = "mp-eeb482065555-api"
+load_balancer_url = "http://gcp"
+manifest = <sensitive>
+pubsub_topic_id = "projects/mp-ver-188642ce/topics/mp-eeb482065555-events"
+MediaPulse Ingest is ready: http://gcp:4588
